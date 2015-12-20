@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<!-- Template adapted from AdminLTE from Almsaeed Studio: https://almsaeedstudio.com. -->
+<html xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/default/stylesheets/bootstrap-3.3.5-dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/default/stylesheets/font-awesome-4.4.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/default/stylesheets/ionicons-2.0.1/css/ionicons.min.css" />
+	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/default/stylesheets/AdminLTE-2.3.0/dist/css/AdminLTE.min.css" />
+	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/default/stylesheets/AdminLTE-2.3.0/dist/css/skins/skin-blue.min.css" />
+	<title><h:outputText value="Marvin :: " /> <ui:insert name="title" /></title>
+	<ui:insert name="head" />
+</h:head>
+<h:body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+
+		<!-- Main Header -->
+		<header class="main-header">
+			<!-- Logo -->
+			<a href="index2.html" class="logo"><span class="logo-lg"><b>Marvin</b></span></a>
+		</header>
+		
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					<ui:insert name="title" /> <small><ui:insert name="description" /></small>
+				</h1>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<ui:insert name="body" />
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<!-- To the right -->
+			<div class="pull-right hidden-xs"><h:outputLink value="https://www.google.com/webhp"><h:outputText value="42" /><f:param name="q" value="Answer+to+the+Ultimate+Question+of+Life%2C+the+Universe%2C+and+Everything" /></h:outputLink></div>
+			<!-- Default to the left -->
+			<strong>Copyright &#169; 2015 <a href="http://nemo.inf.ufes.br">Nemo/Ufes</a>.
+			</strong> All rights reserved.
+		</footer>
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- REQUIRED JS SCRIPTS -->
+
+	<!-- jQuery 2.1.4 -->
+	<script src="#{facesContext.externalContext.requestContextPath}/resources/templates/default/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+	<!-- Bootstrap 3.3.5 -->
+	<script src="#{facesContext.externalContext.requestContextPath}/resources/templates/default/stylesheets/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="#{facesContext.externalContext.requestContextPath}/resources/templates/default/stylesheets/AdminLTE-2.3.0/dist/js/app.min.js"></script>
+
+	<!-- Optionally, you can add Slimscroll and FastClick plugins.
+         Both of these plugins are recommended to enhance the
+         user experience. Slimscroll is required when using the
+         fixed layout. -->
+</h:body>
+</html>
