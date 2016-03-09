@@ -54,7 +54,7 @@ public class MarvinConfigurationJPADAO extends BaseJPADAO<MarvinConfiguration> i
 	/** @see br.org.feees.sigme.core.persistence.MarvinConfigurationDAO#retrieveCurrentConfiguration() */
 	@Override
 	public MarvinConfiguration retrieveCurrentConfiguration() throws PersistentObjectNotFoundException {
-		logger.log(Level.FINE, "Retrieving current (latest) Sigme configuration...");
+		logger.log(Level.FINE, "Retrieving current (latest) Marvin configuration...");
 
 		// Constructs the query over the MarvinConfiguration class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();

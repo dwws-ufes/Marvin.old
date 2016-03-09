@@ -29,13 +29,7 @@ public class MarvinConfiguration extends PersistentObjectSupport {
 	private String institutionAcronym;
 	
 	/** Constructor. */
-	protected MarvinConfiguration() { }
-
-	/** Constructor. */
-	public MarvinConfiguration(String institutionAcronym) {
-		this.creationDate = new Date(System.currentTimeMillis());
-		this.institutionAcronym = institutionAcronym;
-	}
+	public MarvinConfiguration() { }
 
 	/** Getter for creationDate. */
 	public Date getCreationDate() {
@@ -45,5 +39,15 @@ public class MarvinConfiguration extends PersistentObjectSupport {
 	/** Getter for institutionAcronym. */
 	public String getInstitutionAcronym() {
 		return institutionAcronym;
+	}
+
+	/** Setter for creationDate. */
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	/** Setter for institutionAcronym. */
+	public void setInstitutionAcronym(String institutionAcronym) {
+		this.institutionAcronym = institutionAcronym;
 	}
 }

@@ -59,7 +59,7 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 		// Filters the query with the email.
 		cq.where(cb.equal(root.get(Academic_.email), email));
 		Academic result = executeSingleResultQuery(cq, email);
-		logger.log(Level.INFO, "Retrieve spiritist by the email \"{0}\" returned \"{1}\"", new Object[] { email, result });
+		logger.log(Level.INFO, "Retrieve academic by the email \"{0}\" returned \"{1}\"", new Object[] { email, result });
 		return result;
 	}
 }

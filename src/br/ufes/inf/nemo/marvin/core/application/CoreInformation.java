@@ -41,9 +41,6 @@ public class CoreInformation implements Serializable {
 	/** TODO: document this field. */
 	private static final String DEFAULT_DECORATOR_NAME = "default";
 	
-	/** TODO: document this field. */
-	private static final String NO_MENU_DECORATOR_NAME = "nomenu";
-	
 	/** The DAO for MarvinConfiguration objects. */
 	@EJB
 	private MarvinConfigurationDAO marvinConfigurationDAO;
@@ -65,7 +62,7 @@ public class CoreInformation implements Serializable {
 	
 	/** Initializer method. */
 	@PostConstruct
-	private void init() {
+	public void init() {
 		// At first use, check if the system is installed.
 		logger.log(Level.FINER, "Checking if the system has been installed...");
 		
@@ -102,7 +99,6 @@ public class CoreInformation implements Serializable {
 
 	/** Getter for decorator. */
 	public String getDecorator() {
-		if (! getSystemInstalled()) return NO_MENU_DECORATOR_NAME;
 		return decorator;
 	}
 	
