@@ -21,20 +21,20 @@
 
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="email" />
-				<ui:define name="label"><h:outputText value="#{msgsCore['login.field.admin.email']}" /></ui:define>
-				<p:inputText id="email" value="#{login.ontroller.admin.email}" size="30" required="true">
+				<ui:define name="label"><h:outputText value="#{msgsCore['login.field.email']}" /></ui:define>
+				<p:inputText id="email" value="#{sessionController.email}" size="30" required="true">
 					<f:ajax event="blur" render="emailField" />
 				</p:inputText>
 			</ui:decorate>
 
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="password" />
-				<ui:define name="label"><h:outputText value="#{msgsCore['login.field.admin.password']}" /></ui:define>
-				<p:password id="password" minLength="6" value="#{login.ontroller.admin.password}" size="15" required="true" promptLabel="#{msgs['password.prompt']}" weakLabel="#{msgs['password.weak']}" goodLabel="#{msgs['password.good']}" strongLabel="#{msgs['password.strong']}" />
+				<ui:define name="label"><h:outputText value="#{msgsCore['login.field.password']}" /></ui:define>
+				<p:password id="password" value="#{sessionController.password}" size="15" required="true" feedback="false" />
 			</ui:decorate>
 
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formbutton.xhtml">
-				<p:commandButton action="#{login.ontroller.registerAdministrator}" value="#{msgsCore['login.button.registerAdministrator']}" update=":globalMessages form" styleClass="ion-person-add" />
+				<p:commandButton action="#{sessionController.login}" value="#{msgsCore['login.button.login']}" update=":globalMessages form" styleClass="ion-key" />
 			</ui:decorate>
 		</ui:decorate>
 	</ui:define>

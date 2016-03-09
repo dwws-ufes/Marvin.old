@@ -46,6 +46,10 @@ public class Academic extends Person {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Telephone> telephones;
 
+	/** The timestamp of the moment this academic was created. */
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creationDate;
+
 	/** The last time the data about the user was updated. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
@@ -93,6 +97,16 @@ public class Academic extends Person {
 	/** Setter for telephones. */
 	public void setTelephones(Set<Telephone> telephones) {
 		this.telephones = telephones;
+	}
+
+	/** Getter for creationDate. */
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	/** Setter for creationDate. */
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	/** Getter for lastUpdateDate. */

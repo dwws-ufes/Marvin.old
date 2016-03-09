@@ -53,6 +53,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			// Register the last update date / creation date.
 			Date now = new Date(System.currentTimeMillis());
 			admin.setLastUpdateDate(now);
+			admin.setCreationDate(now);
 			config.setCreationDate(now);
 			logger.log(Level.FINE, "Admin's last update date have been set as: {0}", new Object[] { now });
 			
