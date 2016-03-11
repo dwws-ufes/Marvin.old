@@ -16,17 +16,6 @@
     <h:outputText value="#{msgsCore['manageAcademic.title.retrieve']}" rendered="#{manageAcademicController.readOnly}" />
 </ui:define>
 
-<ui:define name="breadcrumb">
-		<li><a href="#{facesContext.externalContext.requestContextPath}/index.faces"><i class="fa fa-home"></i> Home</a></li>
-		<li><a jsf:outcome="list"><i class="fa fa-user"></i><h:outputText value="#{msgsCore['manageAcademic.title']}" /></a> </li> 
-		<li class="active">
-			<h:outputText value="#{msgsCore['manageAcademic.title.create']}" 
-						  rendered="#{(! manageAcademicController.readOnly) and (manageAcademicController.selectedEntity.id == null)}" />
-   			<h:outputText value="#{msgsCore['manageAcademic.title.update']}" 
-   						  rendered="#{(! manageAcademicController.readOnly) and (manageAcademicController.selectedEntity.id != null)}" />
-       		<h:outputText value="#{msgsCore['manageAcademic.title.retrieve']}" rendered="#{manageAcademicController.readOnly}" />
-		</li>
-</ui:define>	
 	
 <ui:define name="body">
 	<ui:decorate template="/resources/sae/form.xhtml">
