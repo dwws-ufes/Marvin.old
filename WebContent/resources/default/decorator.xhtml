@@ -230,6 +230,9 @@
 					<li class="header"><h:outputText value="#{msgs['title.menu']}" /></li>
 					<li><h:commandLink action="#{installSystemController.begin}" rendered="#{not coreInfo.systemInstalled}"><i class="fa fa-cogs"></i> <span><h:outputText value="#{msgsCore['core.menu.installSystem']}" /></span></h:commandLink></li>
 					<li><h:link outcome="/core/login/index" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}"><i class="fa fa-key"></i> <span><h:outputText value="#{msgsCore['core.menu.login']}" /></span></h:link></li>
+					<li>
+						<p:commandLink  action="#{manageAcademicController.list()}" rendered="#{coreInfo.systemInstalled}" value="#{msgsCore['manageAcademic.title']}"  />
+					</li>
 				</ul>
 				</h:form>
 				<!-- /.sidebar-menu -->
@@ -257,7 +260,7 @@
 			<!-- Main content -->
 			<section class="content">
 				<!-- Global messages: -->
-				<h:form id="globalMessages">
+				<h:form id="globalMessages" rendered="false">
 					<p:growl id="messages" globalOnly="true" showSummary="true" showDetail="true" sticky="true" />
 				</h:form>
 				
