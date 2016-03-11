@@ -132,7 +132,7 @@
             <h:form id="trashForm" >
 	            <h3><h:outputText  value="#{msgs['crud.text.trashHeader']}" /></h3>
 	            <p:dataList value="#{manageAcademicController.trashCan}" var="entity" type="ordered">
-	            	#{entity.nome} 
+	            	#{entity.name} 
 	            </p:dataList>
                 <ui:decorate template="/resources/sae/formbutton.xhtml">
        				<div class="form-group">	
