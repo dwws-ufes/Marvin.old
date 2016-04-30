@@ -5,7 +5,11 @@ import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,6 +45,12 @@ public class Academic extends Person {
 	@Basic
 	@Size(max = 32)
 	private String password;
+	
+	
+	@ElementCollection(targetClass = AcademicType.class) 
+	//@CollectionTable(name = "TBL_Academic_Type", joinColumns = @JoinColumn(name = "APP_ID"))
+	private Set<AcademicType> academicTypes;
+	
 
 	/** Phone numbers. */
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -127,5 +137,16 @@ public class Academic extends Person {
 	/** Setter for lastLoginDate. */
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
+	}
+
+	
+	/** Getter for AcademicType. */
+	public Set<AcademicType> getAcademicTypes() {
+		return academicTypes;
+	}
+
+	/** Setter for AcademicTypes. */
+	public void setAcademicTypes(Set<AcademicType> academicTypes) {
+		this.academicTypes = academicTypes;
 	}
 }
