@@ -31,7 +31,6 @@ import javax.security.auth.spi.LoginModule;
 
 import org.jboss.security.SimpleGroup;
 import org.jboss.security.SimplePrincipal;
-import org.jboss.security.identity.Role;
 
 
 
@@ -41,7 +40,6 @@ public class LoginService  implements LoginModule {
 	private static final Logger logger = Logger.getLogger(LoginService.class.getCanonicalName());
 	
 	private Academic academic;
-	
 	
 	private Subject subject;
 	private CallbackHandler callbackHandler; 
@@ -56,32 +54,25 @@ public class LoginService  implements LoginModule {
 	
 	   
 	@Override
-	public void initialize(Subject subject, CallbackHandler callbackHandler,
-			Map<String, ?> sharedState, Map<String, ?> options) {
-		logger.log(Level.INFO, "LOGIN  INITIALIZE INIT");
+	public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState, Map<String, ?> options) {
 		this.subject = subject;
 	    this.callbackHandler = callbackHandler;
 	    this.sharedState = sharedState;
 	    this.options = options;	 
-	    logger.log(Level.INFO, "LOGIN  INITIALIZE OK");
 	}
 
 	@Override
 	public boolean login() throws LoginException {
 		loginOk = false;
 	    getUsernameAndPassword(); 
-	    logger.log(Level.INFO, "LOGIN  LOGIN - GETUSERNAME E PASSWORD OK");
-	    getUser();
-	    logger.log(Level.INFO, "LOGIN  LOGIN - GETUSER OK");
+	    getAcademic();
 	    validateUser(); 
-	    logger.log(Level.INFO, "LOGIN  LOGIN - VALIDATE USER OK");
 	    loginOk = true;
 	    return true;
 	}
 
 	@Override
 	public boolean commit() throws LoginException {
-		logger.log(Level.INFO, "LOGIN  COMMIT - INIT");
 		if( loginOk == false )return false;
 		Group callerGroup ;
 	    callerGroup = new SimpleGroup("CallerPrincipal");
@@ -90,8 +81,6 @@ public class LoginService  implements LoginModule {
 	    principals.add(identity);  
 	    principals.add(getRoleSets());
 	    principals.add(callerGroup);
-	    
-	    logger.log(Level.INFO, "LOGIN  COMMIT - OK");
 	    return true;
 	}
 	
@@ -106,8 +95,7 @@ public class LoginService  implements LoginModule {
 
 	@Override
 	public boolean logout() throws LoginException {
-		logger.log(Level.INFO, "LOGIN  LOGOUT- INIT ");
-	    Set<Principal> principals = subject.getPrincipals();
+		Set<Principal> principals = subject.getPrincipals();
 	    principals.remove(identity);
 	    principals.clear();
 	    if(principals.isEmpty())
@@ -122,10 +110,14 @@ public class LoginService  implements LoginModule {
 	    NameCallback nc = new NameCallback("username");
 	    PasswordCallback pc = new PasswordCallback("password: ", false);
 	    Callback[] callbacks = {nc, pc};
-        try {callbackHandler.handle(callbacks);}
-        catch (Exception e) {throw new LoginException();} 
+        try {
+        	callbackHandler.handle(callbacks);
+        }
+        catch (Exception e) {
+        	throw new LoginException();
+        } 
 	    identity = new SimplePrincipal(nc.getName());
-	    logger.log(Level.INFO, "LOGIN  IDENTY = {0}",nc.getName());
+	    //logger.log(Level.INFO, "LOGIN  IDENTY = {0}",nc.getName());
 	    char[] tmpPassword = pc.getPassword();
 	    if( tmpPassword != null ){
 	    	credential = new char[tmpPassword.length];
@@ -138,11 +130,12 @@ public class LoginService  implements LoginModule {
 	
 	
 	
-	protected void getAdmin() throws LoginException {
+	protected void getAcademic() throws LoginException {
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("saeLogin");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("marvinLogin");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
+		
 		tx.begin();
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Academic> cq = cb.createQuery(Academic.class);
@@ -150,11 +143,9 @@ public class LoginService  implements LoginModule {
 		cq.where(  cb.equal(root.get(Academic_.email), identity.getName()));
 		try{
 			academic = em.createQuery(cq).getSingleResult();
-			logger.log(Level.INFO, "USUARIO CADASTRADO COMO Academic)");
 		}
 		catch (Exception e) {
 			academic =null;
-			logger.log(Level.INFO, "USUARIO NAO CADASTRADO COMO Academic)");
 		}
 		
 		tx.commit();
@@ -166,24 +157,17 @@ public class LoginService  implements LoginModule {
 	
 	
 	
-	
-	
-	protected void getUser() throws LoginException {
-		logger.log(Level.INFO, "LOGIN SQL IDENTY = {0}",identity.getName());
-		getAdmin();
-	}
+
 
 	
 	
 	protected Group getRoleSets() throws LoginException {
-		logger.log(Level.INFO, "LOGIN  BUSCANDO ROLES");
 		SimpleGroup group = new SimpleGroup("Roles");
-		
 		if(academic!=null){
 			Iterator<AcademicType> lista = academic.getAcademicTypes().iterator();
-			
 			while(lista.hasNext()){
-				group.addMember(new SimplePrincipal(lista.next().getLabel()));
+				String role = lista.next().getLabel();
+				group.addMember(new SimplePrincipal(role));
 			}
 		}
         return group ;
@@ -193,24 +177,19 @@ public class LoginService  implements LoginModule {
 	
 	
 	protected void validateUser( ) throws LoginException {
-		logger.log(Level.INFO, "LOGIN VALIDATE");
 		try {
 			String md5password = TextUtils.produceMd5Hash(new String(credential));
-			
 			if(academic!=null){
 				if( md5password == null || !md5password.equals(academic.getPassword()) ){
 		            throw new LoginException(); 
 				}
 				else{
-					logger.log(Level.INFO, "ADMIN VALIDADO");
 					return;
 				}
 			}
-			
 		} catch (NoSuchAlgorithmException e) {
 			throw new LoginException();
-		}
-               
+		}       
     }
 	
 	

@@ -1,20 +1,21 @@
 package br.ufes.inf.nemo.marvin.core.domain;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 
 import br.ufes.inf.nemo.marvin.people.domain.Person;
 import br.ufes.inf.nemo.marvin.people.domain.Telephone;
@@ -47,9 +48,9 @@ public class Academic extends Person {
 	private String password;
 	
 	
-	@ElementCollection(targetClass = AcademicType.class) 
-	//@CollectionTable(name = "TBL_Academic_Type", joinColumns = @JoinColumn(name = "APP_ID"))
-	private Set<AcademicType> academicTypes;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@Enumerated	
+	private List<AcademicType> academicTypes;
 	
 
 	/** Phone numbers. */
@@ -141,12 +142,12 @@ public class Academic extends Person {
 
 	
 	/** Getter for AcademicType. */
-	public Set<AcademicType> getAcademicTypes() {
+	public List<AcademicType> getAcademicTypes() {
 		return academicTypes;
 	}
 
 	/** Setter for AcademicTypes. */
-	public void setAcademicTypes(Set<AcademicType> academicTypes) {
+	public void setAcademicTypes(List<AcademicType> academicTypes) {
 		this.academicTypes = academicTypes;
 	}
 }

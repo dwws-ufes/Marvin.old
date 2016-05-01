@@ -63,22 +63,34 @@
   </servlet-mapping>
   
   
-  <login-config>
+  <security-constraint>
+    	<display-name>protegidas para Egresso</display-name>	
+    	<web-resource-collection>
+   			<web-resource-name>Funcionalidades de Egresso</web-resource-name>
+   			<url-pattern>/sae/*</url-pattern>
+   		</web-resource-collection>		
+   		<auth-constraint>
+   			<description>Egresso somente</description>
+   			<role-name>Alumni</role-name>
+   		</auth-constraint>	
+  </security-constraint>
   
+  <login-config>
     	<auth-method>FORM</auth-method>
-    	
     	<realm-name>ApplicationRealm</realm-name>
-    	
+  
     	<form-login-config>
       		<form-login-page>/login.faces</form-login-page>
       		<form-error-page>/error-login.faces</form-error-page>
-    	</form-login-config> 
-    	
-  	</login-config>
+    	</form-login-config> 	
+  </login-config>
   
   	<security-role>
-    	<role-name>Egresso</role-name>
+    	<role-name>Alumni</role-name>
  	</security-role>
  	
+ 	<security-role>
+    	<role-name>Admin</role-name>
+ 	</security-role>
  	
 </web-app>

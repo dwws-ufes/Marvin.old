@@ -22,7 +22,7 @@ public class CourseJPADAO extends BaseJPADAO<Course> implements CourseDAO {
 
 	private static final long serialVersionUID = 1L;
 
-	@PersistenceContext
+	@PersistenceContext(unitName="Marvin")
 	private EntityManager entityManager;
 	
 	

@@ -9,8 +9,42 @@
 		<class>br.ufes.inf.nemo.marvin.people.domain.Person</class>
 		<class>br.ufes.inf.nemo.marvin.people.domain.ContactType</class>
 		<class>br.ufes.inf.nemo.marvin.people.domain.Telephone</class>
+		<class>br.ufes.inf.nemo.marvin.core.domain.Course</class>
+		<class>br.ufes.inf.nemo.marvin.sae.core.domain.AssuntoInteresse</class>
+		<class>br.ufes.inf.nemo.marvin.sae.core.domain.CursoRealizado</class>
+		<class>br.ufes.inf.nemo.marvin.sae.core.domain.Seminario</class>
+		<class>br.ufes.inf.nemo.marvin.sae.publico.domain.Depoimento</class>
+		<class>br.ufes.inf.nemo.marvin.sae.publico.domain.Escolaridade</class>
+		<class>br.ufes.inf.nemo.marvin.sae.publico.domain.HistoricoEgresso</class>
+		<class>br.ufes.inf.nemo.marvin.sae.publico.domain.Sugestao</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.enable_lazy_load_no_trans" value="true" />
+			<!--  property name="hibernate.format_sql" value="true" />
+		    <property name="hibernate.show_sql" value="true" /> -->
+		    
 		</properties>
 	</persistence-unit>
+	
+	<persistence-unit name="marvinLogin">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport</class>
+		<class>br.ufes.inf.nemo.marvin.core.domain.Academic</class>
+		<class>br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration</class>
+		<class>br.ufes.inf.nemo.marvin.people.domain.Person</class>
+		<class>br.ufes.inf.nemo.marvin.people.domain.ContactType</class>
+		<class>br.ufes.inf.nemo.marvin.people.domain.Telephone</class>
+		
+		
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/marvin" />
+			<property name="javax.persistence.jdbc.user" value="marvin" />
+			<property name="javax.persistence.jdbc.password" value="marvin" />
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.enable_lazy_load_no_trans" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+		    <property name="hibernate.show_sql" value="true" />
+		</properties>
+	</persistence-unit>
+	
 </persistence>
