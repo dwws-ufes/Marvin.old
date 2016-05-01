@@ -63,6 +63,27 @@
 				
 				
 				
+				<h:panelGroup id="academicTypeField">
+					<ui:decorate template="/resources/sae/formfield.xhtml">
+						<ui:param name="fieldName" value="form:academicType" />
+						<ui:param name="label" value="#{msgsCore['manageAcademic.title.academicType']}" />
+						<p:selectManyCheckbox id="academicType" converter="enumTypeConverter"  pt:class="form-control" disabled="#{manageAcademicController.readOnly  }"  
+									 value="#{manageAcademicController.selectedEntity.academicTypes}"  required="true">
+								<f:selectItems value="#{coreController.academicType}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
+						</p:selectManyCheckbox>
+					</ui:decorate>
+				</h:panelGroup>
+				
+				
+				
+				<h:panelGroup id="passwordField">
+					<ui:decorate template="/resources/sae/formfield.xhtml">
+						<ui:param name="fieldName" value="form:password" />
+						<ui:param name="label" value="#{msgsCore['installSystem.field.admin.password']}" />
+						<p:password id="password" pt:class="form-control" minLength="6" value="#{manageAcademicController.selectedEntity.password}" disabled="#{manageAcademicController.readOnly  or (manageAcademicController.selectedEntity.id!=null)}"  required="true" promptLabel="#{msgs['password.prompt']}" weakLabel="#{msgs['password.weak']}" goodLabel="#{msgs['password.good']}" strongLabel="#{msgs['password.strong']}" />
+					</ui:decorate>
+				</h:panelGroup>
+				
 				
 					
 				<ui:decorate template="/resources/sae/formbutton.xhtml">
