@@ -31,7 +31,7 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 	private static final Logger logger = Logger.getLogger(AcademicJPADAO.class.getCanonicalName());
 
 	/** The application's persistent context provided by the application server. */
-	@PersistenceContext
+	@PersistenceContext(unitName="Marvin")
 	private EntityManager entityManager;
 
 	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */

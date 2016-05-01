@@ -16,12 +16,25 @@ import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException;
  */
 @Local
 public interface SessionInformation extends Serializable {
+	
 	/**
 	 * Obtains the currently logged in user.
 	 * 
 	 * @return The Academic object that represents the user that is currently logged in.
 	 */
 	Academic getCurrentUser();
+	
+	
+	boolean isAdmin();
+	
+	boolean isAlumni();
+	
+	boolean isStudent();
+	
+	boolean isResearcher();
+	
+	boolean isTeacher();
+	
 
 	/**
 	 * Authenticates a user given her username and password. If the user is correctly authenticated, she should be
@@ -35,5 +48,5 @@ public interface SessionInformation extends Serializable {
 	 * @throws LoginFailedException
 	 *           If the username is unknown or the password is incorrect.
 	 */
-	void login(String username, String password) throws LoginFailedException;
+	//void login(String username, String password) throws LoginFailedException;
 }

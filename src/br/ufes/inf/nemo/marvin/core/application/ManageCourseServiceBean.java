@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
+import br.ufes.inf.nemo.util.ejb3.application.CrudException;
 import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
 
 
@@ -18,8 +19,8 @@ import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
  * @see sae.core.application.ManageAdministradorService
  */
 @Stateless
-//@DeclareRoles({"Admin", "egresso" , "guest"})
-//@RolesAllowed({ "Admin" })
+@DeclareRoles({ "Admin" , "Alumni" , "Researcher" , "Student" , "Teacher" })
+@RolesAllowed({ "Admin" })
 public class ManageCourseServiceBean extends CrudServiceBean<Course> implements ManageCourseService{
 
 	
@@ -31,14 +32,6 @@ public class ManageCourseServiceBean extends CrudServiceBean<Course> implements 
 	@EJB
 	private CourseDAO courseDAO;
 
-	
-	
-	
-	@Override
-	public void authorize() {
-		super.authorize();
-	}
-	
 	
 	
 	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudService#getDAO() */
@@ -57,13 +50,14 @@ public class ManageCourseServiceBean extends CrudServiceBean<Course> implements 
 	
 	
 	
-	/** @see sae.core.application.CrudServiceBean#update(Course entity) */
+	/** @see sae.core.application.CrudServiceBean#validateUpdate(Course entity) */
 	@Override
-	public void update(Course entity) {
+	public void validateUpdate(Course entity) throws CrudException {
 		Course oldEntity = getDAO().retrieveById(entity.getId());
-		if ( oldEntity.getName().equals(entity.getName()) &&  oldEntity.getCode().equals(entity.getCode())){
-			super.update(entity);
+		if (!oldEntity.getName().equals(entity.getName())){
+			throw new CrudException(null, null, null);
 		}
 	}
+
 
 }

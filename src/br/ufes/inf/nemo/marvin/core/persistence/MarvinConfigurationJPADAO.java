@@ -36,7 +36,7 @@ public class MarvinConfigurationJPADAO extends BaseJPADAO<MarvinConfiguration> i
 	private static final Logger logger = Logger.getLogger(MarvinConfigurationJPADAO.class.getCanonicalName());
 
 	/** The application's persistent context provided by the application server. */
-	@PersistenceContext
+	@PersistenceContext(unitName="Marvin")
 	private EntityManager entityManager;
 
 	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */

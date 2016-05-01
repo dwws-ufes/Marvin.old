@@ -36,15 +36,13 @@ public class ManageAcademicServiceBean extends CrudServiceBean<Academic> impleme
 	
 	@Override
 	public void validateUpdate(Academic entity) throws CrudException {
-Date now = new Date(System.currentTimeMillis());
-		
+		Date now = new Date(System.currentTimeMillis());
 		entity.setLastUpdateDate(now);
 	}
 	
 	@Override
 	public void validateCreate(Academic entity) throws CrudException {
 		Date now = new Date(System.currentTimeMillis());
-		
 		entity.setLastUpdateDate(now);
 	}
 

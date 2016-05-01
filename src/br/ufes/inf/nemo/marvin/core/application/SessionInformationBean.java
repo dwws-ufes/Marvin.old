@@ -1,16 +1,20 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
 import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBTransactionRolledbackException;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.domain.AcademicType;
 import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.util.TextUtils;
@@ -33,20 +37,109 @@ public class SessionInformationBean implements SessionInformation {
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(SessionInformationBean.class.getCanonicalName());
 
+	
+	
 	/** The DAO for Academic objects. */
 	@EJB
 	private AcademicDAO academicDAO;
 
+	
+	@Resource 	
+	private SessionContext sessionC;
+	
+	
 	/** The current user logged in. */
 	private Academic currentUser;
 
+	
+	
 	/** @see br.org.feees.sigme.core.application.SessionInformation#getCurrentUser() */
 	@Override
 	public Academic getCurrentUser() {
+		if( currentUser == null ){
+			Principal principal = sessionC.getCallerPrincipal();
+			if(principal != null){
+				try { 
+					currentUser = academicDAO.retrieveByEmail(principal.getName());
+				} 
+				catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+					currentUser = null ;
+				}
+			}
+		}
 		return currentUser;
 	}
 
+
+
+	@Override
+	public boolean isAdmin() {
+		if(getCurrentUser()!=null){
+			if(currentUser.getAcademicTypes().contains(AcademicType.Admin)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
+	@Override
+	public boolean isAlumni() {
+		if(getCurrentUser()!=null){
+			if(currentUser.getAcademicTypes().contains(AcademicType.Alumni)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
+	@Override
+	public boolean isStudent() {
+		if(getCurrentUser()!=null){
+			if(currentUser.getAcademicTypes().contains(AcademicType.Student)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
+	@Override
+	public boolean isResearcher() {
+		if(getCurrentUser()!=null){
+			if(currentUser.getAcademicTypes().contains(AcademicType.Researcher)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
+	@Override
+	public boolean isTeacher() {
+		if(getCurrentUser()!=null){
+			if(currentUser.getAcademicTypes().contains(AcademicType.Teacher)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
 	/** @see br.org.feees.sigme.core.application.SessionInformation#login(java.lang.String, java.lang.String) */
+	/*
 	@Override
 	public void login(String username, String password) throws LoginFailedException {
 		try {
@@ -100,4 +193,7 @@ public class SessionInformationBean implements SessionInformation {
 			throw new LoginFailedException(LoginFailedException.LoginFailedReason.MD5_ERROR);
 		}
 	}
+	*/
+	
+	
 }
