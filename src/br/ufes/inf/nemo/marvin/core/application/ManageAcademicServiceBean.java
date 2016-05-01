@@ -3,6 +3,8 @@ package br.ufes.inf.nemo.marvin.core.application;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -10,10 +12,11 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.util.TextUtils;
 import br.ufes.inf.nemo.util.ejb3.application.CrudException;
-import br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean;
 import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
 
 @Stateless
+@DeclareRoles({ "Admin" , "Alumni" , "Researcher" , "Student" , "Teacher" })
+@RolesAllowed({ "Admin" })
 public class ManageAcademicServiceBean extends CrudServiceBean<Academic> implements ManageAcademicService{
 
 	/** Serialization id. */

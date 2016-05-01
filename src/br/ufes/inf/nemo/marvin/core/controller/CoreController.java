@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
@@ -72,6 +71,9 @@ public class CoreController implements Serializable{
 	public String login(){
 		return "/login/index.xhtml?faces-redirect=true" ;
 	}
+	
+	
+	
 	
 	public AcademicType[] getAcademicType() {
 		return AcademicType.values();
