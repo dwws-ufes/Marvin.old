@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
-import br.ufes.inf.nemo.marvin.sae.core.application.CrudServiceBean;
 import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
 
 
