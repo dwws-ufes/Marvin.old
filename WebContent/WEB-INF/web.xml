@@ -75,22 +75,53 @@
    		</auth-constraint>	
   </security-constraint>
   
+  
+  
+  
+  <security-constraint>
+    	<display-name>pagina login</display-name>	
+    	<web-resource-collection>
+   			<web-resource-name>Funcionalidade login</web-resource-name>
+   			<url-pattern>/login/*</url-pattern>
+   		</web-resource-collection>		
+   		<auth-constraint>
+   			<description>todos</description>
+   			<role-name>Alumni</role-name>
+   			<role-name>Admin</role-name>
+   			<role-name>Researcher</role-name>
+   			<role-name>Student</role-name>
+   			<role-name>Teacher</role-name>
+   		</auth-constraint>	
+  </security-constraint>
+  
+  
+  
+  
   <login-config>
     	<auth-method>FORM</auth-method>
     	<realm-name>ApplicationRealm</realm-name>
-  
     	<form-login-config>
       		<form-login-page>/login.faces</form-login-page>
       		<form-error-page>/error-login.faces</form-error-page>
     	</form-login-config> 	
   </login-config>
   
+  
+  
   	<security-role>
     	<role-name>Alumni</role-name>
  	</security-role>
- 	
  	<security-role>
     	<role-name>Admin</role-name>
+ 	</security-role>
+ 	<security-role>
+    	<role-name>Researcher</role-name>
+ 	</security-role>
+ 	<security-role>
+    	<role-name>Student</role-name>
+ 	</security-role>
+ 	<security-role>
+    	<role-name>Teacher</role-name>
  	</security-role>
  	
 </web-app>

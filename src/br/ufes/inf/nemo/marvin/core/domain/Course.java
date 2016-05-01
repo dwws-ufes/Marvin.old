@@ -2,6 +2,7 @@ package br.ufes.inf.nemo.marvin.core.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -39,15 +40,23 @@ public class Course  extends  PersistentObjectSupport implements Comparable<Cour
 
 	
 	
-	/** COORDENADOR DO CURSO 
+	/** COORDENADOR DO CURSO */
 	@NotNull
 	@ManyToOne
-	private Administrador coordenador;
+	private Academic coordenador;
 	
-	public Administrador getCoordenador() { return coordenador; }
-	public void setCoordenador(Administrador coordenador) { this.coordenador = coordenador; }
+	public Academic getCoordenador() { 
+		return coordenador; 
+	}
+	
+	public void setCoordenador(Academic coordenador) { 
+		if(	coordenador.getAcademicTypes().contains(AcademicType.Admin) || 
+			coordenador.getAcademicTypes().contains(AcademicType.Teacher)	) {
+			this.coordenador = coordenador; 
+		}
+	}
 
-	*/
+	
 	
 	
 	/** @see java.lang.Comparable#compareTo(java.lang.Object) */

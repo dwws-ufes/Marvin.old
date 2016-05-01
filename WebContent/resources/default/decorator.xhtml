@@ -226,14 +226,31 @@
 
 				<!-- Sidebar Menu -->
 				<h:form id="sidebarMenuForm">
+				
 				<ul class="sidebar-menu">
 					<li class="header"><h:outputText value="#{msgs['title.menu']}" /></li>
+					
 					<li><h:commandLink action="#{installSystemController.begin}" rendered="#{not coreInfo.systemInstalled}"><i class="fa fa-cogs"></i> <span><h:outputText value="#{msgsCore['core.menu.installSystem']}" /></span></h:commandLink></li>
-					<li><h:link outcome="/core/login/index" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}"><i class="fa fa-key"></i> <span><h:outputText value="#{msgsCore['core.menu.login']}" /></span></h:link></li>
+					
 					<li>
-						<p:commandLink  action="#{manageAcademicController.list()}" rendered="#{coreInfo.systemInstalled}" value="#{msgsCore['manageAcademic.title']}"  />
+						<h:link outcome="/login/index" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}"><i class="fa fa-key"></i> <span><h:outputText value="#{msgsCore['core.menu.login']}" /></span></h:link>
 					</li>
+					
+					<li>
+						<p:commandLink styleClass="fa fa-key" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}"  action="#{coreController.login()}"  value=" #{msgsCore['core.menu.login']}"  />
+					</li>
+					
+					<li>
+						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin or sessionController.teacher}"  action="#{manageAcademicController.list()}"  value=" #{msgsCore['manageAcademic.title']}"  />
+					</li>
+					
+					<li>
+						<p:commandLink styleClass="fa fa-book" rendered="#{sessionController.admin or sessionController.teacher}"  action="#{manageCourseController.list()}"  value=" #{msgsCore['manageCourse.title']}"  />
+					</li>
+					
+					
 				</ul>
+				
 				</h:form>
 				<!-- /.sidebar-menu -->
 			</section>

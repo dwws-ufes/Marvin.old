@@ -15,7 +15,7 @@ public class CoreController implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	public String login(){
-		return "/sae/core/index.xhtml?faces-redirect=true" ;
+		return "/login/index.xhtml?faces-redirect=true" ;
 	}
 	
 	public AcademicType[] getAcademicType() {

@@ -59,11 +59,13 @@ public class SessionInformationBean implements SessionInformation {
 		if( currentUser == null ){
 			Principal principal = sessionC.getCallerPrincipal();
 			if(principal != null){
-				try { 
-					currentUser = academicDAO.retrieveByEmail(principal.getName());
-				} 
-				catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
-					currentUser = null ;
+				if(principal.getName()!=null){
+					try { 
+						currentUser = academicDAO.retrieveByEmail(principal.getName());
+					} 
+					catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+						currentUser = null ;
+					}
 				}
 			}
 		}
