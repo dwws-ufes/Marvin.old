@@ -1,7 +1,9 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,6 +11,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.domain.AcademicType;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
@@ -55,6 +58,10 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			admin.setLastUpdateDate(now);
 			admin.setCreationDate(now);
 			config.setCreationDate(now);
+			admin.setAcademicTypes(new ArrayList<AcademicType>());
+			admin.getAcademicTypes().add(AcademicType.Admin);
+			admin.getAcademicTypes().add(AcademicType.Teacher);
+			
 			logger.log(Level.FINE, "Admin's last update date have been set as: {0}", new Object[] { now });
 			
 			// Saves the administrator.
