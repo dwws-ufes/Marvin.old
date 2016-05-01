@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
@@ -23,4 +25,6 @@ public interface AcademicDAO extends BaseDAO<Academic> {
 	 * @throws MultiplePersistentObjectsFoundException
 	 */
 	Academic retrieveByEmail(String email) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+
+	
 }

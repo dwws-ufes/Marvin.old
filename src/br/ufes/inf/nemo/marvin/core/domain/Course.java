@@ -43,16 +43,16 @@ public class Course  extends  PersistentObjectSupport implements Comparable<Cour
 	/** COORDENADOR DO CURSO */
 	@NotNull
 	@ManyToOne
-	private Academic coordenador;
+	private Academic coordinator;
 	
-	public Academic getCoordenador() { 
-		return coordenador; 
+	public Academic getCoordinator() { 
+		return coordinator; 
 	}
 	
-	public void setCoordenador(Academic coordenador) { 
-		if(	coordenador.getAcademicTypes().contains(AcademicType.Admin) || 
-			coordenador.getAcademicTypes().contains(AcademicType.Teacher)	) {
-			this.coordenador = coordenador; 
+	public void setCoordinator(Academic coordinator) { 
+		if(	coordinator.getAcademicTypes().contains(AcademicType.Admin) || 
+			coordinator.getAcademicTypes().contains(AcademicType.Teacher)	) {
+			this.coordinator = coordinator; 
 		}
 	}
 

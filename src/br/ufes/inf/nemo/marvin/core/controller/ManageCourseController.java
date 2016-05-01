@@ -47,7 +47,7 @@ public class ManageCourseController extends CrudController<Course> {
 	/**   CONSTRUTOR DA CLASSE */
 	public ManageCourseController(){
 		 viewPath = "/core/manageCourse/";
-	     bundleName = "msgsSae";
+	     bundleName = "msgsCore";
 	}
 	
 	

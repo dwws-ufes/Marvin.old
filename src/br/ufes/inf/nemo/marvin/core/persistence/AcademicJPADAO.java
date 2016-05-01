@@ -1,11 +1,13 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -15,6 +17,9 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic_;
 import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
+
+
+
 
 /**
  * TODO: document this type.
@@ -45,6 +50,11 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
+	
+	
+	
+	
+	
 
 	/** @see br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO#retrieveByEmail(java.lang.String) */
 	@Override
