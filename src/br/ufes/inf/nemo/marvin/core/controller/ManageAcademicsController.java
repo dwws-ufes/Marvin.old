@@ -7,14 +7,14 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import br.ufes.inf.nemo.marvin.core.application.ManageAcademicService;
+import br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 
 @Named
 @SessionScoped
-public class ManageAcademicController extends CrudController<Academic>{
+public class ManageAcademicsController extends CrudController<Academic>{
 
 	
 	/** Serialization id. */
@@ -22,18 +22,18 @@ public class ManageAcademicController extends CrudController<Academic>{
 	
 	
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageAcademicController.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(ManageAcademicsController.class.getCanonicalName());
 	
 	/** The "Manage Academic" service. */
 	@EJB
-	private ManageAcademicService manageAcademicService;
+	private ManageAcademicsService manageAcademicsService;
 	
 	
 	
 	
 	/**   CONSTRUTOR DA CLASSE */
-	public ManageAcademicController(){
-		 viewPath = "/core/manageAcademic/";
+	public ManageAcademicsController(){
+		 viewPath = "/core/manageAcademics/";
 	     bundleName = "msgsCore";
 	}
 	
@@ -47,7 +47,7 @@ public class ManageAcademicController extends CrudController<Academic>{
 
 	@Override
 	protected CrudService<Academic> getCrudService() {
-		return manageAcademicService;
+		return manageAcademicsService;
 	}
 
 	@Override

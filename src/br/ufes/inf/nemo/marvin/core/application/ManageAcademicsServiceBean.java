@@ -17,7 +17,7 @@ import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
 @Stateless
 @DeclareRoles({ "Admin" , "Alumni" , "Researcher" , "Student" , "Teacher" })
 @RolesAllowed({ "Admin" })
-public class ManageAcademicServiceBean extends CrudServiceBean<Academic> implements ManageAcademicService{
+public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implements ManageAcademicsService{
 
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
