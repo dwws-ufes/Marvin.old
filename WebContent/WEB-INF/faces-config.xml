@@ -19,7 +19,7 @@
 		</resource-bundle>
 		<resource-bundle>
 			<base-name>br.ufes.inf.nemo.marvin.sae.messages</base-name>
-			<var>msgsSae</var>
+			<var>msgsSAE</var>
 		</resource-bundle>
 
 		<!-- Defines the default locale. -->
