@@ -12,7 +12,9 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.AcademicType;
+import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
 
 
@@ -31,11 +33,36 @@ public class CoreController implements Serializable{
 	private AcademicDAO academicDAO;
 	
 	
-	/** JSF Converter for Administrador objects. */
+	@EJB    	
+	private CourseDAO courseDAO;
+	
+	
+	
+	
+	
+	
+	/** JSF Converter for Academic objects. */
 	private PersistentObjectConverterFromId<Academic> academicConverter;
 	
 	
-	/** Getter for AdministradorConverter */
+	/** JSF Converter for Course objects. */
+	private PersistentObjectConverterFromId<Course> courseConverter;
+	
+	
+	
+	
+	
+	
+	/** Getter for courseConverter */
+	public Converter getCourseConverter() {
+		if (courseConverter == null) {
+			courseConverter = new PersistentObjectConverterFromId<Course>(courseDAO);
+		}
+		return courseConverter;
+	}
+	
+	
+	/** Getter for AcademicConverter */
 	public Converter getAcademicConverter() {
 		if (academicConverter == null) {
 			academicConverter = new PersistentObjectConverterFromId<Academic>(academicDAO);
@@ -63,6 +90,27 @@ public class CoreController implements Serializable{
 		return teacher;
 	}
 	
+	
+	public List<Academic> getAlumnis(){
+		List<Academic> lista = academicDAO.retrieveAll();
+		List<Academic> alumni = new ArrayList<Academic>();
+		for(Academic academic : lista){
+			Iterator<AcademicType> it = academic.getAcademicTypes().iterator();
+			while(it.hasNext()){
+				if(it.next().equals(AcademicType.Alumni)){
+					alumni.add(academic);
+				}
+			}
+		}
+		return alumni;
+	}
+	
+	
+	
+	
+	public List<Course> getCourses(){
+		return courseDAO.retrieveAll();
+	}
 	
 	
 	
