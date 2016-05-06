@@ -17,18 +17,20 @@
 
 		<!-- The form to be filled with information on the configuration. -->
 		<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
-			<ui:param name="formName" value="form" />
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsCore['installSystem.form.config']}" />
+			<p:focus />
 
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="institutionAcronym" />
-				<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.config.institutionAcronym']}" /></ui:define>
-				<p:inputText id="institutionAcronym" value="#{installSystemController.config.institutionAcronym}" size="10" required="true">
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.institutionAcronym']}" />
+				<p:inputText id="institutionAcronym" value="#{installSystemController.config.institutionAcronym}" required="true" pt:placeholder="#{msgsCore['installSystem.field.admin.name.placeholder']}">
 					<f:ajax event="blur" render="institutionAcronymField" />
 				</p:inputText>
 			</ui:decorate>
 
-			<ui:decorate template="/resources/#{coreInfo.decorator}/formbutton.xhtml">
-				<p:commandButton action="#{installSystemController.saveConfig}" value="#{msgsCore['installSystem.button.saveConfig']}" update=":globalMessages form" styleClass="ion-settings" />
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
+				<p:commandButton action="#{installSystemController.saveConfig}" value="#{msgsCore['installSystem.button.saveConfig']}" update=":globalMessages form" icon="fa fa-fw fa-save" />
 			</ui:decorate>
 		</ui:decorate>
 	</ui:define>

@@ -1,31 +1,48 @@
-/* No border and background in forms: */
-.ui-widget-content {
-	border: none;
-	background-color: transparent;
-}
-
-/* Error messages displayed next to their fields. */
-.ui-message {
-	display: inline-block;
-}
-
 /* Growl messages positioned below Marvin's top bar. */
 .ui-growl {
 	top: 60px;
 }
 
-/* Ionicons buttons to the left when used in PrimeFaces buttons. */
-.ui-button .ui-button-text { display: inline-block; }
-.ui-button::before { margin: 0px -5px 0px 10px; }
-
-
-/* JButler styles. Should be moved to jbutler.css eventually. */
-@media screen and (min-width: 40em){
-	.jb-label {
-		float: right;
-	}
+/* All input fields should be formatted like a Bootstrap form-control field. */
+.ui-inputfield {
+    display: block;
+    height: 34px;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
-.jb-button {
-	float: right;
+/* Password fields should occupy 50% instead. */
+.ui-password {
+	width: 50%;
+}
+
+/* Responsive buttons using bootstrap styles. */
+.ui-grid .ui-button {
+	width: 100%;
+	padding: 6px 12px;
+	font-size: 14px;
+	vertical-align: middle;
+}
+.ui-grid .ui-icon {
+	position: absolute;
+	left: 0;
+	top: 7px;
+	bottom: 0;
+	width: 32px;
+	height: 100%;
+	line-height: 34px;
+	font-size: 1.4em;
+	text-align: center;
+	border-right: 1px solid rgba(0,0,0,0.2);
+	vertical-align: middle;
+}
+.ui-grid .ui-button-text {
+	text-align: left;
 }

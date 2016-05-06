@@ -4,11 +4,10 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:p="http://primefaces.org/ui">
 
-	<a class="btn btn-block btn-social #{buttonClass}" jsf:action="#{buttonAction}" jsf:update="#{formName}">
-		<i class="fa #{buttonIcon}"></i> 
-		<h:outputText value="#{buttonName}"/>
-	</a>
+	<p:panelGrid columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank box-footer">
+		<ui:insert />
+	</p:panelGrid>
 
 </ui:composition>
