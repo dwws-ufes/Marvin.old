@@ -64,14 +64,18 @@
   
   
   <security-constraint>
-    	<display-name>protegidas para Egresso</display-name>	
+    	<display-name>protegidas para usuarios cadatrados</display-name>	
     	<web-resource-collection>
-   			<web-resource-name>Funcionalidades de Egresso</web-resource-name>
+   			<web-resource-name>Funcionalidades sae</web-resource-name>
    			<url-pattern>/sae/*</url-pattern>
    		</web-resource-collection>		
    		<auth-constraint>
-   			<description>Egresso somente</description>
+   			<description>usuarios cadatrados somente</description>
    			<role-name>Alumni</role-name>
+   			<role-name>Admin</role-name>
+   			<role-name>Researcher</role-name>
+   			<role-name>Student</role-name>
+   			<role-name>Teacher</role-name>
    		</auth-constraint>	
   </security-constraint>
   
