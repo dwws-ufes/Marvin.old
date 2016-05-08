@@ -166,7 +166,7 @@ public class LoginService  implements LoginModule {
 		if(academic!=null){
 			Iterator<AcademicType> lista = academic.getAcademicTypes().iterator();
 			while(lista.hasNext()){
-				String role = lista.next().getLabel();
+				String role = lista.next().toString();
 				group.addMember(new SimplePrincipal(role));
 			}
 		}
