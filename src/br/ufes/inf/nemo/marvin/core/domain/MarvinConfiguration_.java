@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2016-05-08T11:16:46.067-0300")
+@Generated(value="Dali", date="2016-05-08T11:22:39.815-0300")
 @StaticMetamodel(MarvinConfiguration.class)
 public class MarvinConfiguration_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<MarvinConfiguration, Date> creationDate;
