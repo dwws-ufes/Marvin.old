@@ -9,9 +9,9 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
-import br.ufes.inf.nemo.util.ejb3.application.CrudService;
-import br.ufes.inf.nemo.util.ejb3.application.filters.LikeFilter;
-import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
+import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
+import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 
 @Named
 @SessionScoped
@@ -24,6 +24,7 @@ public class ManageAcademicsController extends CrudController<Academic>{
 	
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(ManageAcademicsController.class.getCanonicalName());
+	
 	
 	/** The "Manage Academic" service. */
 	@EJB
@@ -38,13 +39,6 @@ public class ManageAcademicsController extends CrudController<Academic>{
 	     bundleName = "msgsCore";
 	}
 	
-	
-	
-	@Override
-	protected Academic createNewEntity() {
-		logger.log(Level.INFO, "INITIALIZING AN EMPTY Academic.");
-		return new Academic();
-	}
 
 	@Override
 	protected CrudService<Academic> getCrudService() {

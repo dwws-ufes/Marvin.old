@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.domain.Course_;
-import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 
 
 
@@ -26,11 +26,6 @@ public class CourseJPADAO extends BaseJPADAO<Course> implements CourseDAO {
 	private EntityManager entityManager;
 	
 	
-	@Override
-	public Class<Course> getDomainClass() {
-		return Course.class;
-	}
-
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;

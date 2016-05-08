@@ -10,12 +10,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.convert.Converter;
 import javax.inject.Named;
 
+import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.AcademicType;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
-import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
 
 
 
@@ -66,6 +66,7 @@ public class CoreController implements Serializable{
 	public Converter getAcademicConverter() {
 		if (academicConverter == null) {
 			academicConverter = new PersistentObjectConverterFromId<Academic>(academicDAO);
+			
 		}
 		return academicConverter;
 	}

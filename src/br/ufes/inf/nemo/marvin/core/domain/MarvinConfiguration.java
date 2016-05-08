@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
 /**
  * TODO: document this type.

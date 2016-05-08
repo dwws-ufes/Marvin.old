@@ -10,9 +10,9 @@ import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
-import br.ufes.inf.nemo.util.TextUtils;
-import br.ufes.inf.nemo.util.ejb3.application.CrudException;
-import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
+import br.ufes.inf.nemo.jbutler.TextUtils;
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 
 @Stateless
 @DeclareRoles({ "Admin" , "Alumni" , "Researcher" , "Student" , "Teacher" })
@@ -31,11 +31,6 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	@Override
 	public BaseDAO<Academic> getDAO() {
 		return academicDAO;
-	}
-
-	@Override
-	protected Academic createNewEntity() {
-		return new Academic();
 	}
 	
 	

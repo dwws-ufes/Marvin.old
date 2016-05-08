@@ -3,8 +3,8 @@ package br.ufes.inf.nemo.marvin.core.persistence;
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
-import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
-import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Interface for a DAO for objects of the MarvinConfiguration domain class.

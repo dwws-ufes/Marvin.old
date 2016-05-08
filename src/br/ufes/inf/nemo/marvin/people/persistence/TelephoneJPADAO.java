@@ -4,8 +4,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import br.ufes.inf.nemo.marvin.people.domain.Telephone;
-import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 
 /**
  * Stateless session bean implementing a DAO for objects of the Telephone domain class using JPA2.
@@ -29,11 +29,7 @@ public class TelephoneJPADAO extends BaseJPADAO<Telephone> implements TelephoneD
 	@PersistenceContext(unitName="Marvin")
 	private EntityManager entityManager;
 
-	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */
-	@Override
-	public Class<Telephone> getDomainClass() {
-		return Telephone.class;
-	}
+	
 
 	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override

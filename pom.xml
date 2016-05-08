@@ -51,6 +51,11 @@
 			<version>1.2</version>
 		</dependency>
 		<dependency>
+			<groupId>br.ufes.inf.nemo</groupId>
+			<artifactId>jbutler-wp</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>1.0.10</version>

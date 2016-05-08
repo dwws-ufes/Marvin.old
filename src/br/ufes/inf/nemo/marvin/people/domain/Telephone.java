@@ -6,7 +6,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
+
 
 /**
  * Domain class that represents telephone numbers.

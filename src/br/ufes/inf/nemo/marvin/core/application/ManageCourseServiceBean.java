@@ -7,8 +7,8 @@ import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
-import br.ufes.inf.nemo.util.ejb3.application.CrudException;
-import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 
 
 /**
@@ -39,15 +39,6 @@ public class ManageCourseServiceBean extends CrudServiceBean<Course> implements 
 	public BaseDAO<Course> getDAO() {
 		return courseDAO;
 	}
-
-	
-	
-	/** @see sae.core.application.CrudServiceBean#createNewEntity() */
-	@Override
-	protected Course createNewEntity() {
-		return new Course();
-	}
-	
 	
 	
 	/** @see sae.core.application.CrudServiceBean#validateUpdate(Course entity) */

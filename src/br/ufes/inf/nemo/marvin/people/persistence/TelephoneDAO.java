@@ -2,8 +2,8 @@ package br.ufes.inf.nemo.marvin.people.persistence;
 
 import javax.ejb.Local;
 
+import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.marvin.people.domain.Telephone;
-import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
 
 /**
  * Interface for a DAO for objects of the Telephone domain class.

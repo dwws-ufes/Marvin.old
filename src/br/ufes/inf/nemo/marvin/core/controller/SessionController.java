@@ -20,7 +20,7 @@ import br.ufes.inf.nemo.marvin.core.application.SessionInformation;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.AcademicType;
 import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException;
-import br.ufes.inf.nemo.util.ejb3.controller.JSFController;
+import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 
 /**
  * Session-scoped managed bean that provides to web pages the login service, indication if the user is logged in and the

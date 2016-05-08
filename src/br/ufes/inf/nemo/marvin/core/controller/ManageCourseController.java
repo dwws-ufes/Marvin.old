@@ -10,8 +10,8 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.marvin.core.application.ManageCourseService;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
-import br.ufes.inf.nemo.util.ejb3.application.CrudService;
-import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
+import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 
 
 /**
@@ -59,16 +59,6 @@ public class ManageCourseController extends CrudController<Course> {
 		return manageCourseService;
 	}
 
-	
-	
-	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#createNewEntity() */
-	@Override
-	protected Course createNewEntity() {
-		logger.log(Level.FINER, "INITIALIZING AN EMPTY CURSO ......");
-		return new Course();
-	}
-
-	
 	
 	
 	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#initFilters() */

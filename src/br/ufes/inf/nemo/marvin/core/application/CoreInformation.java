@@ -17,8 +17,8 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
 import br.ufes.inf.nemo.marvin.core.persistence.MarvinConfigurationDAO;
-import br.ufes.inf.nemo.util.ResourceUtil;
-import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
+import br.ufes.inf.nemo.jbutler.ResourceUtil;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * TODO: document this type.
