@@ -33,12 +33,10 @@
 .ui-grid .ui-icon {
 	position: absolute;
 	left: 0;
-	top: 7px;
 	bottom: 0;
 	width: 32px;
 	height: 100%;
 	line-height: 34px;
-	font-size: 1.4em;
 	text-align: center;
 	border-right: 1px solid rgba(0,0,0,0.2);
 	vertical-align: middle;
