@@ -18,96 +18,74 @@
 
 	
 <ui:define name="body">
-	<ui:decorate template="/resources/sae/form.xhtml">
-		<ui:param name="formName" value="#{msgsCore['manageAcademics.title.form']}" />
-		<h:form id="form" pt:class="form-horizontal">
- 
-				<h:panelGroup id="nomeField">
-					<ui:decorate template="/resources/sae/formfield.xhtml">
-						<ui:param name="fieldName" value="form:nome" />
-						<ui:param name="label" value="#{msgsCore['manageAcademics.title.name']}" />
-						<p:inputText id="nome" pt:class="form-control" disabled="#{manageAcademicsController.readOnly  or (manageAcademicsController.selectedEntity.id!=null)}" 
-									 pt:placeholder="#{msgsCore['manageAcademics.placeholder.name']}" 
-									 value="#{manageAcademicsController.selectedEntity.name}"  required="true">
-							<p:ajax event="blur" update="nomeField" />
-						</p:inputText>
-					</ui:decorate>
-				</h:panelGroup>
-					 
-				<h:panelGroup id="emailField">
-					<ui:decorate template="/resources/sae/formfield.xhtml">
-						<ui:param name="fieldName" value="form:email" />
-						<ui:param name="label" value="#{msgsCore['manageAcademics.title.email']}" />
-						<h:inputText id="email" pt:class="form-control" disabled="#{manageAcademicsController.readOnly}" 
-									 pt:type="email" pt:placeholder="#{msgsCore['manageAcademics.placeholder.email']}" 
-									 value="#{manageAcademicsController.selectedEntity.email}"  required="true">
-							<p:ajax event="blur" update="emailField" />
-						</h:inputText> 
-					</ui:decorate>
-				</h:panelGroup>
-				
-				
-				<h:panelGroup id="shortNameField">
-					<ui:decorate template="/resources/sae/formfield.xhtml">
-						<ui:param name="fieldName" value="form:shortName" />
-						<ui:param name="label" value="#{msgsCore['manageAcademics.title.shortName']}" />
-						<p:inputText id="shortName" pt:class="form-control" disabled="#{manageAcademicsController.readOnly  or (manageAcademicsController.selectedEntity.id!=null)}" 
-									 pt:placeholder="#{msgsCore['manageAcademics.placeholder.shortName']}" 
-									 value="#{manageAcademicsController.selectedEntity.shortName}"  required="true">
-							<p:ajax event="blur" update="shortNameField" />
-						</p:inputText>
-					</ui:decorate>
-				</h:panelGroup>
-				
-				
-				
-				
-				
-				<h:panelGroup id="academicTypeField">
-					<ui:decorate template="/resources/sae/formfield.xhtml">
-						<ui:param name="fieldName" value="form:academicType" />
-						<ui:param name="label" value="#{msgsCore['manageAcademics.title.academicType']}" />
-						<p:selectManyCheckbox id="academicType" converter="enumTypeConverter"  pt:class="form-control" disabled="#{manageAcademicsController.readOnly  }"  
-									 value="#{manageAcademicsController.selectedEntity.academicTypes}"  required="true">
-								<f:selectItems value="#{coreController.academicType}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
-						</p:selectManyCheckbox>
-					</ui:decorate>
-				</h:panelGroup>
-				
-				
-				
-				<h:panelGroup id="passwordField">
-					<ui:decorate template="/resources/sae/formfield.xhtml">
-						<ui:param name="fieldName" value="form:password" />
-						<ui:param name="label" value="#{msgsCore['installSystem.field.admin.password']}" />
-						<p:password id="password" pt:class="form-control" minLength="6" value="#{manageAcademicsController.selectedEntity.password}" disabled="#{manageAcademicsController.readOnly  or (manageAcademicsController.selectedEntity.id!=null)}"  required="true" promptLabel="#{msgs['password.prompt']}" weakLabel="#{msgs['password.weak']}" goodLabel="#{msgs['password.good']}" strongLabel="#{msgs['password.strong']}" />
-					</ui:decorate>
-				</h:panelGroup>
-				
-				
-					
-				<ui:decorate template="/resources/sae/formbutton.xhtml">
-					<h:panelGroup class="form-group">	
-						<h:panelGroup class="col-sm-3"/>
-            			<h:panelGroup class="col-sm-3" style="margin-bottom: 15px">
-            				<a class="btn btn-block btn-warning btn-social" jsf:immediate="true"  jsf:action="#{manageAcademicsController.list}">
-            					<i class="fa fa-rotate-left"></i> 
-            					<h:outputText value="#{msgs['crud.button.back']}"/>
-            				</a>
-                		</h:panelGroup>
-                		<h:panelGroup class="col-sm-3"/>
-						<h:panelGroup class="col-sm-3">
-							<a  class="btn btn-block btn-info btn-social" jsf:action="#{manageAcademicsController.save}" 
-								jsf:update=":form :globalMessages" jsf:rendered="#{!manageAcademicsController.readOnly}"><i class="fa  fa-save"></i> 
-								<h:outputText value="#{msgs['crud.button.save']}"/>
-							</a>
-                		</h:panelGroup>
-					</h:panelGroup>
-				</ui:decorate>
-		</h:form>
-	</ui:decorate>
 	
+	
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsCore['manageAcademics.title.form']}" />
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="name" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.title.name']}" />
+				<p:inputText id="name"  value="#{manageAcademicsController.selectedEntity.name}" 
+								required="true" pt:placeholder="#{msgsCore['manageAcademics.placeholder.name']}"
+								disabled="#{manageAcademicsController.readOnly  or (manageAcademicsController.selectedEntity.id!=null)}">
+					<f:ajax event="blur" render="nameField" />
+				</p:inputText>
+			</ui:decorate>
+		
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="email" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.title.email']}" />
+				<p:inputText id="email"  value="#{manageAcademicsController.selectedEntity.email}" 
+							 required="true" pt:placeholder="#{msgsCore['manageAcademics.placeholder.email']}"
+							 disabled="#{manageAcademicsController.readOnly}" pt:type="email">
+					<f:ajax event="blur" render="emailField" />
+				</p:inputText>
+			</ui:decorate>			
+				
+				
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="shortName" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.title.shortName']}" />
+				<p:inputText id="shortName" value="#{manageAcademicsController.selectedEntity.shortName}" required="true" 
+							 pt:placeholder="#{msgsCore['manageAcademics.placeholder.shortName']}"
+							 disabled="#{manageAcademicsController.readOnly  or (manageAcademicsController.selectedEntity.id!=null)}">
+					<f:ajax event="blur" render="shortNameField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="academicType" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.title.academicType']}" />
+				<p:selectManyCheckbox layout="pageDirection"   id="academicType" converter="enumTypeConverter"  disabled="#{manageAcademicsController.readOnly  }"  
+									 value="#{manageAcademicsController.selectedEntity.academicTypes}"  required="true">
+					<f:selectItems   value="#{coreController.academicType}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
+				</p:selectManyCheckbox>
+			</ui:decorate>
+			
+			
+				
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="password" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.admin.password']}" />
+				<p:password id="password" pt:class="form-control" minLength="6" value="#{manageAcademicsController.selectedEntity.password}" required="true" 
+						 	feedback="true" promptLabel="#{msgs['primefaces.password.prompt']}" 
+						 	weakLabel="#{msgs['primefaces.password.weak']}" goodLabel="#{msgs['primefaces.password.good']}" 
+						 	strongLabel="#{msgs['primefaces.password.strong']}" 
+						 	disabled="#{manageAcademicsController.readOnly  or (manageAcademicsController.selectedEntity.id!=null)}" />
+			</ui:decorate>
+			
+			
 
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+	        	<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAcademicsController.save}" update=":globalMessages form" disabled="#{manageAcademicsController.selectedEntity == null}" icon="fa fa-save" value="#{msgs['crud.button.save']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageAcademicsController.list}" icon="fa fa-rotate-left" disabled="#{manageAcademicsController.selectedEntity == null}" value="#{msgs['crud.button.back']}"/>
+	        </ui:decorate>
+							
+	</ui:decorate>
 	
 </ui:define>
 </ui:composition>

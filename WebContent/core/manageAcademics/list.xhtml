@@ -13,50 +13,48 @@
 
 	
 <ui:define name="body">
+	
 	<!-- The listing form. -->
-    <ui:decorate template="/resources/sae/form.xhtml">
-		<ui:param name="formName" value="#{msgsCore['manageAcademics.title.box.list']}" />
-        <h:form id="filterForm" pt:class="form-horizontal">
-        	<h:panelGroup  id="filterBar" rendered="#{(not empty manageAcademicsController.filters)}">
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="filterForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageAcademics.title.form.filter']}" /> 
+						
+			<h:panelGroup  id="filterBar" rendered="#{(not empty manageAcademicsController.filters)}">
             	<div class="form-group">	
 	            	<div class="col-sm-3">
 	            		<h:selectOneMenu styleClass="form-control" value="#{manageAcademicsController.filterKey}" id="filter" required="true">
-	            			<f:selectItems value="#{manageAcademicsController.filters}" var="filter" itemLabel="#{filter.label}" 
-	            						   itemValue="#{filter.key}" />
-			                <f:ajax event="change" execute="@form" listener="#{manageAcademicsController.changeFilter}" 
-			                		render="@form :listingForm"  />
+	            			<f:selectItems value="#{manageAcademicsController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+			                <f:ajax event="change" execute="@form" listener="#{manageAcademicsController.changeFilter}" render="@form :listingForm"  />
 	            		</h:selectOneMenu>
 	            	</div>
 	            	<div class="col-sm-4">
-	            		<h:selectOneMenu styleClass="form-control"  required="false" value="#{manageAcademicsController.filterParam}" 
-	            						 id="filterSelect" rendered="#{manageAcademicsController.filter.options != null}">
+	            		<h:selectOneMenu styleClass="form-control"  required="false" value="#{manageAcademicsController.filterParam}" id="filterSelect" rendered="#{manageAcademicsController.filter.options != null}">
 		                	<f:selectItems value="#{manageAcademicsController.filter.reversedOptionsLabels}" />
 		                </h:selectOneMenu>
-					 	<p:inputText pt:class="form-control" placeholder="#{msgs['crud.filter.placeholder']}" id="filterText"  
-					 				 required="false" value="#{manageAcademicsController.filterParam}" 
-					 				 rendered="#{manageAcademicsController.filter.options == null}" />
+					 	<p:inputText pt:class="form-control" placeholder="#{msgs['crud.filter.placeholder']}" id="filterText" required="false" value="#{manageAcademicsController.filterParam}" rendered="#{manageAcademicsController.filter.options == null}" />
                 	</div>
                 	<div class="col-sm-2">
-                		<a class="btn btn-block btn-info btn-social" jsf:process="@form" jsf:action="#{manageAcademicsController.filter}" 
-                		   jsf:update=":listingForm @form" >
+                		<a class="btn btn-block btn-info btn-social" jsf:process="@form" jsf:action="#{manageAcademicsController.filter}" jsf:update=":listingForm @form" >
                 		   <i class="fa fa-search"></i> <h:outputText value="#{msgs['crud.button.filter']}"/>
                 		</a>
                 	</div>
 					<div class="col-sm-3" jsf:rendered="#{manageAcademicsController.filtering}">
-						<a class="btn btn-block btn-danger btn-social" jsf:process="@form" 
-							jsf:action="#{manageAcademicsController.cancelFilter}" jsf:update=":listingForm @form">
+						<a class="btn btn-block btn-danger btn-social" jsf:process="@form"	jsf:action="#{manageAcademicsController.cancelFilter}" jsf:update=":listingForm @form">
 							<i class="fa fa-close"></i> <h:outputText value="#{msgs['crud.button.cancelFilter']}"/>
 						</a>
                 	</div>
             	</div>
 			</h:panelGroup>
-		</h:form> 	
-            	
-            	
-            	
-            	
-       <h:form id="listingForm" style="margin-bottom: 25px">
-       		<p:dataTable 
+	
+	</ui:decorate>
+	
+	
+	
+	
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="listingForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageAcademics.title.box.list']}" /> 
+			<p:dataTable 
 	   				 	widgetVar="listingTable"
            			    rowIndexVar="rowIndex"
                			tableStyleClass="table table-bordered table-striped"
@@ -76,79 +74,42 @@
       			<p:column headerText="#{msgsCore['manageAcademics.title.name']}"  style="text-align: center; width:50%;"> 
            			<h:outputText value="#{entity.name}" />
            		</p:column>
-           		
            		<p:column headerText="#{msgsCore['manageAcademics.title.email']}"  style="text-align: center;"> 
            			<h:outputText value="#{entity.email}" />
            		</p:column>
-           	
            		<p:ajax event="rowSelect" update=":buttonsForm" />
         	</p:dataTable>
-       	</h:form>
-        		
-        		
-        	<!-- Buttons shown below the listing. -->
-        <h:form id="buttonsForm">
-            <ui:decorate template="/resources/sae/formbutton.xhtml">
-	        	<div class="form-group">
-	        	<div class="row">	
-	            	<div class="col-sm-3" style="margin-bottom: 15px" >
-	        			<a class="btn btn-block btn-success btn-social" jsf:action="#{manageAcademicsController.create}">
-	        				<i class="fa fa-user-plus"></i> <h:outputText value="#{msgs['crud.button.create']}"/>
-	        			</a>
-	                </div>
-	                <div class="col-sm-3" style="margin-bottom: 15px" jsf:rendered="#{manageAcademicsController.selectedEntity != null}">
-	        			<a class="btn btn-block btn-info btn-social" jsf:action="#{manageAcademicsController.retrieve}" 
-	        				jsf:disabled="#{manageAcademicsController.selectedEntity == null}">
-	        				<i class="fa  fa-file-text"></i> <h:outputText value="#{msgs['crud.button.retrieve']}"/>
-	        			</a>
-	            	</div>
-	            	<div class="col-sm-3"  style="margin-bottom: 15px" jsf:rendered="#{manageAcademicsController.selectedEntity != null}">
-	        			<a class="btn btn-block btn-warning btn-social" jsf:action="#{manageAcademicsController.update}" 
-	        				jsf:disabled="#{manageAcademicsController.selectedEntity == null}"><i class="fa  fa-refresh">
-	        				</i> <h:outputText value="#{msgs['crud.button.update']}"/>
-	        			</a>
-	            	</div>
-	            	<div class="col-sm-3" jsf:rendered="#{manageAcademicsController.selectedEntity != null}">
-	        			<a class="btn btn-block btn-danger btn-social" jsf:action="#{manageAcademicsController.trash}" 
-	        				jsf:disabled="#{manageAcademicsController.selectedEntity == null}" jsf:process="@this" jsf:update=":trashForm">
-	        				<i class="fa  fa-trash-o"></i> <h:outputText value="#{msgs['crud.button.delete']}"/>
-	        			</a>
-	           		</div>
-	           	</div>
-	           	</div>
-	    	</ui:decorate>
-    	</h:form>
-	</ui:decorate> <!-- DEFINE FORM. -->
-        
-        
-       
-        <!-- The trash panel: shows entities that have been selected for deletion. -->
-	<h:panelGroup id="teste" rendered="#{not empty manageAcademicsController.trashCan}" >
-        <ui:decorate template="/resources/sae/formDanger.xhtml"  >
-			<ui:param name="formName" value="#{msgsCore['manageAcademics.title.box.trash']}" />
-            <h:form id="trashForm" >
-	            <h3><h:outputText  value="#{msgs['crud.text.trashHeader']}" /></h3>
-	            <p:dataList value="#{manageAcademicsController.trashCan}" var="entity" type="ordered">
-	            	#{entity.name} 
-	            </p:dataList>
-                <ui:decorate template="/resources/sae/formbutton.xhtml">
-       				<div class="form-group">	
-           				<div class="col-sm-3" style="margin-bottom: 15px">
-           					<a class="btn btn-block btn-warning btn-social" jsf:action="#{manageAcademicsController.cancelDeletion}" 
-           						jsf:update=":trashForm :buttonsForm :listingForm"><i class="fa  fa-close">
-           						</i> <h:outputText value="#{msgs['crud.button.cancelDeletion']}"/>
-           					</a>
-           				</div>
-                        <div class="col-sm-3">
-	                       	<a class="btn btn-block btn-danger btn-social" jsf:action="#{manageAcademicsController.delete}" 
-	                       		jsf:update=":trashForm :buttonsForm :listingForm"><i class="fa  fa-trash-o">
-	                       		</i> <h:outputText value="#{msgs['crud.button.confirmDeletion']}"/>
-	                       	</a>
-           				</div>
-           			</div>
-           		</ui:decorate>
-         	</h:form>
+	</ui:decorate>
+	
+	
+	
+
+	<h:form id="buttonsForm">
+	    <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
+	       	<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{manageAcademicsController.create}"   icon="fa fa-user-plus" value="#{msgs['crud.button.create']}"/>
+	       	<p:commandButton rendered="#{manageAcademicsController.selectedEntity != null}" pt:class="btn btn-block btn-info btn-social" action="#{manageAcademicsController.retrieve}" icon="fa fa-file-text" disabled="#{manageAcademicsController.selectedEntity == null}" value="#{msgs['crud.button.retrieve']}"/>      	
+	      	<p:commandButton rendered="#{manageAcademicsController.selectedEntity != null}" pt:class="btn btn-block btn-warning btn-social" action="#{manageAcademicsController.update}" icon="fa fa-refresh" disabled="#{manageAcademicsController.selectedEntity == null}" value="#{msgs['crud.button.update']}"/>
+	      	<p:commandButton process="@this" ajax=":trashForm"  update=":trashForm" rendered="#{manageAcademicsController.selectedEntity != null}" pt:class="btn btn-block btn-danger btn-social" action="#{manageAcademicsController.trash}" icon="fa fa-trash-o" disabled="#{manageAcademicsController.selectedEntity == null}" value="#{msgs['crud.button.delete']}"/>
 		</ui:decorate>
+	</h:form>
+			
+    	
+    <p>&nbsp;</p>
+    	
+	<h:panelGroup id="trashpanel" rendered="#{not empty manageAcademicsController.trashCan}" >
+    <ui:decorate template="/resources/#{coreInfo.decorator}/dangerform.xhtml">
+			<ui:param name="formName" value="trashForm" />
+			<ui:param name="formLabel" value="#{msgsCore['manageAcademics.title.box.trash']}" /> 
+			
+			<h3><h:outputText  value="#{msgs['crud.text.trashHeader']}" /></h3>
+	        <p:dataList value="#{manageAcademicsController.trashCan}" var="entity" type="ordered">
+	            	#{entity.name} 
+	        </p:dataList> 
+	        <ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+					<p:commandButton ajax=":trashForm :buttonsForm :listingForm" update=":trashForm :buttonsForm :listingForm" pt:class="btn btn-block btn-warning btn-social" action="#{manageAcademicsController.cancelDeletion}"   icon="fa fa-close" value="#{msgs['crud.button.cancelDeletion']}"/>
+		        	<p:commandButton ajax=":trashForm :buttonsForm :listingForm"  update=":trashForm :buttonsForm :listingForm"  pt:class="btn btn-block btn-danger btn-social" action="#{manageAcademicsController.delete}" icon="fa fa-trash-o"  value="#{msgs['crud.button.confirmDeletion']}"/>
+	        </ui:decorate>			
+	</ui:decorate> 
 	</h:panelGroup>
 		       
         

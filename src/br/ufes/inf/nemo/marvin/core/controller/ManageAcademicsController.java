@@ -10,6 +10,7 @@ import javax.inject.Named;
 import br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
+import br.ufes.inf.nemo.util.ejb3.application.filters.LikeFilter;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 
 @Named
@@ -52,7 +53,7 @@ public class ManageAcademicsController extends CrudController<Academic>{
 
 	@Override
 	protected void initFilters() {
-		
+		addFilter(new LikeFilter("manageAcademics.filter.byName", "name", getI18nMessage(bundleName, "manageAcademics.text.filter.byName")));
 	}
 
 }
