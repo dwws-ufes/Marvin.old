@@ -3,13 +3,13 @@
 	<persistence-unit name="Marvin">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/Marvin</jta-data-source>
-		<class>br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport</class>
 		<class>br.ufes.inf.nemo.marvin.core.domain.Academic</class>
 		<class>br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration</class>
 		<class>br.ufes.inf.nemo.marvin.people.domain.Person</class>
 		<class>br.ufes.inf.nemo.marvin.people.domain.ContactType</class>
 		<class>br.ufes.inf.nemo.marvin.people.domain.Telephone</class>
 		<class>br.ufes.inf.nemo.marvin.core.domain.Course</class>
+		<class>br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport</class>
 		
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />

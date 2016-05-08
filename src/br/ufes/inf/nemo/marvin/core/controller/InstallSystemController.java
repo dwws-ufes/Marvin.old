@@ -10,11 +10,11 @@ import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.InstallSystemService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
-import br.ufes.inf.nemo.util.ejb3.controller.JSFController;
 
 /**
  * TODO: document this type.
