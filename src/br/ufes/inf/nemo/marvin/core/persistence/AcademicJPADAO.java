@@ -38,10 +38,6 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 	private EntityManager entityManager;
 
 	
-	@Override
-	protected Class<Academic> getDomainClass() {
-		return Academic.class;
-	}
 	
 
 	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
