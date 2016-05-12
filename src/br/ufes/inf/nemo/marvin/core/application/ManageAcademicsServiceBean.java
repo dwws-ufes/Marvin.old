@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -12,11 +13,13 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 
 @Stateless
-@DeclareRoles({ "Admin" , "Alumni" , "Researcher" , "Student" , "Teacher" })
-@RolesAllowed({ "Admin" })
+//@DeclareRoles({ "Admin" , "Alumni" , "Researcher" , "Student" , "Teacher" })
+//@RolesAllowed({ "Admin" })
+@PermitAll
 public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implements ManageAcademicsService{
 
 	/** Serialization id. */
