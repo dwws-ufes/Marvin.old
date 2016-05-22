@@ -7,91 +7,60 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 template="/resources/#{coreInfo.decorator}/decorator.xhtml">
 
-
 <ui:define name="title">
 	<h:outputText value="#{msgsCore['manageCourse.title.create']}"  
 				  rendered="#{(! manageCourseController.readOnly) and (manageCourseController.selectedEntity.id == null)}" />
    	<h:outputText value="#{msgsCore['manageCourse.title.update']}" 
    				  rendered="#{(! manageCourseController.readOnly) and (manageCourseController.selectedEntity.id != null)}" />
     <h:outputText value="#{msgsCore['manageCourse.title.retrieve']}" rendered="#{manageCourseController.readOnly}" />
-</ui:define>
-
-<ui:define name="breadcrumb">
-	<li><a href="#{facesContext.externalContext.requestContextPath}/index.faces"><i class="fa fa-home"></i> Home</a></li>
-	<li><p:commandLink styleClass="fa fa-book"  action="#{manageCourseController.list()}"  value=" #{msgsCore['manageCourse.menu.title']}"/></li>
-		
-	<li class="active">
-		<h:outputText styleClass="fa fa-plus" value=" #{msgsCore['manageCourse.title.create.breadcrumb']}" 
-					  rendered="#{(! manageCourseController.readOnly) and (manageCourseController.selectedEntity.id == null)}" />
-		<h:outputText styleClass="fa fa-refresh" value=" #{msgsCore['manageCourse.title.update.breadcrumb']}" 
-					  rendered="#{(! manageCourseController.readOnly) and (manageCourseController.selectedEntity.id != null)}" />
-   		<h:outputText styleClass="fa fa-file-text" value=" #{msgsCore['manageCourse.title.retrieve.breadcrumb']}" 
-   					  rendered="#{manageCourseController.readOnly}" />
-	</li>
 </ui:define>	
 	
 <ui:define name="body">
-	<ui:decorate template="/resources/sae/form.xhtml">
-		<ui:param name="formName" value="#{msgsCore['manageCourse.title.form']}"/>
-		<h:form id="form" pt:class="form-horizontal">
+	
+	<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsCore['manageCourse.title.form']}" />
 			
-			<h:panelGroup id="nomeField">
-				<ui:decorate template="/resources/sae/formfield.xhtml">
-					<ui:param name="fieldName" value="form:nome" />
-					<ui:param name="label" value="#{msgsCore['manageCourse.title.name']}" />
-					<p:inputText id="nome" pt:class="form-control" required="true"
-								 disabled="#{(manageCourseController.readOnly) or (manageCourseController.selectedEntity.id != null)}" 
-								 pt:placeholder="#{msgsCore['manageCourse.placeholder.name']}" value="#{manageCourseController.selectedEntity.name}">
-						<p:ajax event="blur" update="nomeField" /> 
-					</p:inputText>
-				</ui:decorate>
-			</h:panelGroup>
-					
-			<h:panelGroup id="codigoField">
-				<ui:decorate template="/resources/sae/formfield.xhtml">
-					<ui:param name="fieldName" value="form:codigo" />
-					<ui:param name="label" value="#{msgsCore['manageCourse.title.code']}" />
-					<p:inputText id="codigo" pt:class="form-control" value="#{manageCourseController.selectedEntity.code}"
-								 disabled="#{(manageCourseController.readOnly) or (manageCourseController.selectedEntity.id != null)}" 
-								 pt:type="number" pt:placeholder="#{msgsCore['manageCourse.placeholder.code']}" required="true">
-						<p:ajax event="blur" update="codigoField" />
-					</p:inputText>
-				</ui:decorate>
-			</h:panelGroup>
-					
-			<h:panelGroup id="coordinatorField">
-				<ui:decorate template="/resources/sae/formfield.xhtml">
-					<ui:param name="fieldName" value="form:coordinator" />
-					<ui:param name="label" value="#{msgsCore['manageCourse.title.coordinator']}" />
-					<h:selectOneMenu pt:class="form-control"  id="coordinator" disabled="#{manageCourseController.readOnly}"
-									 value="#{manageCourseController.selectedEntity.coordinator}" 
-									 converter="#{coreController.academicConverter}" >
-						<f:selectItems value="#{coreController.teachers}" var="coordenador" 
-									   itemLabel="#{coordenador.name}" itemValue="#{coordenador}" />
-						<p:ajax  update="coordinatorField" />
-					</h:selectOneMenu>
-				</ui:decorate>
-			</h:panelGroup>
-					
-			<ui:decorate template="/resources/sae/formbutton.xhtml">
-				<div class="form-group">	        			
-					<div class="col-sm-3"/>
-	           		<div class="col-sm-3" style="margin-bottom: 15px">
-	           			<a class="btn btn-block btn-warning btn-social" jsf:immediate="true" jsf:action="#{manageCourseController.list}">
-	           				<i class="fa  fa-rotate-left"></i> 
-	       					<h:outputText value="#{msgs['crud.button.back']}"/>
-	            		</a>
-	                </div>
-	                <div class="col-sm-3"/>
-					<div class="col-sm-3">
-						<a class="btn btn-block btn-info btn-social" jsf:action="#{manageCourseController.save}" jsf:update=":form :globalMessages"
-							jsf:rendered="#{!manageCourseController.readOnly}">
-							<i class="fa  fa-save"></i> <h:outputText value="#{msgs['crud.button.save']}"/>
-						</a>
-	                </div>
-				</div>
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="name" />
+				<ui:param name="label" value="#{msgsCore['manageCourse.title.name']}" />
+				<p:inputText id="name" pt:class="form-control" required="true"
+							 disabled="#{(manageCourseController.readOnly) or (manageCourseController.selectedEntity.id != null)}" 
+							 pt:placeholder="#{msgsCore['manageCourse.placeholder.name']}" value="#{manageCourseController.selectedEntity.name}">
+					<p:ajax event="blur" update="nameField" /> 
+				</p:inputText>
 			</ui:decorate>
-		</h:form>
+				
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="code" />
+				<ui:param name="label" value="#{msgsCore['manageCourse.title.code']}" />
+				<p:inputText id="code" pt:class="form-control" value="#{manageCourseController.selectedEntity.code}"
+							 disabled="#{(manageCourseController.readOnly) or (manageCourseController.selectedEntity.id != null)}" 
+							 pt:type="number" pt:placeholder="#{msgsCore['manageCourse.placeholder.code']}" required="true">
+					<p:ajax event="blur" update="codeField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="coordinator" />
+				<ui:param name="label" value="#{msgsCore['manageCourse.title.coordinator']}" />
+				<h:selectOneMenu pt:class="form-control"  id="coordinator" disabled="#{manageCourseController.readOnly}"
+								 value="#{manageCourseController.selectedEntity.coordinator}" 
+								 converter="#{coreController.academicConverter}" >
+					<f:selectItems value="#{coreController.teachers}" var="coordenador" 
+								   itemLabel="#{coordenador.name}" itemValue="#{coordenador}" />
+					<p:ajax  update="coordinatorField" />
+				</h:selectOneMenu>
+			</ui:decorate>
+					
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+	        	<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageCourseController.save}" update=":globalMessages form" disabled="#{manageCourseController.selectedEntity == null}" icon="fa fa-save" value="#{msgs['crud.button.save']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageCourseController.list}" icon="fa fa-rotate-left" disabled="#{manageCourseController.selectedEntity == null}" value="#{msgs['crud.button.back']}"/>
+	        </ui:decorate>
+	        
+	   
 	</ui:decorate>
 	
 </ui:define>
