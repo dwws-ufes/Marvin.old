@@ -56,8 +56,8 @@
 					
 			
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
-	        	<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageCourseController.save}" update=":globalMessages form" disabled="#{manageCourseController.selectedEntity == null}" icon="fa fa-save" value="#{msgs['crud.button.save']}"/>
-	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageCourseController.list}" icon="fa fa-rotate-left" disabled="#{manageCourseController.selectedEntity == null}" value="#{msgs['crud.button.back']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageCourseController.save}" update=":globalMessages form" disabled="#{manageCourseController.readOnly}" icon="fa fa-save" value="#{msgs['crud.button.save']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageCourseController.list}" icon="fa fa-rotate-left"  value="#{msgs['crud.button.back']}"/>
 	        </ui:decorate>
 	        
 	   

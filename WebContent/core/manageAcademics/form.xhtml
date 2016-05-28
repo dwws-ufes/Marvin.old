@@ -61,8 +61,9 @@
 				<ui:param name="fieldName" value="academicType" />
 				<ui:param name="label" value="#{msgsCore['manageAcademics.title.academicType']}" />
 				<p:selectManyCheckbox layout="pageDirection"   id="academicType" converter="enumTypeConverter"  disabled="#{manageAcademicsController.readOnly  }"  
-									 value="#{manageAcademicsController.selectedEntity.academicTypes}"  required="true">
+									 value="#{manageAcademicsController.academicTypes}"  required="true">
 					<f:selectItems   value="#{coreController.academicType}" var="type" itemLabel="#{type.label}" itemValue="#{type}" />
+					<f:ajax  render="academicTypeField" />
 				</p:selectManyCheckbox>
 			</ui:decorate>
 			
@@ -81,8 +82,8 @@
 			
 
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
-	        	<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAcademicsController.save}" update=":globalMessages form" disabled="#{manageAcademicsController.selectedEntity == null}" icon="fa fa-save" value="#{msgs['crud.button.save']}"/>
-	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageAcademicsController.list}" icon="fa fa-rotate-left" disabled="#{manageAcademicsController.selectedEntity == null}" value="#{msgs['crud.button.back']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-info btn-social" action="#{manageAcademicsController.save}" update=":globalMessages form" disabled="#{manageAcademicsController.readOnly}" icon="fa fa-save" value="#{msgs['crud.button.save']}"/>
+	        	<p:commandButton pt:class="btn btn-block btn-warning btn-social" immediate="true" action="#{manageAcademicsController.list}" icon="fa fa-rotate-left"  value="#{msgs['crud.button.back']}"/>
 	        </ui:decorate>
 							
 	</ui:decorate>
