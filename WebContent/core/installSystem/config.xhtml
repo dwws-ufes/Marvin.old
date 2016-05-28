@@ -28,9 +28,53 @@
 					<f:ajax event="blur" render="institutionAcronymField" />
 				</p:inputText>
 			</ui:decorate>
+			
+			
+			
+			
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpServerAddress" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpServerAddress']}" />
+				<p:inputText id="smtpServerAddress" pt:class="form-control" value="#{installSystemController.config.smtpServerAddress}"
+							 pt:placeholder="#{msgsCore['installSystem.field.config.smtpServerAddress.placeholder']}" required="true">
+					<f:ajax event="blur" render="smtpServerAddressField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpServerPort" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpServerPort']}" />
+				<p:inputText id="smtpServerPort" pt:class="form-control" pt:placeholder="#{msgsCore['installSystem.field.config.smtpServerPort.placeholder']}" 
+							 value="#{installSystemController.config.smtpServerPort}"  required="true">
+					<p:ajax event="blur" update="smtpServerPortField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpUsername" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpUsername']}" />
+				<p:inputText id="smtpUsername" pt:class="form-control" value="#{installSystemController.config.smtpUsername}"
+							 pt:placeholder="#{msgsCore['installSystem.field.config.smtpUsername.placeholder']}"  required="true">
+					<p:ajax event="blur" update="smtpUsernameField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpPassword" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpPassword']}" />
+				<p:password id="smtpPassword" pt:placeholder="#{msgsCore['installSystem.field.config.smtpPassword.placeholder']}" 
+									value="#{installSystemController.config.smtpPassword}"  required="true" feedback="false" />
+			</ui:decorate>
+					
+				
 
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
-				<p:commandButton action="#{installSystemController.saveConfig}" value="#{msgsCore['installSystem.button.saveConfig']}" update=":globalMessages form" icon="fa fa-fw fa-save" />
+				<p:commandButton pt:class="btn btn-block btn-success btn-social" action="#{installSystemController.saveConfig}" value="#{msgsCore['installSystem.button.saveConfig']}" update=":globalMessages form" icon="fa fa-fw fa-save" />
 			</ui:decorate>
 		</ui:decorate>
 	</ui:define>
