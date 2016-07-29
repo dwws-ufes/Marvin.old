@@ -7,9 +7,9 @@ Many students from the [Department of Informatics](http://informatica.ufes.br) o
 
 ## How to deploy
 
-1. Install [Eclipse Mars.1 (version 4.5.x)](http://www.eclipse.org/home/index.php); 
+1. Install [Eclipse Neon (version 4.6.x)](http://www.eclipse.org/); 
 
-2. Install [WildFly 9](http://wildfly.org) and create a Server configuration within Eclipse;
+2. Install [WildFly 10](http://wildfly.org) and create a Server configuration within Eclipse;
 
 3. Install [MySQL](http://www.mysql.com/products/community/) and create a schema called `marvin` and a user called `marvin` with password `marvin` and full access to the homonymous database;
 
@@ -28,4 +28,4 @@ Many students from the [Department of Informatics](http://informatica.ufes.br) o
 </datasource>
 ``` 
 
-Note: if you need detailed instructions on how to set up Eclipse, WildFly and MySQL, please refer to this [tutorial at nemo-utils wiki](https://github.com/nemo-ufes/nemo-utils/wiki/Tutorial%3A-a-Java-EE-Web-Profile-application-with-nemo-utils%2C-part-1).
+Note: if you need detailed instructions on how to set up Eclipse, WildFly and MySQL, please refer to this [tutorial at JButler's wiki](https://github.com/dwws-ufes/jbutler/wiki/Tutorial%3A-a-Java-EE-Web-Profile-application-with-JButler%2C-part-1).
