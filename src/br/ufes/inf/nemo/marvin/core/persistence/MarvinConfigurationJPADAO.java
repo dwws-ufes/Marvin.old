@@ -11,10 +11,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
-import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration_;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
+import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
+import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration_;
 
 /**
  * Stateless session bean implementing a DAO for objects of the MarvinConfiguration domain class using JPA2.
@@ -36,9 +36,8 @@ public class MarvinConfigurationJPADAO extends BaseJPADAO<MarvinConfiguration> i
 	private static final Logger logger = Logger.getLogger(MarvinConfigurationJPADAO.class.getCanonicalName());
 
 	/** The application's persistent context provided by the application server. */
-	@PersistenceContext(unitName="Marvin")
+	@PersistenceContext
 	private EntityManager entityManager;
-
 
 	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
@@ -58,8 +57,9 @@ public class MarvinConfigurationJPADAO extends BaseJPADAO<MarvinConfiguration> i
 
 		// Orders the query descending by date.
 		cq.orderBy(cb.desc(root.get(MarvinConfiguration_.creationDate)));
-		
-		// Retrieves and returns the latest configuration (first entity returned). If the query returns an empty list, throws an exception.
+
+		// Retrieves and returns the latest configuration (first entity returned). If the query returns an empty list,
+		// throws an exception.
 		List<MarvinConfiguration> result = entityManager.createQuery(cq).getResultList();
 		try {
 			MarvinConfiguration cfg = result.get(0);

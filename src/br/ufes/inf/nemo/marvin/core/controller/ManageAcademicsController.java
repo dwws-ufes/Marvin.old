@@ -1,86 +1,39 @@
 package br.ufes.inf.nemo.marvin.core.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
+import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
+import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
-import br.ufes.inf.nemo.marvin.core.domain.AcademicType;
-import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
-import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
-import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 
-@Named
-@SessionScoped
-public class ManageAcademicsController extends CrudController<Academic>{
-
-	
-	/** Serialization id. */
+/**
+ * TODO: document this type.
+ *
+ * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @version 1.0
+ */
+@Named @SessionScoped
+public class ManageAcademicsController extends CrudController<Academic> {
+	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
 	
-	
-	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageAcademicsController.class.getCanonicalName());
-	
-	
-	/** The "Manage Academic" service. */
-	@EJB
+	/** TODO: document this field. */
+	@EJB 
 	private ManageAcademicsService manageAcademicsService;
-	
-	private List<AcademicType> academicTypes;
-	
-	
-	/**   CONSTRUTOR DA CLASSE */
-	public ManageAcademicsController(){
-		 viewPath = "/core/manageAcademics/";
-	     bundleName = "msgsCore";
-	}
-	
 
+	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Academic> getCrudService() {
 		return manageAcademicsService;
 	}
 
+	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
-		addFilter(new LikeFilter("manageAcademics.filter.byName", "name", getI18nMessage(bundleName, "manageAcademics.text.filter.byName")));
+		addFilter(new SimpleFilter("manageAcademics.filter.byName", "name", getI18nMessage("msgsCore", "manageAcademics.text.filter.byName")));
 	}
-
-	
-	
-	
-	@Override
-	protected void prepEntity() {
-		selectedEntity.setAcademicTypes(academicTypes);
-	}
-	
-	@Override
-	protected void checkSelectedEntity() {
-		academicTypes = new ArrayList<AcademicType>() ;
-		if(selectedEntity.getAcademicTypes()!=null)
-			academicTypes.addAll(selectedEntity.getAcademicTypes());		
-	}
-	 
-
-	@Override
-	protected Academic createNewEntity() {
-		academicTypes = new ArrayList<AcademicType>() ;
-		return super.createNewEntity();
-	}
-	
-	
-
-	public List<AcademicType> getAcademicTypes() {
-		return academicTypes;
-	}
-
-	public void setAcademicTypes(List<AcademicType> academicTypes) {
-		this.academicTypes = academicTypes;
-	}
-	
 }

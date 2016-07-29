@@ -24,11 +24,14 @@ public class LogoutServlet extends HttpServlet {
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(LogoutServlet.class.getCanonicalName());
 
-	/** @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse) */
+	/**
+	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.log(Level.FINER, "Invalidating a user session...");
-		
+
 		// Destroys the session for this user.
 		HttpSession session = request.getSession(false);
 		if (session != null) session.invalidate();

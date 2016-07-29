@@ -17,7 +17,6 @@
 			<base-name>br.ufes.inf.nemo.marvin.core.view.messages</base-name>
 			<var>msgsCore</var>
 		</resource-bundle>
-		
 
 		<!-- Defines the default locale. -->
 		<locale-config>

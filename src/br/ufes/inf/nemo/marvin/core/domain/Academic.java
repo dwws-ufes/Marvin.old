@@ -1,21 +1,16 @@
 package br.ufes.inf.nemo.marvin.core.domain;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 import br.ufes.inf.nemo.marvin.people.domain.Person;
 import br.ufes.inf.nemo.marvin.people.domain.Telephone;
@@ -46,12 +41,6 @@ public class Academic extends Person {
 	@Basic
 	@Size(max = 32)
 	private String password;
-	
-	
-	@ElementCollection(fetch = FetchType.EAGER)
-	@Enumerated	
-	private List<AcademicType> academicTypes;
-	
 
 	/** Phone numbers. */
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -138,16 +127,5 @@ public class Academic extends Person {
 	/** Setter for lastLoginDate. */
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
-	}
-
-	
-	/** Getter for AcademicType. */
-	public List<AcademicType> getAcademicTypes() {
-		return academicTypes;
-	}
-
-	/** Setter for AcademicTypes. */
-	public void setAcademicTypes(List<AcademicType> academicTypes) {
-		this.academicTypes = academicTypes;
 	}
 }

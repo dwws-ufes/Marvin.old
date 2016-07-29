@@ -1,58 +1,45 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.ufes.inf.nemo.marvin.core.domain.Academic;
-import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
-import br.ufes.inf.nemo.jbutler.TextUtils;
-import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 
+/**
+ * TODO: document this type.
+ *
+ * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @version 1.0
+ */
 @Stateless
-//@DeclareRoles({ "Admin" , "Alumni" , "Researcher" , "Student" , "Teacher" })
-//@RolesAllowed({ "Admin" })
-@PermitAll
-public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implements ManageAcademicsService{
-
-	/** Serialization id. */
+public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implements ManageAcademicsService {
+	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
 	
-	
-	/** The DAO for Academic objects. */
-	@EJB
+	/** TODO: document this field. */
+	@EJB 
 	private AcademicDAO academicDAO;
 	
-	
+	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
 	public BaseDAO<Academic> getDAO() {
 		return academicDAO;
 	}
 	
-	
 	@Override
-	public void validateUpdate(Academic entity) throws CrudException {
+	protected Academic validate(Academic newEntity, Academic oldEntity) {
+		// New academics must have their creation date set.
 		Date now = new Date(System.currentTimeMillis());
-		entity.setLastUpdateDate(now);
+		if (oldEntity == null) newEntity.setCreationDate(now);
+		
+		// All academics have their last update date set when persisted.
+		newEntity.setLastUpdateDate(now);
+		
+		return newEntity;
 	}
-	
-	@Override
-	public void validateCreate(Academic entity) throws CrudException {
-		Date now = new Date(System.currentTimeMillis());
-		entity.setLastUpdateDate(now);
-		try {
-			entity.setPassword(TextUtils.produceMd5Hash(entity.getPassword()));
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 }

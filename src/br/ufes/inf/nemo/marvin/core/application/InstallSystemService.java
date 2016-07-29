@@ -18,6 +18,7 @@ import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 public interface InstallSystemService extends Serializable {
 	/**
 	 * TODO: document this method.
+	 * 
 	 * @param config
 	 * @param admin
 	 * @throws SystemInstallFailedException

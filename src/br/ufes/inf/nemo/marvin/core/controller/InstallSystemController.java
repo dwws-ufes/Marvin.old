@@ -70,10 +70,10 @@ public class InstallSystemController extends JSFController {
 	public MarvinConfiguration getConfig() {
 		return config;
 	}
-	
+
 	/**
-	 * Analyzes the name that was given to the administrator and, if the short name field is still empty, suggests a value
-	 * for it based on the given name.
+	 * Analyzes the name that was given to the administrator and, if the short name field is still empty, suggests a
+	 * value for it based on the given name.
 	 * 
 	 * This method is intended to be used with AJAX.
 	 */
@@ -144,7 +144,7 @@ public class InstallSystemController extends JSFController {
 	}
 
 	/**
-	 *  Saves the SMTP configuration information and ends the installation process.
+	 * Saves the SMTP configuration information and ends the installation process.
 	 * 
 	 * @return The path to the web page that shows the next step in the installation process.
 	 */
@@ -167,4 +167,5 @@ public class InstallSystemController extends JSFController {
 
 		// Proceeds to the final view.
 		return VIEW_PATH + "done.xhtml?faces-redirect=true";
-	}}
+	}
+}

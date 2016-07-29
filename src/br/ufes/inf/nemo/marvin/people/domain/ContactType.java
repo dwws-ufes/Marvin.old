@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
-
 /**
  * Domain class that represents contact types, which help categorize different types of telephone numbers, such as home,
  * work, etc.
@@ -41,13 +40,10 @@ public class ContactType extends PersistentObjectSupport implements Comparable<C
 	@Override
 	public int compareTo(ContactType o) {
 		// Compare the names of the types.
-		if (type == null)
-			return 1;
-		if ((o == null) || (o.type == null))
-			return -1;
+		if (type == null) return 1;
+		if ((o == null) || (o.type == null)) return -1;
 		int cmp = type.compareTo(o.type);
-		if (cmp != 0)
-			return cmp;
+		if (cmp != 0) return cmp;
 
 		// If it's the same name, check if it's the same entity.
 		return uuid.compareTo(o.uuid);

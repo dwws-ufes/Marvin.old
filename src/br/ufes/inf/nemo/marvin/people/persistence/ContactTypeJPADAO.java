@@ -26,10 +26,9 @@ public class ContactTypeJPADAO extends BaseJPADAO<ContactType> implements Contac
 	private static final long serialVersionUID = 1L;
 
 	/** The application's persistent context provided by the application server. */
-	@PersistenceContext(unitName="Marvin")
+	@PersistenceContext
 	private EntityManager entityManager;
 
-	
 	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {

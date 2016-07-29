@@ -1,22 +1,19 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
-import br.ufes.inf.nemo.marvin.core.domain.AcademicType;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.MarvinConfigurationDAO;
-import br.ufes.inf.nemo.util.TextUtils;
 
 /**
  * TODO: document this type.
@@ -35,7 +32,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** The DAO for Academic objects. */
 	@EJB
 	private AcademicDAO academicDAO;
-	
+
 	/** The DAO for MarvinConfiguration objects. */
 	@EJB
 	private MarvinConfigurationDAO marvinConfigurationDAO;
@@ -44,7 +41,10 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	@EJB
 	private CoreInformation coreInformation;
 
-	/** @see br.ufes.inf.nemo.marvin.core.application.InstallSystemService#installSystem(br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration, br.ufes.inf.nemo.marvin.core.domain.Academic) */
+	/**
+	 * @see br.ufes.inf.nemo.marvin.core.application.InstallSystemService#installSystem(br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration,
+	 *      br.ufes.inf.nemo.marvin.core.domain.Academic)
+	 */
 	@Override
 	public void installSystem(MarvinConfiguration config, Academic admin) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Installing system...");
@@ -52,32 +52,28 @@ public class InstallSystemServiceBean implements InstallSystemService {
 		try {
 			// Encodes the admin's password.
 			admin.setPassword(TextUtils.produceMd5Hash(admin.getPassword()));
-			
+
 			// Register the last update date / creation date.
 			Date now = new Date(System.currentTimeMillis());
 			admin.setLastUpdateDate(now);
 			admin.setCreationDate(now);
 			config.setCreationDate(now);
-			admin.setAcademicTypes(new ArrayList<AcademicType>());
-			admin.getAcademicTypes().add(AcademicType.Admin);
-			admin.getAcademicTypes().add(AcademicType.Teacher);
-			
 			logger.log(Level.FINE, "Admin's last update date have been set as: {0}", new Object[] { now });
-			
+
 			// Saves the administrator.
 			logger.log(Level.FINER, "Persisting admin data...\n\t- Short name = {0}\n\t- Last update date = {1}", new Object[] { admin.getShortName(), admin.getLastUpdateDate() });
 			academicDAO.save(admin);
 			logger.log(Level.FINE, "The administrator has been saved: {0} ({1})", new Object[] { admin.getName(), admin.getEmail() });
-			
+
 			// Saves Marvin's configuration.
 			logger.log(Level.FINER, "Persisting configuration data...\n\t- Date = {0}\n\t- Acronym = {1}", new Object[] { config.getCreationDate(), config.getInstitutionAcronym() });
 			marvinConfigurationDAO.save(config);
 			logger.log(Level.FINE, "The configuration has been saved");
-			
+
 			// Reloads the bean that holds the configuration and determines if the system is installed.
 			logger.log(Level.FINER, "Reloading core information...");
 			coreInformation.init();
-		}		
+		}
 		catch (NoSuchAlgorithmException e) {
 			// Logs and rethrows the exception for the controller to display the error to the user.
 			logger.log(Level.SEVERE, "Could not find MD5 algorithm for password encription!", e);

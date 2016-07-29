@@ -6,7 +6,6 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
@@ -24,13 +23,13 @@ public class MarvinConfiguration extends PersistentObjectSupport {
 	/** The timestamp of the moment this configuration came in effect. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
-	
+
 	/** Acronym of the institution that is using Marvin. */
 	@Basic
 	private String institutionAcronym;
-	
+
 	/** Constructor. */
-	public MarvinConfiguration() { }
+	public MarvinConfiguration() {}
 
 	/** Getter for creationDate. */
 	public Date getCreationDate() {
@@ -51,40 +50,4 @@ public class MarvinConfiguration extends PersistentObjectSupport {
 	public void setInstitutionAcronym(String institutionAcronym) {
 		this.institutionAcronym = institutionAcronym;
 	}
-	
-	
-	
-	
-	
-	/** Address for the SMTP server that sends e-mail. */
-	@NotNull
-	private String smtpServerAddress;
-	
-	/** Port for the SMTP server that sends e-mail. */
-	@NotNull
-	private Integer smtpServerPort;
-	
-	/** Username to connect to the SMTP server that sends email. */
-	@NotNull
-	private String smtpUsername;
-	
-	/** Password to connect to the SMTP server that sends email. */
-	@NotNull
-	private String smtpPassword;
-	
-
-	/** GETTERS AND SETTERS */
-	public String getSmtpServerAddress() { 	return smtpServerAddress; }
-	public void setSmtpServerAddress(String smtpServerAddress) { this.smtpServerAddress = smtpServerAddress; }
-
-	public Integer getSmtpServerPort() { return smtpServerPort; }
-	public void setSmtpServerPort(Integer smtpServerPort) { this.smtpServerPort = smtpServerPort; }
-
-	public String getSmtpUsername() { return smtpUsername; }
-	public void setSmtpUsername(String smtpUsername) { 	this.smtpUsername = smtpUsername; }
-
-	public String getSmtpPassword() { return smtpPassword; 	}
-	public void setSmtpPassword(String smtpPassword) { 	this.smtpPassword = smtpPassword; 	}
-	
-	
 }

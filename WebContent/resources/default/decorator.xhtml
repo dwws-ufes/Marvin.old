@@ -11,7 +11,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
 	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/default/stylesheets/bootstrap-3.3.5-dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/default/stylesheets/font-awesome-4.4.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/default/stylesheets/ionicons-2.0.1/css/ionicons.min.css" />
 	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/default/stylesheets/AdminLTE-2.3.0/dist/css/AdminLTE.min.css" />
 	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/default/stylesheets/AdminLTE-2.3.0/dist/css/skins/skin-blue.min.css" />
@@ -128,7 +127,7 @@
 						</li>
 						</h:panelGroup>
 						
-						<!-- FIXME: hidden - User Account Menu -->
+						<!-- User Account Menu -->
 						<h:panelGroup rendered="#{sessionController.loggedIn}">
 						<li class="dropdown user user-menu">
 							<!-- Menu Toggle Button --> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <!-- The user image in the navbar--> <img
@@ -176,13 +175,13 @@
 						<h:form id="ajaxStatusForm">
 							<p:ajaxStatus>
 								<f:facet name="start">
-									<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-cog fa-spin" title="#{msgs['text.ajax.loading']}"></i></a></li>
+									<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-cog fa-spin" title="#{msgs['jbutler.text.ajax.loading']}"></i></a></li>
 								</f:facet>
 								<f:facet name="error">
-									<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-exclamation-triangle" title="#{msgs['text.ajax.error']}"></i></a></li>
+									<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-exclamation-triangle" title="#{msgs['jbutler.text.ajax.error']}"></i></a></li>
 								</f:facet>
 								<f:facet name="complete">
-									<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-check" title="#{msgs['text.ajax.complete']}"></i></a></li>
+									<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-check" title="#{msgs['jbutler.text.ajax.complete']}"></i></a></li>
 								</f:facet>
 							</p:ajaxStatus>
 						</h:form>
@@ -226,27 +225,11 @@
 
 				<!-- Sidebar Menu -->
 				<h:form id="sidebarMenuForm">
-				
 				<ul class="sidebar-menu">
 					<li class="header"><h:outputText value="#{msgs['title.menu']}" /></li>
-					
 					<li><h:commandLink action="#{installSystemController.begin}" rendered="#{not coreInfo.systemInstalled}"><i class="fa fa-cogs"></i> <span><h:outputText value="#{msgsCore['core.menu.installSystem']}" /></span></h:commandLink></li>
-				
-					<li>
-						<p:commandLink styleClass="fa fa-key" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}"  action="#{coreController.login()}"  value=" #{msgsCore['core.menu.login']}"  />
-					</li>
-					
-					<li>
-						<p:commandLink styleClass="fa fa-users" rendered="#{sessionController.admin or sessionController.teacher}"  action="#{manageAcademicsController.list()}"  value=" #{msgsCore['manageAcademic.title']}"  />
-					</li>
-					
-					<li>
-						<p:commandLink styleClass="fa fa-book" rendered="#{sessionController.admin or sessionController.teacher}"  action="#{manageCourseController.list()}"  value=" #{msgsCore['manageCourse.title']}"  />
-					</li>
-					
-					
+					<li><h:link outcome="/core/login/index" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}"><i class="fa fa-key"></i> <span><h:outputText value="#{msgsCore['core.menu.login']}" /></span></h:link></li>
 				</ul>
-				
 				</h:form>
 				<!-- /.sidebar-menu -->
 			</section>
@@ -273,7 +256,7 @@
 			<!-- Main content -->
 			<section class="content">
 				<!-- Global messages: -->
-				<h:form id="globalMessages" rendered="false">
+				<h:form id="globalMessages">
 					<p:growl id="messages" globalOnly="true" showSummary="true" showDetail="true" sticky="true" />
 				</h:form>
 				
@@ -293,6 +276,8 @@
 			</strong> All rights reserved.
 		</footer>
 
+		<!-- FIXME: hidden - Control Sidebar -->
+		<h:panelGroup rendered="false">
 		<!-- Control Sidebar -->
 		<aside class="control-sidebar control-sidebar-dark">
 			<!-- Create the tabs -->
@@ -352,6 +337,7 @@
 		<!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
 		<div class="control-sidebar-bg"></div>
+		</h:panelGroup>
 	</div>
 	<!-- ./wrapper -->
 

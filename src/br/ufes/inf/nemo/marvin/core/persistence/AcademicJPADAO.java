@@ -16,9 +16,6 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFo
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Academic_;
 
-
-
-
 /**
  * TODO: document this type.
  *
@@ -34,22 +31,14 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 	private static final Logger logger = Logger.getLogger(AcademicJPADAO.class.getCanonicalName());
 
 	/** The application's persistent context provided by the application server. */
-	@PersistenceContext(unitName="Marvin")
+	@PersistenceContext
 	private EntityManager entityManager;
-
-	
-	
 
 	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
-	
-	
-	
-	
-	
 
 	/** @see br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO#retrieveByEmail(java.lang.String) */
 	@Override

@@ -34,9 +34,8 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	protected Date birthDate;
 
 	/** The person's gender: 'M' (male) or 'F' (female). */
-	/** alterei aqui para ser um enum (manzoli) */
 	@Basic
-	protected Gender gender;
+	protected Character gender;
 
 	/** Getter for name. */
 	public String getName() {
@@ -58,15 +57,13 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 		this.birthDate = birthDate;
 	}
 
-	/** alterei aqui para ser um enum (manzoli) */
 	/** Getter for gender. */
-	public Gender getGender() {
+	public Character getGender() {
 		return gender;
 	}
 
-	/** alterei aqui para ser um enum (manzoli) */
 	/** Setter for gender. */
-	public void setGender(Gender gender) {
+	public void setGender(Character gender) {
 		this.gender = gender;
 	}
 
@@ -74,13 +71,10 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	@Override
 	public int compareTo(Person o) {
 		// Compare the persons' names
-		if (name == null)
-			return 1;
-		if (o.name == null)
-			return -1;
+		if (name == null) return 1;
+		if (o.name == null) return -1;
 		int cmp = name.compareTo(o.name);
-		if (cmp != 0)
-			return cmp;
+		if (cmp != 0) return cmp;
 
 		// If it's the same name, check if it's the same entity.
 		return uuid.compareTo(o.uuid);

@@ -8,7 +8,6 @@ import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
-
 /**
  * Domain class that represents telephone numbers.
  * 
@@ -56,22 +55,16 @@ public class Telephone extends PersistentObjectSupport implements Comparable<Tel
 	@Override
 	public int compareTo(Telephone o) {
 		// First, order by contact type.
-		if (type == null)
-			return 1;
-		if ((o == null) || (o.type == null))
-			return -1;
+		if (type == null) return 1;
+		if ((o == null) || (o.type == null)) return -1;
 		int cmp = type.compareTo(o.type);
-		if (cmp != 0)
-			return cmp;
+		if (cmp != 0) return cmp;
 
 		// If it's the same, order by phone number.
-		if (number == null)
-			return 1;
-		if (o.number == null)
-			return -1;
+		if (number == null) return 1;
+		if (o.number == null) return -1;
 		cmp = number.compareTo(o.number);
-		if (cmp != 0)
-			return cmp;
+		if (cmp != 0) return cmp;
 
 		// If it's the same type and number, check if it's the same entity.
 		return uuid.compareTo(o.uuid);

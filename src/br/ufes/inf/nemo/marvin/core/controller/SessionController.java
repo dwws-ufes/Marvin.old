@@ -11,16 +11,11 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import org.primefaces.model.menu.DefaultMenuItem;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
-
+import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.CoreInformation;
 import br.ufes.inf.nemo.marvin.core.application.SessionInformation;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
-import br.ufes.inf.nemo.marvin.core.domain.AcademicType;
 import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException;
-import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 
 /**
  * Session-scoped managed bean that provides to web pages the login service, indication if the user is logged in and the
@@ -45,65 +40,31 @@ public class SessionController extends JSFController {
 	@EJB
 	private SessionInformation sessionInformation;
 
-	
-	
-	/** Input: e-mail for authentication. 
-	private String email;  */
+	/** Input: e-mail for authentication. */
+	private String email;
 
-	/** Input: password for authentication. 
-	private String password;  */
+	/** Input: password for authentication. */
+	private String password;
 
-	/** Getter for email. 
+	/** Getter for email. */
 	public String getEmail() {
 		return email;
-	}  */
+	}
 
-	/** Setter for email.
+	/** Setter for email. */
 	public void setEmail(String email) {
 		this.email = email;
-	}    */
+	}
 
-	/** Getter for password. 
+	/** Getter for password. */
 	public String getPassword() {
 		return password;
-	}   */
+	}
 
-	/** Setter for password.
+	/** Setter for password. */
 	public void setPassword(String password) {
 		this.password = password;
-	}    */
-	
-	
-	
-
-	
-	public boolean isAdmin() {
-		return sessionInformation.isAdmin();
 	}
-
-	
-	public boolean isAlumni() {
-		return sessionInformation.isAlumni();
-	}
-
-	
-	public boolean isStudent() {
-		return sessionInformation.isStudent();
-	}
-
-
-	public boolean isResearcher() {
-		return sessionInformation.isResearcher();
-	}
-	
-	
-	public boolean isTeacher() {
-		return sessionInformation.isTeacher();
-	}
-
-	
-	
-	
 
 	/**
 	 * Indicates if the user has already been identified.
@@ -132,11 +93,6 @@ public class SessionController extends JSFController {
 		return new Date(System.currentTimeMillis());
 	}
 
-	
-	
-	
-	
-	
 	/**
 	 * Provides the expiration date/time for the user session. This makes it possible to warn the user when his session
 	 * will expire.
@@ -164,17 +120,9 @@ public class SessionController extends JSFController {
 		return expTime;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Accesses the Login service to authenticate the user given his email and password.
-	 
+	 */
 	public String login() {
 		try {
 			// Uses the Login service to authenticate the user.
@@ -202,6 +150,4 @@ public class SessionController extends JSFController {
 		// If everything is OK, redirect back to the home screen.
 		return "/index.xhtml?faces-redirect=true";
 	}
-	
-	*/
 }
