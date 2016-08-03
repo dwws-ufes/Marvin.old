@@ -6,6 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
@@ -26,6 +27,7 @@ public class MarvinConfiguration extends PersistentObjectSupport {
 
 	/** Acronym of the institution that is using Marvin. */
 	@Basic
+	@Size(max = 10)
 	private String institutionAcronym;
 
 	/** Constructor. */

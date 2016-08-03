@@ -45,9 +45,13 @@ public class Academic extends Person {
 	/** Phone numbers. */
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Telephone> telephones;
+	
+	/** Roles for this user. */
+	private Set<Role> roles;
 
 	/** The timestamp of the moment this academic was created. */
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
 	private Date creationDate;
 
 	/** The last time the data about the user was updated. */
@@ -97,6 +101,16 @@ public class Academic extends Person {
 	/** Setter for telephones. */
 	public void setTelephones(Set<Telephone> telephones) {
 		this.telephones = telephones;
+	}
+
+	/** Getter for roles. */
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	/** Setter for roles. */
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	/** Getter for creationDate. */
