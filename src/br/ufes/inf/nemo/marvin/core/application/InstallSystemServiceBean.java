@@ -1,19 +1,27 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.json.JSONObject;
+
+import br.ufes.inf.nemo.jbutler.ResourceUtil;
 import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
+import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.MarvinConfigurationDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
 
 /**
  * TODO: document this type.
@@ -25,6 +33,12 @@ import br.ufes.inf.nemo.marvin.core.persistence.MarvinConfigurationDAO;
 public class InstallSystemServiceBean implements InstallSystemService {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The path to the folder that contains the data to be added to the database upon system installation. */
+	private static final String INIT_DATA_PATH = "META-INF/installSystem/";
+	
+	/** The name of the file that contains the roles to be added upon system installation. */
+	private static final String INIT_DATA_ROLE_FILE_NAME = "Role.json";
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(InstallSystemServiceBean.class.getCanonicalName());
@@ -36,6 +50,10 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** The DAO for MarvinConfiguration objects. */
 	@EJB
 	private MarvinConfigurationDAO marvinConfigurationDAO;
+	
+	/** The DAO for Role objects. */
+	@EJB
+	private RoleDAO roleDAO;
 
 	/** Global information about the application. */
 	@EJB
@@ -49,7 +67,29 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	public void installSystem(MarvinConfiguration config, Academic admin) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Installing system...");
 
+		// Creates the roles in the database from a JSON file located in META-INF/installSystem.
 		try {
+			File jsonFile = ResourceUtil.getResourceAsFile(INIT_DATA_PATH + INIT_DATA_ROLE_FILE_NAME);
+			try (Scanner scanner = new Scanner(jsonFile)) {
+				while (scanner.hasNextLine()) {
+					JSONObject obj = new JSONObject(scanner.nextLine());
+					Role role = new Role(obj.getString("name"), obj.getString("descriptionKey"));
+					logger.log(Level.FINE, "Persisting role: {0}", role.getName());
+					roleDAO.save(role);
+				}
+			}
+		}
+		catch (Exception e) {
+			// Logs and rethrows the exception for the controller to display the error to the user.
+			logger.log(Level.SEVERE, "Could not read initial data for roles.", e);
+			throw new SystemInstallFailedException(e);
+		}
+		
+		try {
+			// Assigns the system administrator role to the user that installed Marvin.
+			Role adminRole = roleDAO.retrieveByName(Role.SYSADMIN_ROLE_NAME);
+			admin.assignRole(adminRole);
+			
 			// Encodes the admin's password.
 			admin.setPassword(TextUtils.produceMd5Hash(admin.getPassword()));
 

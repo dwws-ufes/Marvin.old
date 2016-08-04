@@ -1,6 +1,7 @@
 package br.ufes.inf.nemo.marvin.core.domain;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -45,8 +46,9 @@ public class Academic extends Person {
 	/** Phone numbers. */
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Telephone> telephones;
-	
+
 	/** Roles for this user. */
+	@OneToMany
 	private Set<Role> roles;
 
 	/** The timestamp of the moment this academic was created. */
@@ -141,5 +143,16 @@ public class Academic extends Person {
 	/** Setter for lastLoginDate. */
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
+	}
+
+	/**
+	 * Assigns a role to an academic, i.e., adds the role to the set of roles.
+	 * 
+	 * @param role
+	 *          The role to assign.
+	 */
+	public void assignRole(Role role) {
+		if (roles == null) roles = new HashSet<>();
+		roles.add(role);
 	}
 }
