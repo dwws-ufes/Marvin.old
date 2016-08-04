@@ -28,4 +28,21 @@ Many students from the [Department of Informatics](http://informatica.ufes.br) o
 </datasource>
 ``` 
 
+6. Configure the security domain in WildFly's `standalone.xml` file:
+
+```XML
+<security-domain name="marvin">
+    <authentication>
+        <login-module code="Database" flag="required">
+            <module-option name="dsJndiName" value="java:jboss/datasources/Marvin"/>
+            <module-option name="principalsQuery" value="select password from Academic where email=?"/>
+            <module-option name="rolesQuery" value="select r.name, 'Roles' from Role r inner join Academic_Role ar on r.id = ar.roles_id inner join Academic a on ar.Academic_id = a.id where email=?"/>
+            <module-option name="hashAlgorithm" value="MD5"/>
+            <module-option name="hashEncoding" value="base64"/>
+            <module-option name="hashUserPassword" value="true"/>
+        </login-module>
+    </authentication>
+</security-domain>
+```
+
 Note: if you need detailed instructions on how to set up Eclipse, WildFly and MySQL, please refer to this [tutorial at JButler's wiki](https://github.com/dwws-ufes/jbutler/wiki/Tutorial%3A-a-Java-EE-Web-Profile-application-with-JButler%2C-part-1).

@@ -1,7 +1,6 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Scanner;
@@ -91,7 +90,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			admin.assignRole(adminRole);
 			
 			// Encodes the admin's password.
-			admin.setPassword(TextUtils.produceMd5Hash(admin.getPassword()));
+			admin.setPassword(TextUtils.produceBase64EncodedMd5Hash(admin.getPassword()));
 
 			// Register the last update date / creation date.
 			Date now = new Date(System.currentTimeMillis());

@@ -5,9 +5,9 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2016-08-02T21:00:53.974-0300")
+@Generated(value="Dali", date="2016-08-04T07:31:39.242-0300")
 @StaticMetamodel(Role.class)
 public class Role_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<Role, String> name;
-	public static volatile SingularAttribute<Role, String> description;
+	public static volatile SingularAttribute<Role, String> descriptionKey;
 }

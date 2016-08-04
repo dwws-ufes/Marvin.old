@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.logging.Level;
@@ -32,7 +33,7 @@ public class SessionInformationBean implements SessionInformation {
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(SessionInformationBean.class.getCanonicalName());
-
+	
 	/** The DAO for Academic objects. */
 	@EJB
 	private AcademicDAO academicDAO;
@@ -55,14 +56,14 @@ public class SessionInformationBean implements SessionInformation {
 			Academic user = academicDAO.retrieveByEmail(username);
 
 			// Creates the MD5 hash of the password for comparison.
-			String md5pwd = TextUtils.produceMd5Hash(password);
+			String md5pwd = TextUtils.produceBase64EncodedMd5Hash(password);
 
 			// Checks if the passwords match.
 			String pwd = user.getPassword();
 			if ((pwd != null) && (pwd.equals(md5pwd))) {
 				logger.log(Level.FINEST, "Passwords match for user \"{0}\".", username);
 
-				// Login successful. Registers the current user in the session.
+				// Login successful.
 				logger.log(Level.FINE, "Academic \"{0}\" successfully logged in.", username);
 				currentUser = user;
 				pwd = null;
@@ -94,7 +95,7 @@ public class SessionInformationBean implements SessionInformation {
 			logger.log(Level.WARNING, "User \"" + username + "\" not logged in: unknown cause.", e);
 			throw e;
 		}
-		catch (NoSuchAlgorithmException e) {
+		catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			// No MD5 hash generation algorithm found by the JVM.
 			logger.log(Level.SEVERE, "Logging in user \"" + username + "\" triggered an exception during MD5 hash generation.", e);
 			throw new LoginFailedException(LoginFailedException.LoginFailedReason.MD5_ERROR);

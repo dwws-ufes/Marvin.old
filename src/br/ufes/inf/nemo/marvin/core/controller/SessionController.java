@@ -9,6 +9,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
@@ -16,6 +17,7 @@ import br.ufes.inf.nemo.marvin.core.application.CoreInformation;
 import br.ufes.inf.nemo.marvin.core.application.SessionInformation;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException;
+import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException.LoginFailedReason;
 
 /**
  * Session-scoped managed bean that provides to web pages the login service, indication if the user is logged in and the
@@ -125,9 +127,19 @@ public class SessionController extends JSFController {
 	 */
 	public String login() {
 		try {
-			// Uses the Login service to authenticate the user.
+			// Uses the Session Information bean to authenticate the user.
 			logger.log(Level.FINEST, "User attempting login with email \"{0}\"...", email);
 			sessionInformation.login(email, password);
+			
+			// Also authenticates on JAAS.
+			// FIXME: is there a way to do this at the application package (in the EJB)?
+			try {
+				HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+				request.login(email, password);
+			}
+			catch (Exception e) {
+				throw new LoginFailedException(e, LoginFailedReason.NO_HTTP_REQUEST);
+			}
 		}
 		catch (LoginFailedException e) {
 			// Checks if it's a normal login exception (wrong username or password) or not.
