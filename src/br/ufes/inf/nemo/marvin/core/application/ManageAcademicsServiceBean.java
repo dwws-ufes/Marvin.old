@@ -2,6 +2,7 @@ package br.ufes.inf.nemo.marvin.core.application;
 
 import java.util.Date;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -17,6 +18,7 @@ import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
  * @version 1.0
  */
 @Stateless
+@RolesAllowed("SysAdmin")
 public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implements ManageAcademicsService {
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
@@ -31,6 +33,7 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 		return academicDAO;
 	}
 	
+	/** @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#validate(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject, br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject) */
 	@Override
 	protected Academic validate(Academic newEntity, Academic oldEntity) {
 		// New academics must have their creation date set.
@@ -39,7 +42,6 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 		
 		// All academics have their last update date set when persisted.
 		newEntity.setLastUpdateDate(now);
-		
 		return newEntity;
 	}
 }
