@@ -28,15 +28,15 @@
 
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="name" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.form.name']}" />
-				<p:inputText id="name" value="#{manageAcademicsController.selectedEntity.name}" required="true" pt:placeholder="#{msgsCore['manageAcademics.form.name.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
-					<p:ajax event="blur" update="nameField" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.field.name']}" />
+				<p:inputText id="name" value="#{manageAcademicsController.selectedEntity.name}" required="true" pt:placeholder="#{msgsCore['manageAcademics.field.name.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="nameField shortNameField" listener="#{manageAcademicsController.suggestShortName}" />
 				</p:inputText>
 			</ui:decorate>
 
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="birthDate" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.form.birthDate']}" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.field.birthDate']}" />
 				<p:inputMask id="birthDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{manageAcademicsController.selectedEntity.birthDate}" disabled="#{manageAcademicsController.readOnly}">
 					<p:ajax event="blur" update="birthDateField" />
 					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
@@ -46,18 +46,31 @@
 
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="shortName" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.form.shortName']}" />
-				<p:inputText id="shortName" value="#{manageAcademicsController.selectedEntity.shortName}" required="true" pt:placeholder="#{msgsCore['manageAcademics.form.shortName.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+				<ui:param name="label" value="#{msgsCore['manageAcademics.field.shortName']}" />
+				<p:inputText id="shortName" value="#{manageAcademicsController.selectedEntity.shortName}" required="true" pt:placeholder="#{msgsCore['manageAcademics.field.shortName.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
 					<p:ajax event="blur" update="shortNameField" />
 				</p:inputText>
 			</ui:decorate>
 
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="email" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.form.email']}" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.field.email']}" />
 				<p:inputText id="email" value="#{manageAcademicsController.selectedEntity.email}" required="true" disabled="#{manageAcademicsController.readOnly}">
 					<p:ajax event="blur" update="emailField" />
 				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="roles" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.field.roles']}" />
+				<p:autoComplete id="roles" multiple="true" value="#{manageAcademicsController.selectedRoles}" completeMethod="#{manageAcademicsController.completeRoles}" var="role" itemLabel="#{role.name}" itemValue="#{role}" converter="#{manageAcademicsController.roleConverter}" forceSelection="true">
+					<p:column>
+						<h:outputText value="#{role.name}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{msgsCore[role.descriptionKey]}" />
+					</p:column>
+				</p:autoComplete>			
 			</ui:decorate>
 
 			<h:panelGroup rendered="#{! manageAcademicsController.readOnly}">

@@ -11,6 +11,9 @@
 .ui-selectonemenu {
 	width: 100%;	
 }
+.ui-autocomplete {
+	width: 100%;	
+}
 .ui-selectonemenu .ui-selectonemenu-trigger {
 	width: 28px;
 	padding-top: 5px;

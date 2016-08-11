@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
@@ -27,4 +29,12 @@ public interface RoleDAO extends BaseDAO<Role> {
 	 * @throws MultiplePersistentObjectsFoundException
 	 */
 	Role retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	List<Role> findByName(String name);
 }

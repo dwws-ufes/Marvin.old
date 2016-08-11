@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,7 +50,7 @@ public class Academic extends Person {
 	private Set<Telephone> telephones;
 
 	/** Roles for this user. */
-	@OneToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles;
 
 	/** The timestamp of the moment this academic was created. */

@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,6 +58,24 @@ public class RoleJPADAO extends BaseJPADAO<Role> implements RoleDAO {
 		cq.where(cb.equal(root.get(Role_.name), name));
 		Role result = executeSingleResultQuery(cq, name);
 		logger.log(Level.INFO, "Retrieve role with the name \"{0}\" returned \"{1}\"", new Object[] { name, result });
+		return result;
+	}
+
+	/** @see br.ufes.inf.nemo.marvin.core.persistence.RoleDAO#findByName(java.lang.String) */
+	@Override
+	public List<Role> findByName(String name) {
+		logger.log(Level.FINE, "Finding roles whose name contain \"{0}\"...", name);
+
+		// Constructs the query over the Academic class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Role> cq = cb.createQuery(Role.class);
+		Root<Role> root = cq.from(Role.class);
+
+		// Filters the query with the email.
+		name = "%" + name + "%";
+		cq.where(cb.like(root.get(Role_.name), name));
+		List<Role> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Found {0} roles whose name contains \"{1}\".", new Object[] { result.size(), name });
 		return result;
 	}
 }

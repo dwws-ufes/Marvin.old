@@ -56,11 +56,11 @@
 				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
 				emptyMessage="#{manageAcademicsController.filtering ? msgsCore['manageAcademics.text.noEntitiesFiltered'] : msgsCore['manageAcademics.text.noEntities']}">
 
-				<p:column headerText="#{msgsCore['manageAcademics.form.name']}">
+				<p:column headerText="#{msgsCore['manageAcademics.field.name']}">
 					<h:outputText value="#{entity.name}" />
 				</p:column>
 
-				<p:column headerText="#{msgsCore['manageAcademics.form.email']}">
+				<p:column headerText="#{msgsCore['manageAcademics.field.email']}">
 					<h:outputText value="#{entity.email}" />
 				</p:column>
 
