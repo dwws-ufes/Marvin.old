@@ -16,6 +16,7 @@ import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.CoreInformation;
 import br.ufes.inf.nemo.marvin.core.application.SessionInformation;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException;
 import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException.LoginFailedReason;
 
@@ -78,6 +79,51 @@ public class SessionController extends JSFController {
 	}
 
 	/**
+	 * Indicates if the user is an administrator.
+	 * 
+	 * @return <code>true</code> if the user has the Admin role, <code>false</code> otherwise.
+	 */
+	public boolean isAdmin() {
+		return getExternalContext().isUserInRole(Role.SYSADMIN_ROLE_NAME);
+	}
+
+	/**
+	 * Indicates if the user is a professor.
+	 * 
+	 * @return <code>true</code> if the user has the Professor role, <code>false</code> otherwise.
+	 */
+	public boolean isProfessor() {
+		return getExternalContext().isUserInRole(Role.PROFESSOR_ROLE_NAME);
+	}
+
+	/**
+	 * Indicates if the user is a staff member.
+	 * 
+	 * @return <code>true</code> if the user has the Staff role, <code>false</code> otherwise.
+	 */
+	public boolean isStaff() {
+		return getExternalContext().isUserInRole(Role.STAFF_ROLE_NAME);
+	}
+
+	/**
+	 * Indicates if the user is a student.
+	 * 
+	 * @return <code>true</code> if the user has the Student role, <code>false</code> otherwise.
+	 */
+	public boolean isStudent() {
+		return getExternalContext().isUserInRole(Role.STUDENT_ROLE_NAME);
+	}
+
+	/**
+	 * Indicates if the user is an alumni.
+	 * 
+	 * @return <code>true</code> if the user has the Alumni role, <code>false</code> otherwise.
+	 */
+	public boolean isAlumni() {
+		return getExternalContext().isUserInRole(Role.ALUMNI_ROLE_NAME);
+	}
+
+	/**
 	 * Provides the current authenticated user.
 	 * 
 	 * @return The Academic object that represents the user that has been authenticated in this session.
@@ -130,11 +176,11 @@ public class SessionController extends JSFController {
 			// Uses the Session Information bean to authenticate the user.
 			logger.log(Level.FINEST, "User attempting login with email \"{0}\"...", email);
 			sessionInformation.login(email, password);
-			
+
 			// Also authenticates on JAAS.
 			// FIXME: is there a way to do this at the application package (in the EJB)?
 			try {
-				HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 				request.login(email, password);
 			}
 			catch (Exception e) {

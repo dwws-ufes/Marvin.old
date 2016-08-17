@@ -22,6 +22,18 @@ public class Role extends PersistentObjectSupport {
 	
 	/** Name of the System Administrator role. */
 	public static final String SYSADMIN_ROLE_NAME = "SysAdmin";
+	
+	/** Name of the Professor role. */
+	public static final String PROFESSOR_ROLE_NAME = "Professor";
+	
+	/** Name of the Staff role. */
+	public static final String STAFF_ROLE_NAME = "Staff";
+	
+	/** Name of the Student role. */
+	public static final String STUDENT_ROLE_NAME = "Student";
+	
+	/** Name of the Alumni role. */
+	public static final String ALUMNI_ROLE_NAME = "Alumni";
 
 	/** The name that identifies the role across the system. */
 	@Basic

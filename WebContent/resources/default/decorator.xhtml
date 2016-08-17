@@ -225,23 +225,7 @@
 				<!-- /.search form -->
 
 				<!-- Sidebar Menu -->
-				<h:form id="sidebarMenuForm">
-				<ul class="sidebar-menu">
-					<li class="header"><h:outputText value="#{msgs['title.menu']}" /></li>
-					
-					<!-- System installation and log in. -->
-					<li><h:commandLink action="#{installSystemController.begin}" rendered="#{not coreInfo.systemInstalled}"><i class="fa fa-cogs"></i> <span><h:outputText value="#{msgsCore['core.menu.installSystem']}" /></span></h:commandLink></li>
-					<li><h:link outcome="/core/login/index" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}"><i class="fa fa-key"></i> <span><h:outputText value="#{msgsCore['core.menu.login']}" /></span></h:link></li>
-					
-					<!-- User management. -->
-					<li class="treeview">
-						<a href="#"><i class="fa fa-users"></i> <span><h:outputText value="#{msgsCore['core.menu.userManagement']}" /></span> <i class="fa fa-angle-left pull-right"></i></a>
-						<ul class="treeview-menu" style="display: none;">
-							<li><h:link outcome="/core/manageAcademics/list"><h:outputText value="#{msgsCore['core.menu.userManagement.manageAcademics']}" /></h:link></li>
-						</ul>
-					</li>
-				</ul>
-				</h:form>
+				<ui:include src="decorator-menu.xhtml" />
 				<!-- /.sidebar-menu -->
 			</section>
 			<!-- /.sidebar -->
