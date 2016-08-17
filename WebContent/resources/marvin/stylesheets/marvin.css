@@ -24,14 +24,23 @@
 .ui-datatable tr.ui-state-highlight {
 	background: #0081c2;
 }
-form#filterForm .ui-selectonemenu-label {
+#filterForm .ui-selectonemenu-label {
 	text-align: right;
 }
-form#filterForm .ui-panelgrid-cell {
+#filterForm .ui-panelgrid-cell {
 	padding: 4px 3px;
 }
-form#filterForm .ui-button {
+#filterForm .ui-button {
 	padding: 6px 6px;
+}
+#filterForm .ui-corner-right {
+	width: 28px;
+}
+#filterForm .ui-corner-right > .ui-c {
+	margin-top: 7px;
+}
+#filterForm .ui-button-text.ui-c {
+	line-height: 9px;
 }
 
 /* Password fields should occupy 50% instead. */
@@ -46,7 +55,7 @@ form#filterForm .ui-button {
 	font-size: 14px;
 	vertical-align: middle;
 }
-.ui-grid .fa-fw {
+.ui-grid button.fa-fw {
 	position: absolute;
 	left: 0;
 	top: 7px;

@@ -39,7 +39,7 @@ public class CoreInformation implements Serializable {
 	private static final String QUOTES_FILE_PATH = "/META-INF/quotes.txt";
 
 	/** TODO: document this field. */
-	private static final String DEFAULT_DECORATOR_NAME = "default";
+	private static final String DEFAULT_DECORATOR_NAME = "admin-lte";
 
 	/** The DAO for MarvinConfiguration objects. */
 	@EJB

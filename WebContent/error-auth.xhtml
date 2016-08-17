@@ -5,7 +5,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+                template="/WEB-INF/decorators/#{coreInfo.decorator}/decorator.xhtml">
 
 	<ui:define name="head"></ui:define>
 	
@@ -17,6 +17,6 @@
 		<p><strong><h:outputText value="#{msgs['error.auth.summary']}" /></strong>: 
 		<h:outputFormat value="#{msgs['error.auth.detail']}"><f:param value="#{sessionController.now}" /></h:outputFormat></p>
 		
-		<p align="center" style="margin-top: 50px;"><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgs['text.backToIndex']}" /></a></p>
+		<p align="center" style="margin-top: 50px;"><h:link outcome="/index"><h:outputText value="#{msgs['text.backToIndex']}" /></h:link></p>
     </ui:define>
 </ui:composition>

@@ -6,7 +6,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
-                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+                template="/WEB-INF/decorators/#{coreInfo.decorator}/decorator.xhtml">
 
 	<ui:define name="title"><h:outputText value="#{msgsCore['manageAcademics.title']}" /></ui:define>
     
@@ -15,10 +15,10 @@
 	<ui:define name="body">
 		<!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
 		<h:panelGroup id="filterBar" rendered="#{(not empty manageAcademicsController.filters)}">
-			<ui:decorate template="/resources/#{coreInfo.decorator}/form-nobox.xhtml">
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-nobox.xhtml">
 				<ui:param name="formName" value="filterForm" />
 
-				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield-filter.xhtml">
+				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield-filter.xhtml">
 					<p:selectOneMenu id="filter" required="true" value="#{manageAcademicsController.filterKey}">
 						<f:selectItems value="#{manageAcademicsController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
 						<f:ajax event="change" execute="@form" listener="#{manageAcademicsController.changeFilter}" render="@form :listingForm" />
@@ -38,7 +38,7 @@
 		</h:panelGroup>
 		
 		<!-- The listing form. -->
-		<ui:decorate template="/resources/#{coreInfo.decorator}/form-nobox.xhtml">
+		<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-nobox.xhtml">
 			<ui:param name="formName" value="listingForm" />
 
 			<p:dataTable
@@ -73,7 +73,7 @@
 
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttons">
-				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
+				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
 					<p:commandButton action="#{manageAcademicsController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-user-plus" />
 					<p:commandButton action="#{manageAcademicsController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageAcademicsController.selectedEntity == null}" />
 					<p:commandButton action="#{manageAcademicsController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageAcademicsController.selectedEntity == null}" />
@@ -88,13 +88,13 @@
 
 		<!-- The trash panel: shows entities that have been selected for deletion. -->
 		<h:panelGroup id="trashGroup"><h:panelGroup rendered="#{not empty manageAcademicsController.trashCan}">
-			<ui:decorate template="/resources/#{coreInfo.decorator}/form-danger.xhtml">
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-danger.xhtml">
 				<ui:param name="formName" value="trashForm" />
 				<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
 				<p:dataList value="#{manageAcademicsController.trashCan}" var="entity" type="ordered">
 	            	#{entity.name} 
 	            </p:dataList>
-				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 					<p:commandButton action="#{manageAcademicsController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" update=":trashGroup :listingForm" />
 					<p:commandButton action="#{manageAcademicsController.delete}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" />
 					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.cancelDeletion']}" action="#{manageAcademicsController.cancelDeletion}" update=":trashGroup :listingForm" />
