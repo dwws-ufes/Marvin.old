@@ -64,7 +64,8 @@
 					<h:outputText value="#{entity.email}" />
 				</p:column>
 
-				<p:ajax event="rowSelect" update=":listingForm:buttons" />
+				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
+				<p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
 			</p:dataTable>
 			<p:hotkey bind="ctrl+left" handler="goToFirstPage(listingTable);" />
 			<p:hotkey bind="left" handler="goToPreviousPage(listingTable);" />
@@ -72,35 +73,37 @@
 			<p:hotkey bind="ctrl+right" handler="goToLastPage(listingTable);" />
 
 			<!-- Buttons shown below the listing. -->
-			<h:panelGroup id="buttons">
+			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
 					<p:commandButton action="#{manageAcademicsController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-user-plus" />
 					<p:commandButton action="#{manageAcademicsController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageAcademicsController.selectedEntity == null}" />
 					<p:commandButton action="#{manageAcademicsController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageAcademicsController.selectedEntity == null}" />
-					<p:commandButton action="#{manageAcademicsController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageAcademicsController.selectedEntity == null}" process="@this" update=":trashGroup" />
-					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.create']}" action="#{manageAcademicsController.create}" />
-					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.retrieve']}" action="#{manageAcademicsController.retrieve}" rendered="#{manageAcademicsController.selectedEntity != null}" />
-					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.update']}" action="#{manageAcademicsController.update}" rendered="#{manageAcademicsController.selectedEntity != null}" />
-					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.delete']}" action="#{manageAcademicsController.trash}" rendered="#{manageAcademicsController.selectedEntity != null}" process="@form" update=":trashGroup" />
+					<p:commandButton action="#{manageAcademicsController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageAcademicsController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
 				</ui:decorate>
 			</h:panelGroup>
-		</ui:decorate>
+			<p:hotkey bind="#{msgs['jbutler.crud.hotkey.create']}" action="#{manageAcademicsController.create}" />
+			<p:hotkey bind="#{msgs['jbutler.crud.hotkey.retrieve']}" action="#{manageAcademicsController.retrieve}" rendered="#{manageAcademicsController.selectedEntity != null}" />
+			<p:hotkey bind="#{msgs['jbutler.crud.hotkey.update']}" action="#{manageAcademicsController.update}" rendered="#{manageAcademicsController.selectedEntity != null}" />
+			<p:hotkey bind="#{msgs['jbutler.crud.hotkey.delete']}" action="#{manageAcademicsController.trash}" rendered="#{manageAcademicsController.selectedEntity != null}" process="@this" update=":listingForm:trashGroup" />
 
-		<!-- The trash panel: shows entities that have been selected for deletion. -->
-		<h:panelGroup id="trashGroup"><h:panelGroup rendered="#{not empty manageAcademicsController.trashCan}">
-			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-danger.xhtml">
-				<ui:param name="formName" value="trashForm" />
-				<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
-				<p:dataList value="#{manageAcademicsController.trashCan}" var="entity" type="ordered">
-	            	#{entity.name} 
-	            </p:dataList>
-				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
-					<p:commandButton action="#{manageAcademicsController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" update=":trashGroup :listingForm" />
-					<p:commandButton action="#{manageAcademicsController.delete}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" />
-					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.cancelDeletion']}" action="#{manageAcademicsController.cancelDeletion}" update=":trashGroup :listingForm" />
-					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.confirmDeletion']}" action="#{manageAcademicsController.delete}" />
-				</ui:decorate>
-			</ui:decorate>
-		</h:panelGroup></h:panelGroup>
+			<!-- The trash panel: shows entities that have been selected for deletion. -->
+			<h:panelGroup id="trashGroup">
+				<h:panelGroup rendered="#{not empty manageAcademicsController.trashCan}">
+					<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-danger.xhtml">
+						<ui:param name="formName" value="trashForm" />
+						<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
+						<p:dataList value="#{manageAcademicsController.trashCan}" var="entity" type="ordered">
+			            	#{entity.name} 
+			            </p:dataList>
+						<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+							<p:commandButton action="#{manageAcademicsController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
+							<p:commandButton action="#{manageAcademicsController.delete}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" ajax="false" />
+						</ui:decorate>
+						<p:hotkey bind="#{msgs['jbutler.crud.hotkey.cancelDeletion']}" action="#{manageAcademicsController.cancelDeletion}" process="@this" update=":listingForm" />
+						<p:hotkey bind="#{msgs['jbutler.crud.hotkey.confirmDeletion']}" action="#{manageAcademicsController.delete}" ajax="false" />
+					</ui:decorate>
+				</h:panelGroup>
+			</h:panelGroup>
+		</ui:decorate>
 	</ui:define>
 </ui:composition>

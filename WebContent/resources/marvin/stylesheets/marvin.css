@@ -42,6 +42,12 @@
 #filterForm .ui-button-text.ui-c {
 	line-height: 9px;
 }
+#listingForm\3a trashGroup .box {
+	margin-top: 20px;
+}
+#listingForm\3a trashGroup .ui-widget-content {
+	border: none;
+}
 
 /* Password fields should occupy 50% instead. */
 .ui-password {
