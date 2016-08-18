@@ -34,7 +34,7 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;

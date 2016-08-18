@@ -32,10 +32,10 @@ import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
 public class InstallSystemServiceBean implements InstallSystemService {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The path to the folder that contains the data to be added to the database upon system installation. */
 	private static final String INIT_DATA_PATH = "META-INF/installSystem/";
-	
+
 	/** The name of the file that contains the roles to be added upon system installation. */
 	private static final String INIT_DATA_ROLE_FILE_NAME = "Role.json";
 
@@ -49,7 +49,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** The DAO for MarvinConfiguration objects. */
 	@EJB
 	private MarvinConfigurationDAO marvinConfigurationDAO;
-	
+
 	/** The DAO for Role objects. */
 	@EJB
 	private RoleDAO roleDAO;
@@ -83,12 +83,12 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			logger.log(Level.SEVERE, "Could not read initial data for roles.", e);
 			throw new SystemInstallFailedException(e);
 		}
-		
+
 		try {
 			// Assigns the system administrator role to the user that installed Marvin.
 			Role adminRole = roleDAO.retrieveByName(Role.SYSADMIN_ROLE_NAME);
 			admin.assignRole(adminRole);
-			
+
 			// Encodes the admin's password.
 			admin.setPassword(TextUtils.produceBase64EncodedMd5Hash(admin.getPassword()));
 

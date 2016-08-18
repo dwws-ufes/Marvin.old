@@ -38,7 +38,7 @@ public class RoleJPADAO extends BaseJPADAO<Role> implements RoleDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;

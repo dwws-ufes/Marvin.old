@@ -72,8 +72,8 @@ public class InstallSystemController extends JSFController {
 	}
 
 	/**
-	 * Analyzes the name that was given to the administrator and, if the short name field is still empty, suggests a
-	 * value for it based on the given name.
+	 * Analyzes the name that was given to the administrator and, if the short name field is still empty, suggests a value
+	 * for it based on the given name.
 	 * 
 	 * This method is intended to be used with AJAX.
 	 */

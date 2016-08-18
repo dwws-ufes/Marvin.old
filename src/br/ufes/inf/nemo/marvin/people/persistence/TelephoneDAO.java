@@ -15,7 +15,7 @@ import br.ufes.inf.nemo.marvin.people.domain.Telephone;
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see org.feees.sigme.people.persistence.Telephone
- * @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO
+ * @see br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO
  */
 @Local
 public interface TelephoneDAO extends BaseDAO<Telephone> {}

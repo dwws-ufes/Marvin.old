@@ -13,7 +13,7 @@ import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
  * operations that are specific to the managed domain class (if any) are specified in this class.
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
- * @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO
+ * @see br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO
  */
 @Local
 public interface MarvinConfigurationDAO extends BaseDAO<MarvinConfiguration> {

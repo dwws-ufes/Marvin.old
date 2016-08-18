@@ -49,7 +49,7 @@ public class ContactType extends PersistentObjectSupport implements Comparable<C
 		return uuid.compareTo(o.uuid);
 	}
 
-	/** @see br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport#toString() */
+	/** @see br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return type;

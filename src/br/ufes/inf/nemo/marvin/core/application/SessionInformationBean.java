@@ -33,7 +33,7 @@ public class SessionInformationBean implements SessionInformation {
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(SessionInformationBean.class.getCanonicalName());
-	
+
 	/** The DAO for Academic objects. */
 	@EJB
 	private AcademicDAO academicDAO;

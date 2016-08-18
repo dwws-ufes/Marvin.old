@@ -19,19 +19,19 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 public class Role extends PersistentObjectSupport {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Name of the System Administrator role. */
 	public static final String SYSADMIN_ROLE_NAME = "SysAdmin";
-	
+
 	/** Name of the Professor role. */
 	public static final String PROFESSOR_ROLE_NAME = "Professor";
-	
+
 	/** Name of the Staff role. */
 	public static final String STAFF_ROLE_NAME = "Staff";
-	
+
 	/** Name of the Student role. */
 	public static final String STUDENT_ROLE_NAME = "Student";
-	
+
 	/** Name of the Alumni role. */
 	public static final String ALUMNI_ROLE_NAME = "Alumni";
 
@@ -39,13 +39,13 @@ public class Role extends PersistentObjectSupport {
 	@Basic
 	@Size(max = 10)
 	private String name;
-	
+
 	/** Resource bundle key to the human-readable description of the role. */
 	@Basic
 	private String descriptionKey;
-	
+
 	/** Default constructor for JPA. */
-	protected Role() { }
+	protected Role() {}
 
 	/** Constructor. */
 	public Role(String name, String descriptionKey) {
@@ -62,7 +62,7 @@ public class Role extends PersistentObjectSupport {
 	public void setName(String name) {
 		this.name = name;
 	}
- 
+
 	/** Getter for description. */
 	public String getDescriptionKey() {
 		return descriptionKey;
@@ -72,23 +72,17 @@ public class Role extends PersistentObjectSupport {
 	public void setDescriptionKey(String descriptionKey) {
 		this.descriptionKey = descriptionKey;
 	}
-	
+
 	/** @see br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return name;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(ResourceUtil.getResourceAsFile("META-INF/installSystem/Role.json"));
-		
-		Role[] roles = new Role[] {
-				new Role("SysAdmin", "core.role.sysadmin"),
-				new Role("Professor", "core.role.professor"),
-				new Role("Staff", "core.role.staff"),
-				new Role("Student", "core.role.student"),				
-				new Role("Alumni", "core.role.alumni")				
-		};
+
+		Role[] roles = new Role[] { new Role("SysAdmin", "core.role.sysadmin"), new Role("Professor", "core.role.professor"), new Role("Staff", "core.role.staff"), new Role("Student", "core.role.student"), new Role("Alumni", "core.role.alumni") };
 		for (Role role : roles) {
 			JSONObject obj = new JSONObject();
 			obj.put("name", role.getName());

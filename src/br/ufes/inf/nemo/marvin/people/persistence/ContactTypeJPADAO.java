@@ -29,7 +29,7 @@ public class ContactTypeJPADAO extends BaseJPADAO<ContactType> implements Contac
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;

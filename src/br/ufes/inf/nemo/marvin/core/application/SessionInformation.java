@@ -28,12 +28,12 @@ public interface SessionInformation extends Serializable {
 	 * available as a Academic object through the getCurrentUser() method.
 	 * 
 	 * @param username
-	 *            The username that identifies the user in the system.
+	 *          The username that identifies the user in the system.
 	 * @param password
-	 *            The password that authenticates the user.
+	 *          The password that authenticates the user.
 	 * 
 	 * @throws LoginFailedException
-	 *             If the username is unknown or the password is incorrect.
+	 *           If the username is unknown or the password is incorrect.
 	 */
 	void login(String username, String password) throws LoginFailedException;
 }

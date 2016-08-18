@@ -15,7 +15,7 @@ import br.ufes.inf.nemo.marvin.people.domain.ContactType;
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see org.feees.sigme.people.persistence.ContactType
- * @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO
+ * @see br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO
  */
 @Local
 public interface ContactTypeDAO extends BaseDAO<ContactType> {}
