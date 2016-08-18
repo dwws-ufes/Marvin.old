@@ -1,6 +1,6 @@
 /* Growl messages positioned below Marvin's top bar. */
 .ui-growl {
-	top: 60px;
+	margin-top: 60px;
 }
 
 /* Input fields manipulation. */

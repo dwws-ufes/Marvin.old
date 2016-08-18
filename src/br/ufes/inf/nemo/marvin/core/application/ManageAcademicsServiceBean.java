@@ -81,7 +81,7 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 			Role adminRole = roleDAO.retrieveByName(Role.SYSADMIN_ROLE_NAME);
 			if (entity.getRoles().contains(adminRole)) {
 				logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 1: acadmic has SysAdmin role", new Object[] { email });
-				crudException = addValidationError(crudException, crudExceptionMessage, null, "manageAcademics.error.deleteAdmin", email);				
+				crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageAcademics.error.deleteAdmin", email);				
 			}
 		}
 		catch (MultiplePersistentObjectsFoundException | PersistentObjectNotFoundException e) {
