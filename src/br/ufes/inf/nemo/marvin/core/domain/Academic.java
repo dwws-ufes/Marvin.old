@@ -44,6 +44,10 @@ public class Academic extends Person {
 	@Basic
 	@Size(max = 32)
 	private String password;
+	
+	/** The number that identifies the academic in the Lattes platform, if she's a researcher. */
+	@Basic
+	private Long lattesId;
 
 	/** Phone numbers. */
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -95,6 +99,16 @@ public class Academic extends Person {
 	/** Setter for password. */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	/** Getter for lattesId. */
+	public Long getLattesId() {
+		return lattesId;
+	}
+
+	/** Setter for lattesId. */
+	public void setLattesId(Long lattesId) {
+		this.lattesId = lattesId;
 	}
 
 	/** Getter for telephones. */
