@@ -24,4 +24,14 @@ public interface AcademicDAO extends BaseDAO<Academic> {
 	 * @throws MultiplePersistentObjectsFoundException
 	 */
 	Academic retrieveByEmail(String email) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param lattesId
+	 * @return
+	 * @throws PersistentObjectNotFoundException
+	 * @throws MultiplePersistentObjectsFoundException
+	 */
+	Academic retrieveByLattesId(Long lattesId) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 }

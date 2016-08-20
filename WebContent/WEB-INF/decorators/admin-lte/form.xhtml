@@ -14,11 +14,10 @@
 		</div>
 		<div class="box-body">
 			<f:validateBean>
-				<h:form id="#{formName}" pt:class="form-horizontal">
+				<h:form id="#{formName}" pt:class="form-horizontal" enctype="#{formFileUpload ? 'multipart/form-data' : 'text/plain'}">
 					<ui:insert />
 				</h:form>
 			</f:validateBean>
 		</div>
 	</div>
-
 </ui:composition>

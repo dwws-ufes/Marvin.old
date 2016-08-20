@@ -72,4 +72,21 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 		logger.log(Level.INFO, "Retrieve academic by the email \"{0}\" returned \"{1}\"", new Object[] { email, result });
 		return result;
 	}
+
+	/** @see br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO#retrieveByLattesId(java.lang.Long) */
+	@Override
+	public Academic retrieveByLattesId(Long lattesId) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+		logger.log(Level.FINE, "Retrieving the academic whose Lattes ID is \"{0}\"...", lattesId);
+
+		// Constructs the query over the Academic class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Academic> cq = cb.createQuery(Academic.class);
+		Root<Academic> root = cq.from(Academic.class);
+
+		// Filters the query with the Lattes ID.
+		cq.where(cb.equal(root.get(Academic_.lattesId), lattesId));
+		Academic result = executeSingleResultQuery(cq, lattesId);
+		logger.log(Level.INFO, "Retrieve academic by the Lattes ID \"{0}\" returned \"{1}\"", new Object[] { lattesId, result });
+		return result;
+	}
 }
