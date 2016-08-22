@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.research.domain;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -25,6 +26,7 @@ public class ConferencePaper extends Publication {
 	/** Constructor. */
 	public ConferencePaper(String title, int year, String pages, String doi, String publisher, String bookTitle) {
 		super(title, year, pages, doi, publisher);
+		if (bookTitle.length() > 254) bookTitle = bookTitle.substring(0, 254);
 		this.bookTitle = bookTitle;
 	}
 

@@ -240,10 +240,10 @@ class LattesParser implements PublicationInfo {
 			// Check if any of the optional attributes are present.
 			if (attrPageStart != null && detail.hasAttr(attrPageStart)) entry.setPageStart(detail.attr(attrPageStart));
 			if (attrPageEnd != null && detail.hasAttr(attrPageEnd)) entry.setPageEnd(detail.attr(attrPageEnd));
-			if (attrPublisher != null && detail.hasAttr(attrPublisher)) entry.setPageEnd(detail.attr(attrPublisher));
-			if (attrExtra01 != null && detail.hasAttr(attrExtra01)) entry.setPageEnd(detail.attr(attrExtra01));			
-			if (attrExtra02 != null && detail.hasAttr(attrExtra02)) entry.setPageEnd(detail.attr(attrExtra02));			
-			if (attrExtra03 != null && detail.hasAttr(attrExtra03)) entry.setPageEnd(detail.attr(attrExtra03));			
+			if (attrPublisher != null && detail.hasAttr(attrPublisher)) entry.setPublisher(detail.attr(attrPublisher));
+			if (attrExtra01 != null && detail.hasAttr(attrExtra01)) entry.setExtra01(detail.attr(attrExtra01));			
+			if (attrExtra02 != null && detail.hasAttr(attrExtra02)) entry.setExtra02(detail.attr(attrExtra02));			
+			if (attrExtra03 != null && detail.hasAttr(attrExtra03)) entry.setExtra03(detail.attr(attrExtra03));			
 				
 			// Adds the entry to the set.
 			entries.add(entry);

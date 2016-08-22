@@ -25,6 +25,7 @@ public class BookChapter extends Publication {
 	/** Constructor. */
 	public BookChapter(String title, int year, String pages, String doi, String publisher, String bookTitle) {
 		super(title, year, pages, doi, publisher);
+		if (bookTitle.length() > 254) bookTitle = bookTitle.substring(0, 254);
 		this.bookTitle = bookTitle;
 	}
 

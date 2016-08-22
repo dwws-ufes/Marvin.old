@@ -148,7 +148,7 @@ class LattesEntry implements Comparable<LattesEntry> {
 	 * @return
 	 */
 	public String getPages() {
-		if (pageStart == null || pageEnd == null) return null;
+		if (pageStart == null || pageEnd == null || pageStart.isEmpty() || pageEnd.isEmpty()) return null;
 		return pageStart + "-" + pageEnd;
 	}
 

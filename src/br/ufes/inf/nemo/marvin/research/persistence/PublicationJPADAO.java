@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.research.persistence;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,7 +58,24 @@ public class PublicationJPADAO extends BaseJPADAO<Publication> implements Public
 		// Retrieve the value and return.
 		TypedQuery<Long> query = entityManager.createQuery(cq);
 		Long count = query.getSingleResult();
-		logger.log(Level.INFO, "Retrieve publication count of academic \"{0}\" ({1}) returned \"{2}\"", new Object[] { academic.getName(), academic.getEmail(), count });
+		logger.log(Level.INFO, "Retrieve publication count of academic \"{0}\" ({1}) returned: {2}", new Object[] { academic.getName(), academic.getEmail(), count });
 		return count;
+	}
+
+	/** @see br.ufes.inf.nemo.marvin.research.persistence.PublicationDAO#retrieveByAcademic(br.ufes.inf.nemo.marvin.core.domain.Academic) */
+	@Override
+	public List<Publication> retrieveByAcademic(Academic academic) {
+		logger.log(Level.FINE, "Retrieving the publications of academic \"{0}\" ({1})...", new Object[] { academic.getName(), academic.getEmail() });
+
+		// Constructs the query over the Publication class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Publication> cq = cb.createQuery(Publication.class);
+		Root<Publication> root = cq.from(Publication.class);
+
+		// Filters the query with the academic.
+		cq.where(cb.equal(root.get(Publication_.owner), academic));
+		List<Publication> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve publications of academic \"{0}\" ({1}) returned {2} results.", new Object[] { academic.getName(), academic.getEmail(), result.size() });
+		return result;
 	}
 }

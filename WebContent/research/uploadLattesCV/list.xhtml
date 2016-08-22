@@ -54,8 +54,8 @@
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
-					<p:commandButton action="#{uploadLattesCVController.cancel}" value="#{msgsResearch['uploadLattesCV.button.cancel']}" icon="fa fa-fw fa-ban" />
-					<p:commandButton action="#{uploadLattesCVController.confirm}" value="#{msgsResearch['uploadLattesCV.button.confirm']}" icon="fa fa-fw fa-check" />
+					<p:commandButton ajax="false" action="#{uploadLattesCVController.cancel}" value="#{msgsResearch['uploadLattesCV.button.cancel']}" icon="fa fa-fw fa-ban" />
+					<p:commandButton ajax="false" action="#{uploadLattesCVController.confirm}" value="#{msgsResearch['uploadLattesCV.button.confirm']}" icon="fa fa-fw fa-check" />
 				</ui:decorate>
 			</h:panelGroup>
 		</ui:decorate>

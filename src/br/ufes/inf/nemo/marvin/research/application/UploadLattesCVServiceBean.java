@@ -1,6 +1,7 @@
 package br.ufes.inf.nemo.marvin.research.application;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +15,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObj
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
+import br.ufes.inf.nemo.marvin.research.domain.BookChapter;
 import br.ufes.inf.nemo.marvin.research.domain.Publication;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesIdNotRegisteredException;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesParseException;
@@ -83,7 +85,15 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 	 */
 	@Override
 	public void assignPublicationsToAcademic(Set<Publication> publications, Academic owner) {
-		// TODO Auto-generated method stub
-
+		// Delete the previous publications of the academic.
+		List<Publication> previousPublications = publicationDAO.retrieveByAcademic(owner);
+		for (Publication previous : previousPublications) publicationDAO.delete(previous);
+		
+		// Assign the new publications to the academic and save.
+		for (Publication publication : publications) {
+			publication.setOwner(owner);
+			if (publication instanceof BookChapter) System.out.println("bookTitle = " + ((BookChapter)publication).getBookTitle());
+			publicationDAO.save(publication);
+		}
 	}
 }

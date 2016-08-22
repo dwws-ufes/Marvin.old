@@ -141,7 +141,7 @@ public class UploadLattesCVController extends JSFController {
 	 * @return
 	 */
 	public String cancel() {
-		// Drops the conversation and redirects back to the beginning.
+		// Ends the conversation and redirects back to the beginning.
 		if (!conversation.isTransient()) conversation.end();
 		return VIEW_PATH + "index.xhtml?faces-redirect=true";
 	}
@@ -152,6 +152,11 @@ public class UploadLattesCVController extends JSFController {
 	 * @return
 	 */
 	public String confirm() {
-		return null;
+		// Assigns the publications to the researcher.
+		uploadLattesCVService.assignPublicationsToAcademic(publications, researcher);
+		
+		// Ends the conversation and renders a result page.
+		if (!conversation.isTransient()) conversation.end();
+		return VIEW_PATH + "success.xhtml";
 	}
 }

@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.marvin.research.persistence;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
@@ -21,4 +23,12 @@ public interface PublicationDAO extends BaseDAO<Publication> {
 	 * @return
 	 */
 	long retrieveCountByAcademic(Academic academic);
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param academic
+	 * @return
+	 */
+	List<Publication> retrieveByAcademic(Academic academic);
 }
