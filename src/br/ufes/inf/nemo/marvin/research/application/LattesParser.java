@@ -185,8 +185,8 @@ class LattesParser implements PublicationInfo {
 	 * @param element
 	 * @param name
 	 */
-	private SortedSet<LattesProduction> extractEntries(Element element, String name) {
-		SortedSet<LattesProduction> entries = new TreeSet<>();
+	private SortedSet<LattesEntry> extractEntries(Element element, String name) {
+		SortedSet<LattesEntry> entries = new TreeSet<>();
 
 		// Gets the structural information from the configuration.
 		String selector = CONFIG.getProperty("jsoupSelectorBibliographic" + name);
@@ -197,23 +197,32 @@ class LattesParser implements PublicationInfo {
 		String attrType = CONFIG.getProperty("bibliographic" + name + "Type");
 		String attrYear = CONFIG.getProperty("bibliographic" + name + "Year");
 		String attrTitle = CONFIG.getProperty("bibliographic" + name + "Title");
+		String attrDoi = CONFIG.getProperty("bibliographic" + name + "DOI");
 		String[] attrVenue = CONFIG.getProperty("bibliographic" + name + "Venue").split("\\s*\\|\\s*");
 		String attrAuthors = CONFIG.getProperty("bibliographic" + name + "Authors");
+		String attrPageStart = CONFIG.getProperty("bibliographic" + name + "PageStart");
+		String attrPageEnd = CONFIG.getProperty("bibliographic" + name + "PageEnd");
+		String attrPublisher = CONFIG.getProperty("bibliographic" + name + "Publisher");
+		String attrExtra01 = CONFIG.getProperty("bibliographic" + name + "Extra01");
+		String attrExtra02 = CONFIG.getProperty("bibliographic" + name + "Extra02");
+		String attrExtra03 = CONFIG.getProperty("bibliographic" + name + "Extra03");
 
 		// Goes through all entries.
 		Elements elems = element.select(selector);
 		for (Element elem : elems) {
 			Element general = elem.select(selectorGeneral).first();
+			Element detail = elem.select(selectorDetails).first();
 
 			// Extracts the information needed.
 			int year = parseYear(general.attr(attrYear));
 			String type = baseType + " / " + general.attr(attrType);
 			String title = general.attr(attrTitle);
+			String doi = general.attr(attrDoi);
 
 			// Venue can be split into more than one attribute.
 			StringBuilder venues = new StringBuilder();
 			for (String attr : attrVenue)
-				venues.append(elem.select(selectorDetails).first().attr(attr)).append(" / ");
+				venues.append(detail.attr(attr)).append(" / ");
 			venues.deleteCharAt(venues.length() - 1);
 			venues.deleteCharAt(venues.length() - 1);
 			venues.deleteCharAt(venues.length() - 1);
@@ -225,8 +234,19 @@ class LattesParser implements PublicationInfo {
 			authors.deleteCharAt(authors.length() - 1);
 			authors.deleteCharAt(authors.length() - 1);
 
-			// Creates a production entry and adds to the set.
-			entries.add(new LattesProduction(type, year, title, venues.toString(), authors.toString()));
+			// Creates an entry with the mandatory data.
+			LattesEntry entry = new LattesEntry(type, year, title, doi, venues.toString(), authors.toString());
+			
+			// Check if any of the optional attributes are present.
+			if (attrPageStart != null && detail.hasAttr(attrPageStart)) entry.setPageStart(detail.attr(attrPageStart));
+			if (attrPageEnd != null && detail.hasAttr(attrPageEnd)) entry.setPageEnd(detail.attr(attrPageEnd));
+			if (attrPublisher != null && detail.hasAttr(attrPublisher)) entry.setPageEnd(detail.attr(attrPublisher));
+			if (attrExtra01 != null && detail.hasAttr(attrExtra01)) entry.setPageEnd(detail.attr(attrExtra01));			
+			if (attrExtra02 != null && detail.hasAttr(attrExtra02)) entry.setPageEnd(detail.attr(attrExtra02));			
+			if (attrExtra03 != null && detail.hasAttr(attrExtra03)) entry.setPageEnd(detail.attr(attrExtra03));			
+				
+			// Adds the entry to the set.
+			entries.add(entry);
 		}
 
 		return entries;
@@ -251,10 +271,10 @@ class LattesParser implements PublicationInfo {
 	 * 
 	 * @param entries
 	 */
-	private void extractArticles(SortedSet<LattesProduction> entries) {
+	private void extractArticles(SortedSet<LattesEntry> entries) {
 		journalPapers = new TreeSet<>();
-		for (LattesProduction entry : entries) {
-			JournalPaper article = new JournalPaper(entry.getTitle(), entry.getYear(), "", "", "", entry.getVenue(), "", "");
+		for (LattesEntry entry : entries) {
+			JournalPaper article = new JournalPaper(entry.getTitle(), entry.getYear(), entry.getPages(), entry.getDoi(), entry.getPublisher(), entry.getVenue(), entry.getExtra02(), entry.getExtra03(), entry.getExtra01());
 			extractAuthors(article, entry.getAuthors());
 			journalPapers.add(article);
 		}
@@ -265,10 +285,10 @@ class LattesParser implements PublicationInfo {
 	 * 
 	 * @param entries
 	 */
-	private void extractBooks(SortedSet<LattesProduction> entries) {
+	private void extractBooks(SortedSet<LattesEntry> entries) {
 		books = new TreeSet<>();
-		for (LattesProduction entry : entries) {
-			Book book = new Book(entry.getTitle(), entry.getYear(), "", "", "", "");
+		for (LattesEntry entry : entries) {
+			Book book = new Book(entry.getTitle(), entry.getYear(), entry.getPages(), entry.getDoi(), entry.getPublisher(), entry.getExtra01());
 			extractAuthors(book, entry.getAuthors());
 			books.add(book);
 		}
@@ -279,10 +299,10 @@ class LattesParser implements PublicationInfo {
 	 * 
 	 * @param entries
 	 */
-	private void extractInCollections(SortedSet<LattesProduction> entries) {
+	private void extractInCollections(SortedSet<LattesEntry> entries) {
 		bookChapters = new TreeSet<>();
-		for (LattesProduction entry : entries) {
-			BookChapter chapter = new BookChapter(entry.getTitle(), entry.getYear(), "", "", "", entry.getVenue());
+		for (LattesEntry entry : entries) {
+			BookChapter chapter = new BookChapter(entry.getTitle(), entry.getYear(), entry.getPages(), entry.getDoi(), entry.getPublisher(), entry.getVenue());
 			extractAuthors(chapter, entry.getAuthors());
 			bookChapters.add(chapter);
 		}
@@ -293,10 +313,10 @@ class LattesParser implements PublicationInfo {
 	 * 
 	 * @param entries
 	 */
-	private void extractInProceedings(SortedSet<LattesProduction> entries) {
+	private void extractInProceedings(SortedSet<LattesEntry> entries) {
 		conferencePapers = new TreeSet<>();
-		for (LattesProduction entry : entries) {
-			ConferencePaper paper = new ConferencePaper(entry.getTitle(), entry.getYear(), "", "", "", entry.getVenue());
+		for (LattesEntry entry : entries) {
+			ConferencePaper paper = new ConferencePaper(entry.getTitle(), entry.getYear(), entry.getPages(), entry.getDoi(), entry.getPublisher(), entry.getVenue());
 			extractAuthors(paper, entry.getAuthors());
 			conferencePapers.add(paper);
 		}

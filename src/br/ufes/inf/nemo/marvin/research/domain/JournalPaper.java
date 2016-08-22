@@ -20,6 +20,9 @@ public class JournalPaper extends Publication {
 	private String journal;
 
 	/** TODO: document this field. */
+	private String number;
+
+	/** TODO: document this field. */
 	private String volume;
 
 	/** TODO: document this field. */
@@ -29,9 +32,10 @@ public class JournalPaper extends Publication {
 	protected JournalPaper() { }
 
 	/** Constructor. */
-	public JournalPaper(String title, int year, String pages, String doi, String publisher, String journal, String volume, String issn) {
+	public JournalPaper(String title, int year, String pages, String doi, String publisher, String journal, String number, String volume, String issn) {
 		super(title, year, pages, doi, publisher);
 		this.journal = journal;
+		this.number = number;
 		this.volume = volume;
 		this.issn = issn;
 	}
@@ -44,6 +48,16 @@ public class JournalPaper extends Publication {
 	/** Setter for journal. */
 	public void setJournal(String journal) {
 		this.journal = journal;
+	}
+
+	/** Getter for number. */
+	public String getNumber() {
+		return number;
+	}
+
+	/** Setter for number. */
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	/** Getter for volume. */
