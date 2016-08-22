@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.research.domain;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**
@@ -10,7 +11,8 @@ import javax.persistence.Entity;
  * @version 1.0
  */
 @Entity
-public class Article extends Publication {
+@DiscriminatorValue("J")
+public class JournalPaper extends Publication {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -22,6 +24,17 @@ public class Article extends Publication {
 
 	/** TODO: document this field. */
 	private String issn;
+	
+	/** Constructor. */
+	protected JournalPaper() { }
+
+	/** Constructor. */
+	public JournalPaper(String title, int year, String pages, String doi, String publisher, String journal, String volume, String issn) {
+		super(title, year, pages, doi, publisher);
+		this.journal = journal;
+		this.volume = volume;
+		this.issn = issn;
+	}
 
 	/** Getter for journal. */
 	public String getJournal() {

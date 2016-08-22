@@ -3,12 +3,13 @@ package br.ufes.inf.nemo.marvin.research.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -23,8 +24,10 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
  * @version 1.0
  */
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Publication extends PersistentObjectSupport {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "class", discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorValue("0")
+public abstract class Publication extends PersistentObjectSupport implements Comparable<Publication> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -49,8 +52,20 @@ public abstract class Publication extends PersistentObjectSupport {
 	private Academic owner;
 
 	/** TODO: document this field. */
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Author> authors = new ArrayList<>();
+	@ElementCollection
+	private List<String> authors = new ArrayList<>();
+
+	/** Constructor. */
+	protected Publication() {}
+
+	/** Constructor. */
+	public Publication(String title, int year, String pages, String doi, String publisher) {
+		this.title = title;
+		this.year = year;
+		this.pages = pages;
+		this.doi = doi;
+		this.publisher = publisher;
+	}
 
 	/** Getter for title. */
 	public String getTitle() {
@@ -73,12 +88,12 @@ public abstract class Publication extends PersistentObjectSupport {
 	}
 
 	/** Getter for authors. */
-	public List<Author> getAuthors() {
+	public List<String> getAuthors() {
 		return authors;
 	}
 
 	/** Setter for authors. */
-	public void setAuthors(List<Author> authors) {
+	protected void setAuthors(List<String> authors) {
 		this.authors = authors;
 	}
 
@@ -120,5 +135,35 @@ public abstract class Publication extends PersistentObjectSupport {
 	/** Setter for publisher. */
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param author
+	 */
+	public void addAuthor(String author) {
+		authors.add(author);
+	}
+
+	/** @see java.lang.Comparable#compareTo(java.lang.Object) */
+	@Override
+	public int compareTo(Publication o) {
+		int cmp = 0;
+
+		// Compare first by owner.
+		if (owner != null) cmp = owner.compareTo(o.owner);
+		if (cmp != 0) return cmp;
+
+		// Then compare by year.
+		cmp = year - o.year;
+		if (cmp != 0) return cmp;
+
+		// If still a draw, compare by title.
+		cmp = title.compareTo(o.title);
+		if (cmp != 0) return cmp;
+
+		// Lastly, compare by persistence id.
+		return super.compareTo(o);
 	}
 }

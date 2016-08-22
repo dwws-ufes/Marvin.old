@@ -27,7 +27,7 @@ public interface UploadLattesCVService extends Serializable {
 	 * @throws LattesIdNotRegisteredException
 	 * @throws LattesParseException
 	 */
-	Set<Publication> uploadLattesCV(InputStream inputStream) throws LattesIdNotRegisteredException, LattesParseException;
+	PublicationInfo uploadLattesCV(InputStream inputStream) throws LattesIdNotRegisteredException, LattesParseException;
 
 	/**
 	 * TODO: document this method.

@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -18,9 +19,15 @@ import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
 import br.ufes.inf.nemo.jbutler.ResourceUtil;
+import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.research.domain.JournalPaper;
+import br.ufes.inf.nemo.marvin.research.domain.Book;
+import br.ufes.inf.nemo.marvin.research.domain.BookChapter;
+import br.ufes.inf.nemo.marvin.research.domain.ConferencePaper;
+import br.ufes.inf.nemo.marvin.research.domain.Publication;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesParseException;
 
-public class LattesParser {
+class LattesParser implements PublicationInfo {
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(LattesParser.class.getCanonicalName());
 
@@ -29,18 +36,33 @@ public class LattesParser {
 
 	/** Properties object that holds all the configuration. */
 	private static Properties CONFIG;
-	
+
 	/** Contents of the XML file that holds the CV information. */
 	private StringBuilder xmlContents = new StringBuilder();
 
-	/** Set of Lattes publications read from the CV. */
-	private SortedSet<LattesProduction> entries = new TreeSet<>();
-	
+	/** TODO: document this field. */
+	private SortedSet<JournalPaper> journalPapers;
+
+	/** TODO: document this field. */
+	private SortedSet<Book> books;
+
+	/** TODO: document this field. */
+	private SortedSet<BookChapter> bookChapters;
+
+	/** TODO: document this field. */
+	private SortedSet<ConferencePaper> conferencePapers;
+
 	/** The curriculum ID. */
 	private Long lattesId;
-	
+
 	/** The researcher's name. */
 	private String researcherName;
+
+	/** The academic object that represents the researcher in the system. */
+	private Academic researcher;
+
+	/** The amount of publications that the researcher currently has. */
+	private long previousQuantity;
 
 	/** Constructor. */
 	public LattesParser(InputStream inputStream) throws LattesParseException {
@@ -54,7 +76,7 @@ public class LattesParser {
 				logger.log(Level.FINE, "Lattes parser configuration file located at: {0}", parserConfigFile.getAbsolutePath());
 				CONFIG.load(new FileInputStream(parserConfigFile));
 			}
-	
+
 			// Reads the contents of the input stream (i.e., the XML file) into a string buffer ready for Jsoup.
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, CONFIG.getProperty("encoding")))) {
 				String line = reader.readLine();
@@ -66,7 +88,8 @@ public class LattesParser {
 			logger.log(Level.INFO, "Read {0} characters from the given CV's input stream.", xmlContents.length());
 		}
 		catch (Exception e) {
-			// In case there's any exception that prevents us from reading the CV, wraps it in an exception the controller can handle.
+			// In case there's any exception that prevents us from reading the CV, wraps it in an exception the controller can
+			// handle.
 			logger.log(Level.SEVERE, "Exception while trying to read the contents of the XML file that holds the Lattes CV.", e);
 			throw new LattesParseException(e);
 		}
@@ -80,6 +103,46 @@ public class LattesParser {
 	/** Getter for researcherName. */
 	public String getResearcherName() {
 		return researcherName;
+	}
+
+	/** Setter for researcher. */
+	public void setResearcher(Academic researcher) {
+		this.researcher = researcher;
+	}
+
+	/** Getter for researcher. */
+	public Academic getResearcher() {
+		return researcher;
+	}
+
+	/** Getter for previousQuantity. */
+	public long getPreviousQuantity() {
+		return previousQuantity;
+	}
+
+	/** Setter for previousQuantity. */
+	public void setPreviousQuantity(long previousQuantity) {
+		this.previousQuantity = previousQuantity;
+	}
+
+	/** Getter for articles. */
+	public Set<JournalPaper> getJournalPapers() {
+		return journalPapers;
+	}
+
+	/** Getter for books. */
+	public Set<Book> getBooks() {
+		return books;
+	}
+
+	/** Getter for inCollections. */
+	public Set<BookChapter> getBookChapters() {
+		return bookChapters;
+	}
+
+	/** Getter for inProceedings. */
+	public Set<ConferencePaper> getConferencePapers() {
+		return conferencePapers;
 	}
 
 	/**
@@ -96,20 +159,22 @@ public class LattesParser {
 		lattesId = Long.parseLong(curriculum.attr(CONFIG.getProperty("curriculumId")));
 		Element generalData = doc.select(CONFIG.getProperty("jsoupSelectorGeneralData")).first();
 		researcherName = generalData.attr(CONFIG.getProperty("generalDataName"));
-		logger.log(Level.FINE, "Jsoup successfully parsed the CV # {0}, of {1}", new Object[] {lattesId, researcherName});
+		logger.log(Level.FINE, "Jsoup successfully parsed the CV # {0}, of {1}", new Object[] { lattesId, researcherName });
 
 		// Navigates to the nodes that contains the production (supports multiple, although we expect a single one).
 		Elements bibliographyLists = doc.select(CONFIG.getProperty("jsoupSelectorBibliographic"));
 
 		// Goes through all the bibliography.
 		for (Element elem : bibliographyLists) {
-			// Extracts conference, journal, books & chapters, magazine and others.
-			extractEntries(elem, "Events");
-			extractEntries(elem, "Journals");
-			extractEntries(elem, "Books");
-			extractEntries(elem, "Chapters");
-			extractEntries(elem, "Magazines");
-			extractEntries(elem, "Others");
+			// Extracts the data about the publications.
+			extractArticles(extractEntries(elem, "Journals"));
+			extractBooks(extractEntries(elem, "Books"));
+			extractInCollections(extractEntries(elem, "Chapters"));
+			extractInProceedings(extractEntries(elem, "Events"));
+
+			// FIXME: support these types of publications?
+			// extractEntries(elem, "Magazines");
+			// extractEntries(elem, "Others");
 		}
 	}
 
@@ -120,7 +185,9 @@ public class LattesParser {
 	 * @param element
 	 * @param name
 	 */
-	private void extractEntries(Element element, String name) {
+	private SortedSet<LattesProduction> extractEntries(Element element, String name) {
+		SortedSet<LattesProduction> entries = new TreeSet<>();
+
 		// Gets the structural information from the configuration.
 		String selector = CONFIG.getProperty("jsoupSelectorBibliographic" + name);
 		String selectorGeneral = CONFIG.getProperty("jsoupSelectorBibliographic" + name + "General");
@@ -154,13 +221,15 @@ public class LattesParser {
 			// Authors can be multiple.
 			StringBuilder authors = new StringBuilder();
 			for (Element author : elem.select(selectorAuthors))
-				authors.append(author.attr(attrAuthors)).append(", ");
+				authors.append(author.attr(attrAuthors)).append("; ");
 			authors.deleteCharAt(authors.length() - 1);
 			authors.deleteCharAt(authors.length() - 1);
 
 			// Creates a production entry and adds to the set.
 			entries.add(new LattesProduction(type, year, title, venues.toString(), authors.toString()));
 		}
+
+		return entries;
 	}
 
 	/**
@@ -176,95 +245,72 @@ public class LattesParser {
 			if (data[i].matches("\\d{4}")) return Integer.parseInt(data[i]);
 		return 0;
 	}
-}
 
-/**
- * TODO: document this type.
- *
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
- * @version 1.0
- */
-class LattesProduction implements Comparable<LattesProduction> {
-	/** TODO: document this field. */
-	private String type;
-
-	/** TODO: document this field. */
-	private int year;
-
-	/** TODO: document this field. */
-	private String title;
-
-	/** TODO: document this field. */
-	private String venue;
-
-	/** TODO: document this field. */
-	private String authors;
-
-	/** Constructor. */
-	LattesProduction(String type, int year, String title, String venue, String authors) {
-		this.type = type;
-		this.year = year;
-		this.title = title;
-		this.venue = venue;
-		this.authors = authors;
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param entries
+	 */
+	private void extractArticles(SortedSet<LattesProduction> entries) {
+		journalPapers = new TreeSet<>();
+		for (LattesProduction entry : entries) {
+			JournalPaper article = new JournalPaper(entry.getTitle(), entry.getYear(), "", "", "", entry.getVenue(), "", "");
+			extractAuthors(article, entry.getAuthors());
+			journalPapers.add(article);
+		}
 	}
 
-	/** Getter for type. */
-	public String getType() {
-		return type;
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param entries
+	 */
+	private void extractBooks(SortedSet<LattesProduction> entries) {
+		books = new TreeSet<>();
+		for (LattesProduction entry : entries) {
+			Book book = new Book(entry.getTitle(), entry.getYear(), "", "", "", "");
+			extractAuthors(book, entry.getAuthors());
+			books.add(book);
+		}
 	}
 
-	/** Setter for type. */
-	public void setType(String type) {
-		this.type = type;
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param entries
+	 */
+	private void extractInCollections(SortedSet<LattesProduction> entries) {
+		bookChapters = new TreeSet<>();
+		for (LattesProduction entry : entries) {
+			BookChapter chapter = new BookChapter(entry.getTitle(), entry.getYear(), "", "", "", entry.getVenue());
+			extractAuthors(chapter, entry.getAuthors());
+			bookChapters.add(chapter);
+		}
 	}
 
-	/** Getter for year. */
-	public int getYear() {
-		return year;
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param entries
+	 */
+	private void extractInProceedings(SortedSet<LattesProduction> entries) {
+		conferencePapers = new TreeSet<>();
+		for (LattesProduction entry : entries) {
+			ConferencePaper paper = new ConferencePaper(entry.getTitle(), entry.getYear(), "", "", "", entry.getVenue());
+			extractAuthors(paper, entry.getAuthors());
+			conferencePapers.add(paper);
+		}
 	}
 
-	/** Setter for year. */
-	public void setYear(int year) {
-		this.year = year;
-	}
-
-	/** Getter for title. */
-	public String getTitle() {
-		return title;
-	}
-
-	/** Setter for title. */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	/** Getter for venue. */
-	public String getVenue() {
-		return venue;
-	}
-
-	/** Setter for venue. */
-	public void setVenue(String venue) {
-		this.venue = venue;
-	}
-
-	/** Getter for authors. */
-	public String getAuthors() {
-		return authors;
-	}
-
-	/** Setter for authors. */
-	public void setAuthors(String authors) {
-		this.authors = authors;
-	}
-
-	/** @see java.lang.Comparable#compareTo(java.lang.Object) */
-	@Override
-	public int compareTo(LattesProduction o) {
-		int cmp = year - o.year;
-		if (cmp != 0) return cmp;
-
-		return title.compareTo(o.title);
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param publication
+	 * @param authors
+	 */
+	private void extractAuthors(Publication publication, String authors) {
+		// Separate authors using ";" and add them to the publication in order.
+		String[] array = authors.split(";");
+		for (String author : array) publication.addAuthor(author.trim());
 	}
 }

@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.research.domain;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**
@@ -10,12 +11,22 @@ import javax.persistence.Entity;
  * @version 1.0
  */
 @Entity
-public class InProceedings extends Publication {
+@DiscriminatorValue("C")
+public class BookChapter extends Publication {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** TODO: document this field. */
 	private String bookTitle;
+	
+	/** Constructor. */
+	protected BookChapter() { }
+
+	/** Constructor. */
+	public BookChapter(String title, int year, String pages, String doi, String publisher, String bookTitle) {
+		super(title, year, pages, doi, publisher);
+		this.bookTitle = bookTitle;
+	}
 
 	/** Getter for bookTitle. */
 	public String getBookTitle() {

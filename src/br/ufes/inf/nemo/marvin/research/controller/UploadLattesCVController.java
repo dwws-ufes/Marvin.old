@@ -1,6 +1,8 @@
 package br.ufes.inf.nemo.marvin.research.controller;
 
 import java.io.IOException;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +16,10 @@ import javax.inject.Named;
 import org.primefaces.model.UploadedFile;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
+import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.research.application.PublicationInfo;
 import br.ufes.inf.nemo.marvin.research.application.UploadLattesCVService;
+import br.ufes.inf.nemo.marvin.research.domain.Publication;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesIdNotRegisteredException;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesParseException;
 
@@ -33,16 +38,31 @@ public class UploadLattesCVController extends JSFController {
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(UploadLattesCVController.class.getCanonicalName());
 
+	/** Path to the folder where the view files (web pages) for this action are placed. */
+	private static final String VIEW_PATH = "/research/uploadLattesCV/";
+
 	/** TODO: document this field. */
 	@Inject
 	private Conversation conversation;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private UploadLattesCVService uploadLattesCVService;
-	
+
 	/** TODO: document this field. */
 	private UploadedFile file;
+
+	/** TODO: document this field. */
+	private Set<Publication> publications;
+
+	/** TODO: document this field. */
+	private Publication selectedPublication;
+
+	/** TODO: document this field. */
+	private Academic researcher;
+
+	/** TODO: document this field. */
+	private long previousQuantity;
 
 	/** Getter for file. */
 	public UploadedFile getFile() {
@@ -54,16 +74,52 @@ public class UploadLattesCVController extends JSFController {
 		this.file = file;
 	}
 
+	/** Getter for publications. */
+	public Set<Publication> getPublications() {
+		return publications;
+	}
+
+	/** Getter for selectedPublication. */
+	public Publication getSelectedPublication() {
+		return selectedPublication;
+	}
+
+	/** Setter for selectedPublication. */
+	public void setSelectedPublication(Publication selectedPublication) {
+		this.selectedPublication = selectedPublication;
+	}
+
+	/** Getter for researcher. */
+	public Academic getResearcher() {
+		return researcher;
+	}
+
+	/** Getter for previousQuantity. */
+	public long getPreviousQuantity() {
+		return previousQuantity;
+	}
+
 	/**
 	 * TODO: document this method.
 	 */
 	public String upload() {
-		// Manages the conversation. 
+		// Manages the conversation.
 		if (conversation.isTransient()) conversation.begin();
-		
+
 		try {
 			// Performs the upload.
-			uploadLattesCVService.uploadLattesCV(file.getInputstream());
+			PublicationInfo info = uploadLattesCVService.uploadLattesCV(file.getInputstream());
+
+			// Adds all the publications to a single set.
+			publications = new TreeSet<>();
+			publications.addAll(info.getJournalPapers());
+			publications.addAll(info.getBooks());
+			publications.addAll(info.getBookChapters());
+			publications.addAll(info.getConferencePapers());
+			
+			// Retrieve information on the researcher.
+			researcher = info.getResearcher();
+			previousQuantity = info.getPreviousQuantity();
 		}
 		catch (LattesIdNotRegisteredException e) {
 			logger.log(Level.INFO, "Lattes ID in the uploaded CV is not registered in the system");
@@ -75,7 +131,27 @@ public class UploadLattesCVController extends JSFController {
 			addGlobalI18nMessage("msgsResearch", FacesMessage.SEVERITY_ERROR, "uploadLattesCV.error.lattesParseError.summary", "uploadLattesCV.error.lattesIdNotRegistered.detail");
 			return null;
 		}
-		
+
+		return VIEW_PATH + "list.xhtml?faces-redirect=true";
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	public String cancel() {
+		// Drops the conversation and redirects back to the beginning.
+		if (!conversation.isTransient()) conversation.end();
+		return VIEW_PATH + "index.xhtml?faces-redirect=true";
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	public String confirm() {
 		return null;
 	}
 }
