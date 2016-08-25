@@ -11,36 +11,20 @@
 .ui-selectonemenu {
 	width: 100%;	
 }
+div.ui-selectonemenu-trigger.ui-state-default.ui-corner-right {
+	width: 28px;
+}
+div.ui-selectonemenu-trigger.ui-state-default.ui-corner-right > .ui-c {
+	margin-top: 7px;
+}
 .ui-autocomplete {
 	width: 100%;	
-}
-.ui-selectonemenu .ui-selectonemenu-trigger {
-	width: 28px;
-	padding-top: 5px;
 }
 .ui-datatable {
 	margin-bottom: 5px;
 }
 .ui-datatable tr.ui-state-highlight {
 	background: #0081c2;
-}
-#filterForm .ui-selectonemenu-label {
-	text-align: right;
-}
-#filterForm .ui-panelgrid-cell {
-	padding: 4px 3px;
-}
-#filterForm .ui-button {
-	padding: 6px 6px;
-}
-#filterForm .ui-corner-right {
-	width: 28px;
-}
-#filterForm .ui-corner-right > .ui-c {
-	margin-top: 7px;
-}
-#filterForm .ui-button-text.ui-c {
-	line-height: 9px;
 }
 #listingForm\3a trashGroup .box {
 	margin-top: 20px;

@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
@@ -34,4 +36,11 @@ public interface AcademicDAO extends BaseDAO<Academic> {
 	 * @throws MultiplePersistentObjectsFoundException
 	 */
 	Academic retrieveByLattesId(Long lattesId) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	List<Academic> retrieveResearchers();
 }

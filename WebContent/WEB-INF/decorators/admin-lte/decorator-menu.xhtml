@@ -34,6 +34,7 @@
 				<a href="#"><i class="fa fa-search"></i> <span><h:outputText value="#{msgsResearch['core.menu.research']}" /></span> <i class="fa fa-angle-left pull-right"></i></a>
 				<ul class="treeview-menu #{menuOpen ? 'menu-open' : ''}" style="display: #{menuOpen ? 'block' : 'none'};">
 					<li><h:link outcome="/research/uploadLattesCV/index"><h:outputText value="#{msgsResearch['core.menu.research.uploadLattesCV']}" /></h:link></li>
+					<li><h:link outcome="/research/generateBibliography/index"><h:outputText value="#{msgsResearch['core.menu.research.generateBibliography']}" /></h:link></li>
 				</ul>
 			</li>
 		</h:panelGroup>

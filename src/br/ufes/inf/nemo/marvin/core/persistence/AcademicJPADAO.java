@@ -89,4 +89,22 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 		logger.log(Level.INFO, "Retrieve academic by the Lattes ID \"{0}\" returned \"{1}\"", new Object[] { lattesId, result });
 		return result;
 	}
+
+	/** @see br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO#retrieveResearchers() */
+	@Override
+	public List<Academic> retrieveResearchers() {
+		logger.log(Level.FINE, "Retrieving all researchers in the system");
+
+		// Constructs the query over the Academic class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Academic> cq = cb.createQuery(Academic.class);
+		Root<Academic> root = cq.from(Academic.class);
+
+		// Filters academics that have Lattes ID set.
+		// FIXME: also check if the academic has either the professor or the student role.
+		cq.where(cb.isNotNull(root.get(Academic_.lattesId)));
+		List<Academic> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieving researchers returned {0} results", result.size());
+		return result;
+	}
 }
