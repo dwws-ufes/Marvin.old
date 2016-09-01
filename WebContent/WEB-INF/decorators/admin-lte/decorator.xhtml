@@ -172,25 +172,11 @@
 						<h:panelGroup rendered="false">
 						<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a></li>
 						</h:panelGroup>
-
-						<!-- Ajax status indicator: -->
-						<h:form id="ajaxStatusForm">
-							<p:ajaxStatus>
-								<f:facet name="start">
-									<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-cog fa-spin" title="#{msgs['jbutler.text.ajax.loading']}"></i></a></li>
-								</f:facet>
-								<f:facet name="error">
-									<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-exclamation-triangle" title="#{msgs['jbutler.text.ajax.error']}"></i></a></li>
-								</f:facet>
-								<f:facet name="complete">
-									<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-check" title="#{msgs['jbutler.text.ajax.complete']}"></i></a></li>
-								</f:facet>
-							</p:ajaxStatus>
-						</h:form>
 					</ul>
 				</div>
 			</nav>
 		</header>
+
 		<!-- Left side column. contains the logo and sidebar -->
 		<aside class="main-sidebar">
 
@@ -234,6 +220,21 @@
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
+			<!-- Ajax status indicator: -->
+			<h:form id="ajaxStatusForm">
+				<p:ajaxStatus>
+					<f:facet name="start">
+						<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-cog fa-spin" title="#{msgs['jbutler.text.ajax.loading']}"></i></a></li>
+					</f:facet>
+					<f:facet name="error">
+						<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-exclamation-triangle" title="#{msgs['jbutler.text.ajax.error']}"></i></a></li>
+					</f:facet>
+					<f:facet name="complete">
+						<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-check" title="#{msgs['jbutler.text.ajax.complete']}"></i></a></li>
+					</f:facet>
+				</p:ajaxStatus>
+			</h:form>
+
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>

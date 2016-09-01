@@ -3,6 +3,14 @@
 	margin-top: 60px;
 }
 
+/* AJAX status positioned at the top right, also below Marvin's top bar. */
+#ajaxStatusForm {
+	float: right;
+}
+#ajaxStatusForm li {
+	display: block;
+}
+
 /* Input fields manipulation. */
 .ui-inputfield {
     width: 100%;
