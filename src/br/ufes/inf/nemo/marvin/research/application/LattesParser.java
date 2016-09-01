@@ -302,7 +302,7 @@ class LattesParser implements PublicationInfo {
 	private void extractInCollections(SortedSet<LattesEntry> entries) {
 		bookChapters = new TreeSet<>();
 		for (LattesEntry entry : entries) {
-			BookChapter chapter = new BookChapter(entry.getTitle(), entry.getYear(), entry.getPages(), entry.getDoi(), entry.getPublisher(), entry.getVenue());
+			BookChapter chapter = new BookChapter(entry.getTitle(), entry.getYear(), entry.getPages(), entry.getDoi(), entry.getPublisher(), entry.getVenue(), entry.getExtra01());
 			extractAuthors(chapter, entry.getAuthors());
 			bookChapters.add(chapter);
 		}

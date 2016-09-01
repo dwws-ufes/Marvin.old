@@ -1,5 +1,9 @@
 package br.ufes.inf.nemo.marvin.research.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -10,6 +14,9 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
@@ -157,6 +164,7 @@ public class GenerateBibliographyController extends JSFController {
 		// FIXME: check if the form was properly filled in.
 		logger.log(Level.FINE, "Generating the configuration...");
 		bibliography = generateBibliographyService.generateBibliography(configuration);
+
 		return VIEW_PATH + "bibliography.xhtml";
 	}
 
@@ -173,8 +181,19 @@ public class GenerateBibliographyController extends JSFController {
 	/**
 	 * TODO: document this method.
 	 */
-	public void download() {
-		// FIXME: implement this.
-		System.out.println("################# " + bibliography);
+	public StreamedContent getBibliographyFile() {
+		try (InputStream in  = new ByteArrayInputStream(bibliography.toString().getBytes("UTF-8"))) {
+			logger.log(Level.INFO, "Downloading: " + in.available());
+			return new DefaultStreamedContent(in, "text/plain", "bibliography.bib");
+		}
+		catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

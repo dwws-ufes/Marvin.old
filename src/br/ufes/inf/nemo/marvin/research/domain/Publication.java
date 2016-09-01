@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.research.domain;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,19 +33,19 @@ public abstract class Publication extends PersistentObjectSupport implements Com
 	private static final long serialVersionUID = 1L;
 
 	/** TODO: document this field. */
-	private String title;
+	protected String title;
 
 	/** TODO: document this field. */
-	private int year;
+	protected int year;
 
 	/** TODO: document this field. */
-	private String pages;
+	protected String pages;
 
 	/** TODO: document this field. */
-	private String doi;
+	protected String doi;
 
 	/** TODO: document this field. */
-	private String publisher;
+	protected String publisher;
 
 	/** TODO: document this field. */
 	@ManyToOne
@@ -146,24 +147,74 @@ public abstract class Publication extends PersistentObjectSupport implements Com
 		authors.add(author);
 	}
 
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	protected String getBibKey() {
+		// Starts from the title.
+		String bibKey = title;
+		
+		// Removes accents from letters.
+		bibKey = Normalizer.normalize(bibKey, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+		
+		// Converts all charactes to lowercase.
+		bibKey = bibKey.toLowerCase();
+		
+		// Replace all non-alphanumeric characters into underscores.
+		bibKey = bibKey.replaceAll("[^a-z0-9]", "_");
+		
+		// Attaches the year to the modified title to finish the key.
+		return bibKey + "_" + year;
+	}
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	protected String getAuthorList() {
+		// Produces a string with the author names separated by the "and" keyword.
+		StringBuilder builder = new StringBuilder();
+		for (String author : authors) {
+			// If not already in the Surname, Name format, puts it in this format.
+			int idx = author.indexOf(',');
+			if (idx == -1) {
+				idx = author.lastIndexOf(' ');
+				if (idx != -1) author = author.substring(idx + 1) + ", " + author.substring(0, idx);
+			}
+		
+			builder.append(author).append(" and ");
+		}
+		
+		// Deletes the trailing "and".
+		int len = builder.length();
+		builder.delete(len - 5, len);
+
+		return builder.toString();
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	public abstract String toBibTeX();
+
 	/** @see java.lang.Comparable#compareTo(java.lang.Object) */
 	@Override
 	public int compareTo(Publication o) {
 		int cmp = 0;
 
-		// Compare first by owner.
-		if (owner != null) cmp = owner.compareTo(o.owner);
+		// Compares first by year.
+		cmp = o.year - year;
 		if (cmp != 0) return cmp;
 
-		// Then compare by year.
-		cmp = year - o.year;
-		if (cmp != 0) return cmp;
-
-		// If still a draw, compare by title.
+		// If still a draw, compares by title.
 		cmp = title.compareTo(o.title);
-		if (cmp != 0) return cmp;
+		return cmp;
 
-		// Lastly, compare by persistence id.
-		return super.compareTo(o);
+		// Lastly, compares by persistence id.
+		//return super.compareTo(o);
 	}
 }

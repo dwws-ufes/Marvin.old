@@ -31,4 +31,14 @@ public interface PublicationDAO extends BaseDAO<Publication> {
 	 * @return
 	 */
 	List<Publication> retrieveByAcademic(Academic academic);
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param academic
+	 * @param startYear
+	 * @param endYear
+	 * @return
+	 */
+	List<Publication> retrieveByAcademicAndYearRange(Academic academic, Integer startYear, Integer endYear);
 }

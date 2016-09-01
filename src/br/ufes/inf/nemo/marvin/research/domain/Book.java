@@ -37,4 +37,22 @@ public class Book extends Publication {
 	public void setEdition(String edition) {
 		this.edition = edition;
 	}
+
+	/** @see br.ufes.inf.nemo.marvin.research.domain.Publication#toBibTeX() */
+	@Override
+	public String toBibTeX() {
+		StringBuilder builder = new StringBuilder();
+		
+		// Produces the BibTeX entry for this type of publication.
+		builder.append("@book{").append(getBibKey()).append(",\n");																															// @book{bibKey,
+		builder.append("\ttitle = {{").append(title).append("}},\n");																														//  title = {{Publication's Title}},
+		builder.append("\tauthor = {").append(getAuthorList()).append("},\n");																									//  author = {Author list},
+		if (edition != null && ! edition.isEmpty()) builder.append("\tedition = {").append(edition).append("}\n");							//  edition = {Book edition},
+		if (doi != null && ! doi.isEmpty()) builder.append("\tdoi = {").append(doi).append("}\n");															//  doi = {Digital Object Identifier},
+		if (publisher != null && ! publisher.isEmpty()) builder.append("\tpublisher = {{").append(publisher).append("}},\n");		//  publisher = {{Publisher's name}},
+		builder.append("\tyear = {").append(getYear()).append("}\n");																														//  year = {Publication year}
+		builder.append("}\n");																																																	// }
+		
+		return builder.toString();
+	}
 }

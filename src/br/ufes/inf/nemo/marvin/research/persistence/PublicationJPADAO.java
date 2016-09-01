@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.research.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
@@ -76,6 +78,27 @@ public class PublicationJPADAO extends BaseJPADAO<Publication> implements Public
 		cq.where(cb.equal(root.get(Publication_.owner), academic));
 		List<Publication> result = entityManager.createQuery(cq).getResultList();
 		logger.log(Level.INFO, "Retrieve publications of academic \"{0}\" ({1}) returned {2} results.", new Object[] { academic.getName(), academic.getEmail(), result.size() });
+		return result;
+	}
+
+	/** @see br.ufes.inf.nemo.marvin.research.persistence.PublicationDAO#retrieveByAcademicAndYearRange(br.ufes.inf.nemo.marvin.core.domain.Academic, int, int) */
+	@Override
+	public List<Publication> retrieveByAcademicAndYearRange(Academic academic, Integer startYear, Integer endYear) {
+		logger.log(Level.FINE, "Retrieving the publications of academic \"{0}\" ({1}) within range [{2}--{3}]...", new Object[] { academic.getName(), academic.getEmail(), startYear, endYear });
+
+		// Constructs the query over the Publication class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Publication> cq = cb.createQuery(Publication.class);
+		Root<Publication> root = cq.from(Publication.class);
+
+		// Filters the query with the academic and the year range.
+		List<Predicate> constraints = new ArrayList<>();
+		constraints.add(cb.equal(root.get(Publication_.owner), academic));
+		if (startYear != null) constraints.add(cb.ge(root.get(Publication_.year), startYear));
+		if (endYear != null) constraints.add(cb.le(root.get(Publication_.year), endYear));
+		cq.where(cb.and(constraints.toArray(new Predicate[] { })));
+		List<Publication> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve publications of academic \"{0}\" ({1}) within range [{2}--{3}] returned {4} results.", new Object[] { academic.getName(), academic.getEmail(), startYear, endYear, result.size() });
 		return result;
 	}
 }
