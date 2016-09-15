@@ -61,11 +61,11 @@ public class BookChapter extends Publication {
 		// Produces the BibTeX entry for this type of publication.
 		builder.append("@incollection{").append(getBibKey()).append(",\n");																											// @incollection{bibKey,
 		builder.append("\ttitle = {{").append(title).append("}},\n");																														//  title = {{Publication's Title}},
-		builder.append("\tauthor = {").append(getAuthorList()).append("},\n");																									//  author = {Author list},
+		builder.append("\tauthor = {").append(getAuthorList().toUpperCase()).append("},\n");																		//  author = {Author list},
 		builder.append("\tbooktitle = {{").append(bookTitle).append("}},\n");																										//  booktitle = {{Book title}},
-		if (edition != null && ! edition.isEmpty()) builder.append("\tvolume = {").append(edition).append("}\n");								//  volume = {Book edition},
-		if (pages != null && ! pages.isEmpty()) builder.append("\tpages = {").append(pages).append("}\n");											//  pages = {Start Page--End Page},
-		if (doi != null && ! doi.isEmpty()) builder.append("\tdoi = {").append(doi).append("}\n");															//  doi = {Digital Object Identifier},
+		if (edition != null && ! edition.isEmpty()) builder.append("\tvolume = {").append(edition).append("},\n");							//  volume = {Book edition},
+		if (pages != null && ! pages.isEmpty()) builder.append("\tpages = {").append(pages).append("},\n");											//  pages = {Start Page--End Page},
+		if (doi != null && ! doi.isEmpty()) builder.append("\tdoi = {").append(doi).append("},\n");															//  doi = {Digital Object Identifier},
 		if (publisher != null && ! publisher.isEmpty()) builder.append("\tpublisher = {{").append(publisher).append("}},\n");		//  publisher = {{Publisher's name}},
 		builder.append("\tyear = {").append(getYear()).append("}\n");																														//  year = {Publication year}
 		builder.append("}\n");																																																	// }

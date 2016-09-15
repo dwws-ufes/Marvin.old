@@ -4,12 +4,14 @@ import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import br.ufes.inf.nemo.jbutler.ResourceUtil;
@@ -70,8 +72,14 @@ public class InstallSystemServiceBean implements InstallSystemService {
 		try {
 			File jsonFile = ResourceUtil.getResourceAsFile(INIT_DATA_PATH + INIT_DATA_ROLE_FILE_NAME);
 			try (Scanner scanner = new Scanner(jsonFile)) {
-				while (scanner.hasNextLine()) {
-					JSONObject obj = new JSONObject(scanner.nextLine());
+				// Reads the content of the entire file, which contains a JSON array.
+				StringBuilder builder = new StringBuilder();
+				while (scanner.hasNextLine()) builder.append(scanner.nextLine());
+				
+				// Instantiates the JSON array and reads the objects.
+				JSONArray array = new JSONArray(builder.toString());
+				for (int i = 0; i < array.length(); i++) {
+					JSONObject obj = array.getJSONObject(i);
 					Role role = new Role(obj.getString("name"), obj.getString("descriptionKey"));
 					logger.log(Level.FINE, "Persisting role: {0}", role.getName());
 					roleDAO.save(role);
@@ -123,6 +131,10 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			logger.log(Level.SEVERE, "Exception during system installation!", e);
 			throw new SystemInstallFailedException(e);
 		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		System.out.println(TextUtils.produceBase64EncodedMd5Hash("ovni.conceitual"));
 	}
 
 }

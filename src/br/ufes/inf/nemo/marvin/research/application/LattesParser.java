@@ -219,13 +219,12 @@ class LattesParser implements PublicationInfo {
 			String title = general.attr(attrTitle);
 			String doi = general.attr(attrDoi);
 
-			// Venue can be split into more than one attribute.
-			StringBuilder venues = new StringBuilder();
-			for (String attr : attrVenue)
-				venues.append(detail.attr(attr)).append(" / ");
-			venues.deleteCharAt(venues.length() - 1);
-			venues.deleteCharAt(venues.length() - 1);
-			venues.deleteCharAt(venues.length() - 1);
+			// Venue can be split into more than one attribute. Gets the first non-empty one.
+			String venues = "";
+			for (String attr : attrVenue) {
+				venues = detail.attr(attr);
+				if (venues != null && venues.length() > 0) break;
+			}
 
 			// Authors can be multiple.
 			StringBuilder authors = new StringBuilder();
