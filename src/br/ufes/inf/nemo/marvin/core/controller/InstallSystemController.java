@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -152,6 +153,9 @@ public class InstallSystemController extends JSFController {
 		logger.log(Level.FINEST, "Previously received data:\n\t- admin.name = {0}\n\t- admin.email = {1}", new Object[] { admin.getName(), admin.getEmail() });
 		logger.log(Level.FINEST, "Received input data:\n\t- config.institutionAcronym = {0}\n\t- config.smtpServer:Port = {1}:{2}\n\t- config.smtpUsername = {3}", new Object[] {config.getInstitutionAcronym(), config.getSmtpServerAddress(), config.getSmtpServerPort(), config.getSmtpUsername()});
 
+		// Lastly, sets the base URL for this installation of Marvin.
+		config.setBaseURL(FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
+		
 		// Installs the system.
 		try {
 			installSystemService.installSystem(config, admin);

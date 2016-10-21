@@ -46,6 +46,10 @@ public class MarvinConfiguration extends PersistentObjectSupport {
 	/** Password to connect to the SMTP server that sends email. */
 	@NotNull
 	private String smtpPassword;
+	
+	/** The URL for this Marvin installation. */
+	@NotNull
+	private String baseURL;
 
 	/** Constructor. */
 	public MarvinConfiguration() {}
@@ -108,5 +112,15 @@ public class MarvinConfiguration extends PersistentObjectSupport {
 	/** Setter for smtpPassword. */
 	public void setSmtpPassword(String smtpPassword) {
 		this.smtpPassword = smtpPassword;
+	}
+
+	/** Getter for baseURL. */
+	public String getBaseURL() {
+		return baseURL;
+	}
+
+	/** Setter for baseURL. */
+	public void setBaseURL(String baseURL) {
+		this.baseURL = baseURL;
 	}
 }

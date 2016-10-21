@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2016-10-20T22:01:10.720-0200")
+@Generated(value="Dali", date="2016-10-20T22:28:00.695-0200")
 @StaticMetamodel(MarvinConfiguration.class)
 public class MarvinConfiguration_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<MarvinConfiguration, Date> creationDate;
@@ -15,4 +15,5 @@ public class MarvinConfiguration_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<MarvinConfiguration, Integer> smtpServerPort;
 	public static volatile SingularAttribute<MarvinConfiguration, String> smtpUsername;
 	public static volatile SingularAttribute<MarvinConfiguration, String> smtpPassword;
+	public static volatile SingularAttribute<MarvinConfiguration, String> baseURL;
 }
