@@ -105,6 +105,8 @@ public class CoreInformation implements Serializable {
 
 	/** Gets a random quote from Marvin. */
 	public String getQuote() {
+		// Quotes should not be empty.
+		if (quotes.isEmpty()) return "";
 		int idx = random.nextInt(quotes.size());
 		return quotes.get(idx);
 	}

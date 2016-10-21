@@ -28,6 +28,36 @@
 				</p:inputText>
 			</ui:decorate>
 
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpServerAddress" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpServerAddress']}" />
+				<p:inputText id="smtpServerAddress" value="#{installSystemController.config.smtpServerAddress}" required="true" pt:placeholder="#{msgsCore['installSystem.field.config.smtpServerAddress.placeholder']}">
+					<f:ajax event="blur" render="smtpServerAddressField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpServerPort" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpServerPort']}" />
+				<p:inputText id="smtpServerPort" value="#{installSystemController.config.smtpServerPort}" required="true">
+					<f:ajax event="blur" render="smtpServerPortField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpUsername" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpUsername']}" />
+				<p:inputText id="smtpUsername" value="#{installSystemController.config.smtpUsername}" required="true">
+					<f:ajax event="blur" render="smtpUsernameField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpPassword" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpPassword']}" />
+				<p:password id="smtpPassword" value="#{installSystemController.config.smtpPassword}" required="true" />
+			</ui:decorate>
+
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
 				<p:commandButton action="#{installSystemController.saveConfig}" value="#{msgsCore['installSystem.button.saveConfig']}" update=":globalMessages form" icon="fa fa-fw fa-save" />
 			</ui:decorate>

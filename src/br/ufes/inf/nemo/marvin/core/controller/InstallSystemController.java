@@ -150,7 +150,7 @@ public class InstallSystemController extends JSFController {
 	 */
 	public String saveConfig() {
 		logger.log(Level.FINEST, "Previously received data:\n\t- admin.name = {0}\n\t- admin.email = {1}", new Object[] { admin.getName(), admin.getEmail() });
-		logger.log(Level.FINEST, "Received input data:\n\t- config.institutionAcronym = {0}", config.getInstitutionAcronym());
+		logger.log(Level.FINEST, "Received input data:\n\t- config.institutionAcronym = {0}\n\t- config.smtpServer:Port = {1}:{2}\n\t- config.smtpUsername = {3}", new Object[] {config.getInstitutionAcronym(), config.getSmtpServerAddress(), config.getSmtpServerPort(), config.getSmtpUsername()});
 
 		// Installs the system.
 		try {
