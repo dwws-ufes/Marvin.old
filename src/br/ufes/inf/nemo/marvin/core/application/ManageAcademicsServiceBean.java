@@ -1,12 +1,17 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
@@ -42,6 +47,18 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	/** TODO: document this field. */
 	@EJB
 	private RoleDAO roleDAO;
+	
+	/** TODO: document this field. */
+	@EJB
+	private CoreInformation coreInformation;
+	
+	/** TODO: document this field. */
+	@EJB
+	private Mailer mailer;
+	
+	/** TODO: document this field. */
+	@Resource
+	private SessionContext sessionContext;
 
 	/** TODO: document this field. */
 	private PersistentObjectConverterFromId<Role> roleConverter;
@@ -58,9 +75,12 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	 */
 	@Override
 	protected Academic validate(Academic newEntity, Academic oldEntity) {
-		// New academics must have their creation date set.
+		// New academics must have their creation date and password code set.
 		Date now = new Date(System.currentTimeMillis());
-		if (oldEntity == null) newEntity.setCreationDate(now);
+		if (oldEntity == null) {
+			newEntity.setCreationDate(now);
+			newEntity.setPasswordCode(UUID.randomUUID().toString());
+		}
 
 		// All academics have their last update date set when persisted.
 		newEntity.setLastUpdateDate(now);
@@ -90,6 +110,30 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 
 		// If one of the rules was violated, throw the exception.
 		if (crudException != null) throw crudException;
+	}
+
+	/** @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#create(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject) */
+	@Override
+	public void create(Academic entity) {
+		// Performs the method as inherited (create the academic).
+		super.create(entity);
+		
+		try {
+			// Retrieves the current user, i.e., the admin.
+			Academic admin = academicDAO.retrieveByEmail(sessionContext.getCallerPrincipal().getName());
+			
+			// Creates the data model with the information needed to send an e-mail to the new academic.
+			Map<String, Object> dataModel = new HashMap<>();
+			dataModel.put("config", coreInformation.getCurrentConfig());
+			dataModel.put("admin", admin);
+			dataModel.put("academic", entity);
+		
+			// Then, send an e-mail to the new academic.
+			mailer.sendEmail(MailerTemplate.NEW_ACADEMIC_REGISTERED, dataModel);
+		}
+		catch (Exception e) {
+			logger.log(Level.SEVERE, "Could NOT send e-mail using template: " + MailerTemplate.NEW_ACADEMIC_REGISTERED, e);
+		}
 	}
 
 	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#getRoleConverter() */
