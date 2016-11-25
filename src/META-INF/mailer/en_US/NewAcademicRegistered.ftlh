@@ -1,3 +1,4 @@
+Welcome to Marvin @ ${config.institutionAcronym}
 Hi...
 
 I'm Marvin, the Paranoid Android, working for ${config.institutionAcronym} at ${config.baseURL}.

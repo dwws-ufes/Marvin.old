@@ -13,6 +13,8 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
@@ -53,8 +55,8 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	private CoreInformation coreInformation;
 	
 	/** TODO: document this field. */
-	@EJB
-	private Mailer mailer;
+	@Inject
+	private Event<MailEvent> mailEvent;
 	
 	/** TODO: document this field. */
 	@Resource
@@ -128,8 +130,8 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 			dataModel.put("admin", admin);
 			dataModel.put("academic", entity);
 		
-			// Then, send an e-mail to the new academic.
-			mailer.sendEmail(MailerTemplate.NEW_ACADEMIC_REGISTERED, dataModel);
+			// Then, fire an e-mail event so the e-mail gets sent.
+			mailEvent.fire(new MailEvent(entity.getEmail(), "", MailerTemplate.NEW_ACADEMIC_REGISTERED, dataModel));
 		}
 		catch (Exception e) {
 			logger.log(Level.SEVERE, "Could NOT send e-mail using template: " + MailerTemplate.NEW_ACADEMIC_REGISTERED, e);
