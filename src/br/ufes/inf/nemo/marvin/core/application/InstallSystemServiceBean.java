@@ -4,7 +4,6 @@ import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +18,7 @@ import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
-import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
+import br.ufes.inf.nemo.marvin.core.exceptions.OperationFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.MarvinConfigurationDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
@@ -65,7 +64,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *      br.ufes.inf.nemo.marvin.core.domain.Academic)
 	 */
 	@Override
-	public void installSystem(MarvinConfiguration config, Academic admin) throws SystemInstallFailedException {
+	public void installSystem(MarvinConfiguration config, Academic admin) throws OperationFailedException {
 		logger.log(Level.FINER, "Installing system...");
 
 		// Creates the roles in the database from a JSON file located in META-INF/installSystem.
@@ -89,7 +88,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 		catch (Exception e) {
 			// Logs and rethrows the exception for the controller to display the error to the user.
 			logger.log(Level.SEVERE, "Could not read initial data for roles.", e);
-			throw new SystemInstallFailedException(e);
+			throw new OperationFailedException(e);
 		}
 
 		try {
@@ -124,12 +123,12 @@ public class InstallSystemServiceBean implements InstallSystemService {
 		catch (NoSuchAlgorithmException e) {
 			// Logs and rethrows the exception for the controller to display the error to the user.
 			logger.log(Level.SEVERE, "Could not find MD5 algorithm for password encription!", e);
-			throw new SystemInstallFailedException(e);
+			throw new OperationFailedException(e);
 		}
 		catch (Exception e) {
 			// Logs and rethrows the exception for the controller to display the error to the user.
 			logger.log(Level.SEVERE, "Exception during system installation!", e);
-			throw new SystemInstallFailedException(e);
+			throw new OperationFailedException(e);
 		}
 	}
 	

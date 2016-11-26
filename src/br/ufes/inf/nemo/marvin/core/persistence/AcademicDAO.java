@@ -43,4 +43,14 @@ public interface AcademicDAO extends BaseDAO<Academic> {
 	 * @return
 	 */
 	List<Academic> retrieveResearchers();
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param passwordCode
+	 * @return
+	 * @throws PersistentObjectNotFoundException
+	 * @throws MultiplePersistentObjectsFoundException
+	 */
+	Academic retrieveByPasswordCode(String passwordCode) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 }

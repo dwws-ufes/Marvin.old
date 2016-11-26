@@ -16,7 +16,7 @@ import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.InstallSystemService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
-import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
+import br.ufes.inf.nemo.marvin.core.exceptions.OperationFailedException;
 
 /**
  * TODO: document this type.
@@ -163,14 +163,15 @@ public class InstallSystemController extends JSFController {
 		try {
 			installSystemService.installSystem(config, admin);
 		}
-		catch (SystemInstallFailedException e) {
+		catch (OperationFailedException e) {
 			logger.log(Level.SEVERE, "System installation threw exception", e);
-			addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_FATAL, "installSystem.error.installFailed.summary", "installSystem.error.installFailed.detail");
+			addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_FATAL, "installSystem.error.operationFailed.summary", "installSystem.error.operationFailed.detail");
 			return null;
 		}
 
 		// Ends the conversation.
-		conversation.end();
+		logger.log(Level.FINEST, "Ending conversation. Current conversation transient? -> {0}", new Object[] { conversation.isTransient() });
+		if (!conversation.isTransient()) conversation.end();
 
 		// Proceeds to the final view.
 		return VIEW_PATH + "done.xhtml?faces-redirect=true";

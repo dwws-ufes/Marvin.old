@@ -1,4 +1,4 @@
-package br.ufes.inf.nemo.marvin.core.application;
+package br.ufes.inf.nemo.marvin.core.exceptions;
 
 /**
  * TODO: document this type.

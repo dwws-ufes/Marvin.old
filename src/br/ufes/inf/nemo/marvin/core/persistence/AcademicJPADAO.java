@@ -107,4 +107,21 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 		logger.log(Level.INFO, "Retrieving researchers returned {0} results", result.size());
 		return result;
 	}
+
+	/** @see br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO#retrieveByEmail(java.lang.String) */
+	@Override
+	public Academic retrieveByPasswordCode(String passwordCode) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+		logger.log(Level.FINE, "Retrieving the academic whose password code is \"{0}\"...", passwordCode);
+
+		// Constructs the query over the Academic class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Academic> cq = cb.createQuery(Academic.class);
+		Root<Academic> root = cq.from(Academic.class);
+
+		// Filters the query with the email.
+		cq.where(cb.equal(root.get(Academic_.passwordCode), passwordCode));
+		Academic result = executeSingleResultQuery(cq, passwordCode);
+		logger.log(Level.INFO, "Retrieve academic by the password code \"{0}\" returned \"{1}\"", new Object[] { passwordCode, result });
+		return result;
+	}
 }

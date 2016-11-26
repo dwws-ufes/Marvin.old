@@ -21,6 +21,7 @@ import org.apache.commons.mail.SimpleEmail;
 
 import br.ufes.inf.nemo.jbutler.ResourceUtil;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
+import br.ufes.inf.nemo.marvin.core.exceptions.MailerException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;

@@ -5,12 +5,12 @@ package br.ufes.inf.nemo.marvin.core.exceptions;
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
-public class SystemInstallFailedException extends Exception {
+public class OperationFailedException extends Exception {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** Constructor from superclass. */
-	public SystemInstallFailedException(Throwable t) {
+	public OperationFailedException(Throwable t) {
 		super(t);
 	}
 }
