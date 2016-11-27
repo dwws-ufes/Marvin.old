@@ -110,7 +110,7 @@ public class Mailer implements Serializable {
 	 */
 	@Asynchronous
 	public void sendEmail(@Observes MailEvent mailEvent) throws MailerException {
-		sendEmail(mailEvent.getEmailAddress(), mailEvent.getSubjectKey(), mailEvent.getMailerTemplate(), mailEvent.getDataModel());
+		sendEmail(mailEvent.getEmailAddress(), mailEvent.getMailerTemplate(), mailEvent.getDataModel());
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class Mailer implements Serializable {
 	 * @param dataModel
 	 * @throws MailerException
 	 */
-	public void sendEmail(String emailAddress, String subjectKey, MailerTemplate mailerTemplate, Map<String, Object> dataModel) throws MailerException {
+	public void sendEmail(String emailAddress, MailerTemplate mailerTemplate, Map<String, Object> dataModel) throws MailerException {
 		try {
 			// Loads the e-mail template file.
 			Template template = freeMarkerCfg.getTemplate(mailerTemplate + TEMPLATE_FILE_EXTENSION);

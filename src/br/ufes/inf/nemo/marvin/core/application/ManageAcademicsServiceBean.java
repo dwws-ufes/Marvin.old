@@ -131,7 +131,7 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 			dataModel.put("academic", entity);
 		
 			// Then, fire an e-mail event so the e-mail gets sent.
-			mailEvent.fire(new MailEvent(entity.getEmail(), "", MailerTemplate.NEW_ACADEMIC_REGISTERED, dataModel));
+			mailEvent.fire(new MailEvent(entity.getEmail(), MailerTemplate.NEW_ACADEMIC_REGISTERED, dataModel));
 		}
 		catch (Exception e) {
 			logger.log(Level.SEVERE, "Could NOT send e-mail using template: " + MailerTemplate.NEW_ACADEMIC_REGISTERED, e);

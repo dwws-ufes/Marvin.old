@@ -44,15 +44,18 @@ public class ChangePasswordController extends JSFController {
 
 	/** TODO: document this field. */
 	private boolean validCode;
-	
+
 	/** TODO: document this field. */
 	private Academic academic;
-	
+
 	/** TODO: document this field. */
 	private String password;
-	
+
 	/** TODO: document this field. */
 	private String repeatPassword;
+
+	/** TODO: document this field. */
+	private String email;
 
 	/** Getter for academic. */
 	public Academic getAcademic() {
@@ -94,6 +97,26 @@ public class ChangePasswordController extends JSFController {
 		this.repeatPassword = repeatPassword;
 	}
 
+	/** Getter for email. */
+	public String getEmail() {
+		return email;
+	}
+
+	/** Setter for email. */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * TODO: document this method.
+	 */
+	public void begin() {
+		// Begins the conversation, dropping any previous conversation, if existing.
+		logger.log(Level.FINEST, "Beginning conversation. Current conversation transient? -> {0}", new Object[] { conversation.isTransient() });
+		if (!conversation.isTransient()) conversation.end();
+		conversation.begin();
+	}
+
 	/**
 	 * TODO: document this method.
 	 */
@@ -104,17 +127,16 @@ public class ChangePasswordController extends JSFController {
 			// Attempts to find the academic with the given password code.
 			academic = changePasswordService.retrieveAcademicByPasswordCode(passwordCode);
 
-			// If all went well, begins the conversation, dropping any previous conversation, if existing.
-			logger.log(Level.FINEST, "Beginning conversation. Current conversation transient? -> {0}", new Object[] { conversation.isTransient() });
-			if (!conversation.isTransient()) conversation.end();
-			conversation.begin();			
+			// If all went well, begins the conversation.
+			begin();
 		}
-		
+
 		// If an academic could not be found, deem the code invalid.
 		catch (InvalidPasswordCodeException e) {
 			validCode = false;
 		}
 	}
+
 	/**
 	 * Checks if both password fields have the same value.
 	 * 
@@ -137,10 +159,15 @@ public class ChangePasswordController extends JSFController {
 		}
 		return true;
 	}
-	
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
 	public String changePassword() {
 		logger.log(Level.FINEST, "Changing password for academic {0} (password code {1})", new Object[] { academic, passwordCode });
-		
+
 		// Changes the password.
 		try {
 			changePasswordService.changePassword(passwordCode, password);
@@ -160,8 +187,19 @@ public class ChangePasswordController extends JSFController {
 		logger.log(Level.FINEST, "Ending conversation. Current conversation transient? -> {0}", new Object[] { conversation.isTransient() });
 		if (!conversation.isTransient()) conversation.end();
 
-		// Redirects to the conclusion if everything went fine. 
+		// Redirects to the conclusion if everything went fine.
 		if (validCode) return "done.xhtml";
 		return null;
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	public void resetPassword() {
+		// Resets the password and displays a message.
+		changePasswordService.resetPassword(email);
+		addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_INFO, "changePassword.message.resetRequested.summary", new Object[] {}, "changePassword.message.resetRequested.detail", new Object[] { email });
 	}
 }

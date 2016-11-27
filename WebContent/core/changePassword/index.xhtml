@@ -20,13 +20,14 @@
 		<!-- Shown if the password code is invalid. -->
 		<h:panelGroup id="invalidCodePanel" rendered="#{not changePasswordController.validCode}">
 			<p><h:outputFormat value="#{msgsCore['changePassword.text.invalidCode']}"><f:param value="#{changePasswordController.passwordCode}" /></h:outputFormat></p>
+			<p align="center"><h:link outcome="/core/changePassword/reset"><h:outputText value="#{msgsCore['changePassword.title.reset']}" /></h:link></p>
 		</h:panelGroup>
 
 		<!-- Shown if the password code is valid. -->
 		<h:panelGroup id="validCodePanel" rendered="#{changePasswordController.validCode}">
 			<p><h:outputFormat value="#{msgsCore['changePassword.text.instructions.new']}"><f:param value="#{changePasswordController.academic.shortName}" /></h:outputFormat></p>
 
-			<!-- The form to be filled with information on the administrator. -->
+			<!-- The form to be filled with the new password to set. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form.xhtml">
 				<ui:param name="formName" value="form" /> 
 				<ui:param name="formLabel" value="#{msgsCore['changePassword.form.new']} #{changePasswordController.academic.name}" />
