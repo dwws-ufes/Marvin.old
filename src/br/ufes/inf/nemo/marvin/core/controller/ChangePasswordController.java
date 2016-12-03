@@ -35,6 +35,10 @@ public class ChangePasswordController extends JSFController {
 	@Inject
 	private Conversation conversation;
 
+	/** Information on the current visitor. */
+	@Inject
+	private SessionController sessionController;
+
 	/** The "Change Password" service. */
 	@EJB
 	private ChangePasswordService changePasswordService;
@@ -136,6 +140,19 @@ public class ChangePasswordController extends JSFController {
 			validCode = false;
 		}
 	}
+	
+	/**
+	 * TODO: document this method.
+	 */
+	public void checkAuthenticatedUser() {
+		logger.log(Level.FINEST, "Checking the authenticated user...");
+
+		// Obtains the authenticated user.
+		academic = sessionController.getCurrentUser();
+		
+		// If all went well, begins the conversation.
+		begin();
+	}
 
 	/**
 	 * Checks if both password fields have the same value.
@@ -166,8 +183,11 @@ public class ChangePasswordController extends JSFController {
 	 * @return
 	 */
 	public String setNewPassword() {
-		logger.log(Level.FINEST, "Changing password for academic {0} (password code {1})", new Object[] { academic, passwordCode });
+		logger.log(Level.FINEST, "Setting new password for academic {0} (password code {1})", new Object[] { academic, passwordCode });
 
+		// Checks if the passwords match.
+		if (! checkPasswords()) return null;
+		
 		// Changes the password.
 		try {
 			changePasswordService.setNewPassword(passwordCode, password);
@@ -201,5 +221,15 @@ public class ChangePasswordController extends JSFController {
 		// Resets the password and displays a message.
 		changePasswordService.resetPassword(email);
 		addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_INFO, "changePassword.message.resetRequested.summary", new Object[] {}, "changePassword.message.resetRequested.detail", new Object[] { email });
+	}
+	
+	public String changePassword() {
+		logger.log(Level.FINEST, "Changing password for academic {0} (password code {1})", new Object[] { academic, passwordCode });
+
+		// Checks if the passwords match.
+		if (! checkPasswords()) return null;
+		
+		System.out.println("########### Change password of " + academic + " to: " + password);
+		return null;
 	}
 }

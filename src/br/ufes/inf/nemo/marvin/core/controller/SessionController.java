@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.CoreInformation;
-import br.ufes.inf.nemo.marvin.core.application.SessionInformation;
+import br.ufes.inf.nemo.marvin.core.application.LoginService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException;
@@ -39,9 +39,12 @@ public class SessionController extends JSFController {
 	@EJB
 	private CoreInformation coreInformation;
 
-	/** Information on the current visitor. */
+	/** The login service. */
 	@EJB
-	private SessionInformation sessionInformation;
+	private LoginService loginService;
+	
+	/** The authenticated user. */
+	private Academic currentUser;
 
 	/** Input: e-mail for authentication. */
 	private String email;
@@ -75,7 +78,7 @@ public class SessionController extends JSFController {
 	 * @return <code>true</code> if the user is logged in, <code>false</code> otherwise.
 	 */
 	public boolean isLoggedIn() {
-		return sessionInformation.getCurrentUser() != null;
+		return currentUser != null;
 	}
 
 	/**
@@ -129,7 +132,7 @@ public class SessionController extends JSFController {
 	 * @return The Academic object that represents the user that has been authenticated in this session.
 	 */
 	public Academic getCurrentUser() {
-		return sessionInformation.getCurrentUser();
+		return currentUser;
 	}
 
 	/**
@@ -175,7 +178,7 @@ public class SessionController extends JSFController {
 		try {
 			// Uses the Session Information bean to authenticate the user.
 			logger.log(Level.FINEST, "User attempting login with email \"{0}\"...", email);
-			sessionInformation.login(email, password);
+			loginService.login(email, password);
 
 			// Also authenticates on JAAS.
 			// FIXME: is there a way to do this at the application package (in the EJB)?
@@ -205,7 +208,8 @@ public class SessionController extends JSFController {
 			}
 		}
 
-		// If everything is OK, redirect back to the home screen.
+		// If everything is OK, stores the current user and redirects back to the home screen.
+		currentUser = loginService.getCurrentUser();
 		return "/index.xhtml?faces-redirect=true";
 	}
 }

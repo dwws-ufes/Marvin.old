@@ -6,10 +6,13 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBTransactionRolledbackException;
-import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 
 import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
@@ -19,35 +22,32 @@ import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 
 /**
- * Stateful session bean implementing the session information component. See the implemented interface documentation for
- * details.
+ * Stateless session bean implementing the login service. See the implemented interface documentation for details.
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
- * @see br.org.feees.sigme.core.application.SessionInformation
+ * @see br.LoginService.feees.sigme.core.application.SessionInformation
  */
-@SessionScoped
-@Stateful
-public class SessionInformationBean implements SessionInformation {
+@Stateless
+public class LoginServiceBean implements LoginService {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(SessionInformationBean.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(LoginServiceBean.class.getCanonicalName());
 
 	/** The DAO for Academic objects. */
 	@EJB
 	private AcademicDAO academicDAO;
+	
+	/** TODO: document this field. */
+	@Inject
+	private Event<LoginEvent> loginEvent;
+	
+	/** TODO: document this field. */
+	@Resource
+	private SessionContext sessionContext;
 
-	/** The current user logged in. */
-	private Academic currentUser;
-
-	/** @see br.org.feees.sigme.core.application.SessionInformation#getCurrentUser() */
-	@Override
-	public Academic getCurrentUser() {
-		return currentUser;
-	}
-
-	/** @see br.org.feees.sigme.core.application.SessionInformation#login(java.lang.String, java.lang.String) */
+	/** @see br.LoginService.feees.sigme.core.application.SessionInformation#login(java.lang.String, java.lang.String) */
 	@Override
 	public void login(String username, String password) throws LoginFailedException {
 		try {
@@ -65,7 +65,7 @@ public class SessionInformationBean implements SessionInformation {
 
 				// Login successful.
 				logger.log(Level.FINE, "Academic \"{0}\" successfully logged in.", username);
-				currentUser = user;
+				Academic currentUser = user;
 				pwd = null;
 
 				// Registers the user login.
@@ -73,6 +73,9 @@ public class SessionInformationBean implements SessionInformation {
 				logger.log(Level.FINER, "Setting last login date for academic with username \"{0}\" as \"{1}\"...", new Object[] { currentUser.getEmail(), now });
 				currentUser.setLastLoginDate(now);
 				academicDAO.save(currentUser);
+				
+				// Fires a login event.
+				loginEvent.fire(new LoginEvent(currentUser));
 			}
 			else {
 				// Passwords don't match.
@@ -99,6 +102,17 @@ public class SessionInformationBean implements SessionInformation {
 			// No MD5 hash generation algorithm found by the JVM.
 			logger.log(Level.SEVERE, "Logging in user \"" + username + "\" triggered an exception during MD5 hash generation.", e);
 			throw new LoginFailedException(LoginFailedException.LoginFailedReason.MD5_ERROR);
+		}
+	}
+
+	/** @see br.ufes.inf.nemo.marvin.core.application.LoginService#getCurrentUser() */
+	@Override
+	public Academic getCurrentUser() {
+		try {
+			return academicDAO.retrieveByEmail(sessionContext.getCallerPrincipal().getName());
+		}
+		catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+			return null;
 		}
 	}
 }
