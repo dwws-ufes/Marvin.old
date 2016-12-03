@@ -34,7 +34,8 @@
 				<p:password id="password" value="#{sessionController.password}" required="true" feedback="false" />
 			</ui:decorate>
 
-			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+				<p:commandButton action="/core/changePassword/reset" value="#{msgsCore['changePassword.title.reset']}" immediate="true" icon="fa fa-fw fa-repeat" />
 				<p:commandButton action="#{sessionController.login}" value="#{msgsCore['login.button.login']}" update=":globalMessages form" icon="fa fa-fw fa-key" />
 			</ui:decorate>
 		</ui:decorate>

@@ -165,12 +165,12 @@ public class ChangePasswordController extends JSFController {
 	 * 
 	 * @return
 	 */
-	public String changePassword() {
+	public String setNewPassword() {
 		logger.log(Level.FINEST, "Changing password for academic {0} (password code {1})", new Object[] { academic, passwordCode });
 
 		// Changes the password.
 		try {
-			changePasswordService.changePassword(passwordCode, password);
+			changePasswordService.setNewPassword(passwordCode, password);
 		}
 		catch (OperationFailedException e) {
 			logger.log(Level.SEVERE, "Change password threw exception", e);

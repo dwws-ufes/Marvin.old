@@ -63,9 +63,9 @@ public class ChangePasswordServiceBean implements ChangePasswordService {
 		}
 	}
 
-	/** @see br.ufes.inf.nemo.marvin.core.application.ChangePasswordService#changePassword(java.lang.String, java.lang.String) */
+	/** @see br.ufes.inf.nemo.marvin.core.application.ChangePasswordService#setNewPassword(java.lang.String, java.lang.String) */
 	@Override
-	public void changePassword(String passwordCode, String password) throws InvalidPasswordCodeException, OperationFailedException {
+	public void setNewPassword(String passwordCode, String password) throws InvalidPasswordCodeException, OperationFailedException {
 		try {
 			// Retrieves the academic given her password code. 
 			logger.log(Level.INFO, "Setting a new password for academic with password code: {0}", new Object[] { passwordCode });

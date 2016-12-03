@@ -33,7 +33,7 @@ public interface ChangePasswordService extends Serializable {
 	 * @throws InvalidPasswordCodeException
 	 * @throws OperationFailedException
 	 */
-	void changePassword(String passwordCode, String password) throws InvalidPasswordCodeException, OperationFailedException;
+	void setNewPassword(String passwordCode, String password) throws InvalidPasswordCodeException, OperationFailedException;
 
 	/**
 	 * TODO: document this method.

@@ -48,7 +48,7 @@
 				</ui:decorate>
 
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
-					<p:commandButton action="#{changePasswordController.changePassword}" value="#{msgsCore['changePassword.button.new']}" update=":globalMessages form" icon="fa fa-fw fa-save" />
+					<p:commandButton action="#{changePasswordController.setNewPassword}" value="#{msgsCore['changePassword.button.new']}" update=":globalMessages form" icon="fa fa-fw fa-save" />
 				</ui:decorate>
 			</ui:decorate>
 		</h:panelGroup>
