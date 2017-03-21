@@ -9,7 +9,7 @@ Many students from the [Department of Informatics](http://informatica.ufes.br) o
 
 Instructions on how to deploy from scratch are listed below. If you need detailed instructions on how to set up Eclipse, WildFly and MySQL, please refer to this [tutorial at JButler's wiki](https://github.com/dwws-ufes/jbutler/wiki/Tutorial%3A-a-Java-EE-Web-Profile-application-with-JButler%2C-part-1).
 
-1. Install [Eclipse Neon (version 4.6)](http://www.eclipse.org/); 
+1. Install [Eclipse Neon (version 4.6)](http://www.eclipse.org/);
 
 2. Install [WildFly 10](http://wildfly.org) and create a Server configuration within Eclipse;
 
@@ -28,7 +28,7 @@ Instructions on how to deploy from scratch are listed below. If you need detaile
         <password>marvin</password>
     </security>
 </datasource>
-``` 
+```
 
 6. Configure the security domain in WildFly's `standalone.xml` file:
 
@@ -56,7 +56,7 @@ Instructions on how to deploy from scratch are listed below. If you need detaile
 
 ## Maven, PrimeFaces and SSL Certificates
 
-It seems that recently Maven decided to check certificates on PrimeFaces repositories taht use SSL (HTTPS). PrimeFaces' repository is the case, so if you don't have the required PrimeFaces JARs in your local repository and run `mvn dependency:resolve` (or any other Maven command that triggers dependency resolution) you might eventually see the message `sun.security.validator.ValidatorException: PKIX path building failed`. In Eclipse, the error messages will just say that some JAR resource is unavailable, without further explanation.
+It seems that recently Maven decided to check certificates on repositories that use SSL (HTTPS). PrimeFaces' repository is the case, so if you don't have the required PrimeFaces JARs in your local repository and run `mvn dependency:resolve` (or any other Maven command that triggers dependency resolution) you might eventually see the message `sun.security.validator.ValidatorException: PKIX path building failed`. In Eclipse, the error messages will just say that some JAR resource is unavailable, without further explanation.
 
 That being said, one possible solution is to tell Maven to stop worrying about security. It doesn't seem like a good idea to me, but if you want to try you can check [this post at StackOverflow](http://stackoverflow.com/questions/21252800/how-to-tell-maven-to-disregard-ssl-errors-and-trusting-all-certs).
 
