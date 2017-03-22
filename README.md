@@ -68,14 +68,21 @@ The problem is that the other option is to add PrimeFaces' certificate to your J
 openssl s_client -showcerts -connect repository.primefaces.org:443 </dev/null 2>/dev/null | openssl x509 -outform PEM > ~/Downloads/primefaces.pem
 ```
 
-2. Obtain the location of the `cacerts` file of the default Java installation in your system. This file is where you add certificates you trust in the next step. Again, there's an [answer at StackOverflow](http://stackoverflow.com/a/11937940/361343) that explains how to do this in Linux and MacOS. On Windows, I guess you should check your `C:\Program Files\` directory for Java installations and check which one is being used by default (you can use `java -version` at the Command Prompt);
+2. Obtain the location of the `cacerts` file of the default Java installation in your system. This file is where you add certificates you trust in the next step. Again, there's an [answer at StackOverflow](http://stackoverflow.com/a/11937940/361343) that explains how to do this in Linux and MacOS. On Windows, check `C:\Program Files\Java` directory for Java installations and check which one is being used by default (you can use `java -version` at the Command Prompt);
 
-3. Once you know where `cacerts` is, you use the `keytool` program that comes with Java to add the certificate you downloaded from the PrimeFaces repository to the list of truted certificates. [This blog post](https://blog.alwold.com/2011/06/30/how-to-trust-a-certificate-in-java-on-mac-os-x/) (finally, not StackOverflow this time!) explains how to do it in MacOS, but it should be similar in other Operating Systems. Or you can just search for a solution in your OS... Here's what I did:
+3. [MAC-OS] Once you know where `cacerts` is, you use the `keytool` program that comes with Java to add the certificate you downloaded from the PrimeFaces repository to the list of truted certificates. [This blog post](https://blog.alwold.com/2011/06/30/how-to-trust-a-certificate-in-java-on-mac-os-x/) (finally, not StackOverflow this time!) explains how to do it in MacOS, but it should be similar in other Operating Systems. Or you can just search for a solution in your OS... Here's what I did:
 
 ```
 cd /Library/Java/JavaVirtualMachines/jdk1.8.0.jdk/Contents/Home/jre/lib/security
 sudo cp cacerts cacerts.orig
 sudo keytool -importcert -file ~/Downloads/primefaces.pem -keystore cacerts
+```
+4. [WINDOWS] On Windows, the `cacerts` file is in `jre\lib\security`. First, you need put the primefaces certificate file, that you downloaded from firefox, in `jre\lib\security` folder. Second, run the Command Prompt (cmd) in administrator mode and import the certificate via the following command:
+
+```
+cd C:\Program Files\Java\jre[Version]\lib\security
+keytool -keystore cacerts -importcert -alias primefaces.org -file www.primefaces.org.crt
+keytool -list -keystore cacerts -- Run the following command to ensure the CA certificate has been successfully imported
 ```
 
 When you run the `keytool` (last command above), it will ask you for the keystore password and you should enter the default password that comes with the JVM: `changeit`. Then it will print a lot of information and ask if you want to trust the certificate. You should answer `yes`.
