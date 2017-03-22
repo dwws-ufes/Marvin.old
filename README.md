@@ -77,7 +77,7 @@ cd /Library/Java/JavaVirtualMachines/jdk1.8.0.jdk/Contents/Home/jre/lib/security
 sudo cp cacerts cacerts.orig
 sudo keytool -importcert -file ~/Downloads/primefaces.pem -keystore cacerts
 ```
-4. [WINDOWS] On Windows, the `cacerts` file is in `jre\lib\security`. First, you need put the primefaces certificate file, that you downloaded from firefox, in `jre\lib\security` folder. Second, run the Command Prompt (cmd) in administrator mode and import the certificate via the following command:
+4. [WINDOWS] On Windows, the `cacerts` file is in `jre\lib\security` folder. First, you need put the certificate file, that you downloaded from firefox, in `jre\lib\security` folder. Second, run the Command Prompt (cmd) in administrator mode and import the certificate via the following command:
 
 ```
 cd C:\Program Files\Java\jre[Version]\lib\security
