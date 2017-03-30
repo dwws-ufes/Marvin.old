@@ -51,6 +51,14 @@
 						<f:ajax event="blur" render="shortNameField" />
 					</p:inputText>
 				</ui:decorate>
+				
+				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="cpf" />
+					<ui:param name="label" value="#{msgsCore['installSystem.field.admin.cpf']}" />
+					<p:inputMask id="cpf" mask="#{msgs['jbutler.format.taxCode.primefaces']}" value="#{installSystemController.admin.cpf}" required="true">
+						<f:ajax event="blur" render="cpfField" />
+					</p:inputMask>
+				</ui:decorate>
 
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 					<ui:param name="fieldName" value="password" />

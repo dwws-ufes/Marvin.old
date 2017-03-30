@@ -3,6 +3,7 @@ package br.ufes.inf.nemo.marvin.people.domain;
 import java.util.Date;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,7 +37,24 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	/** The person's gender: 'M' (male) or 'F' (female). */
 	@Basic
 	protected Character gender;
+	
+	/** The person's CPF. It is a unique number that define a person as Brazilian citizen. */
+	@Basic
+	@NotNull 
+	@Size(max = 17)
+	@Column(unique=true)
+	protected String cpf;
+	
+	/** Getter for cpf. */
+	public String getCpf() {
+		return cpf;
+	}
 
+	/** Setter for cpf. */
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
 	/** Getter for name. */
 	public String getName() {
 		return name;
