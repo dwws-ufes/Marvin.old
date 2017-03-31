@@ -32,8 +32,8 @@ public class Role extends PersistentObjectSupport {
 	/** Name of the Student role. */
 	public static final String STUDENT_ROLE_NAME = "Student";
 
-	/** Name of the Alumni role. */
-	public static final String ALUMNI_ROLE_NAME = "Alumni";
+	/** Name of the Visitor role. */
+	public static final String VISITOR_ROLE_NAME = "Visitor";
 
 	/** The name that identifies the role across the system. */
 	@Basic
@@ -82,7 +82,7 @@ public class Role extends PersistentObjectSupport {
 	public static void main(String[] args) {
 		System.out.println(ResourceUtil.getResourceAsFile("META-INF/installSystem/Role.json"));
 
-		Role[] roles = new Role[] { new Role("SysAdmin", "core.role.sysadmin"), new Role("Professor", "core.role.professor"), new Role("Staff", "core.role.staff"), new Role("Student", "core.role.student"), new Role("Alumni", "core.role.alumni") };
+		Role[] roles = new Role[] { new Role("SysAdmin", "core.role.sysadmin"), new Role("Professor", "core.role.professor"), new Role("Staff", "core.role.staff"), new Role("Student", "core.role.student"), new Role("Visitor", "core.role.visitor") };
 		for (Role role : roles) {
 			JSONObject obj = new JSONObject();
 			obj.put("name", role.getName());

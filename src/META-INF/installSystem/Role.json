@@ -16,7 +16,7 @@
 		"descriptionKey": "core.role.student"
 	},
 	{
-		"name": "Alumni",
-		"descriptionKey": "core.role.alumni"
+		"name": "Visitor",
+		"descriptionKey": "core.role.visitor"
 	}
 ]

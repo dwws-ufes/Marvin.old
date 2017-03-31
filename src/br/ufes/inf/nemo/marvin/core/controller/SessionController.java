@@ -118,12 +118,12 @@ public class SessionController extends JSFController {
 	}
 
 	/**
-	 * Indicates if the user is an alumni.
+	 * Indicates if the user is an visitor.
 	 * 
-	 * @return <code>true</code> if the user has the Alumni role, <code>false</code> otherwise.
+	 * @return <code>true</code> if the user has the Visitor role, <code>false</code> otherwise.
 	 */
-	public boolean isAlumni() {
-		return getExternalContext().isUserInRole(Role.ALUMNI_ROLE_NAME);
+	public boolean isVisitor() {
+		return getExternalContext().isUserInRole(Role.VISITOR_ROLE_NAME);
 	}
 
 	/**

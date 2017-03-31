@@ -45,6 +45,23 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	@Column(unique=true)
 	protected String cpf;
 	
+	/** The person's RG. It is a unique number used to identify a person. */
+	@Basic
+	@Size(max = 20)
+	@Column(unique=true)
+	protected String identityCard;
+	
+	/** The person's birth city. */
+	@Basic
+	@Size(max = 30)
+	protected String birthCity;
+	
+	/** The country where the person was born. */
+	@Basic
+	@Size(max = 30)
+	protected String nationality;
+	
+	
 	/** Getter for cpf. */
 	public String getCpf() {
 		return cpf;
@@ -53,6 +70,36 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	/** Setter for cpf. */
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+	
+	/** Getter for identityCard. */
+	public String getIdentityCard() {
+		return identityCard;
+	}
+
+	/** Setter for identityCard. */
+	public void setIdentityCard(String identityCard) {
+		this.identityCard = identityCard;
+	}
+	
+	/** Getter for birthCity. */
+	public String getBirthCity() {
+		return birthCity;
+	}
+
+	/** Setter for birthCity. */
+	public void setBirthCity(String birthCity) {
+		this.birthCity = birthCity;
+	}
+
+	/** Getter for nationality. */
+	public String getNationality() {
+		return nationality;
+	}
+
+	/** Setter for nationality. */
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
 	}
 	
 	/** Getter for name. */
