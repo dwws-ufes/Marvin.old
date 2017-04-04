@@ -16,10 +16,12 @@ import org.json.JSONObject;
 import br.ufes.inf.nemo.jbutler.ResourceUtil;
 import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.domain.AcademicRole;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.exceptions.OperationFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.AcademicRoleDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.MarvinConfigurationDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
 
@@ -39,6 +41,9 @@ public class InstallSystemServiceBean implements InstallSystemService {
 
 	/** The name of the file that contains the roles to be added upon system installation. */
 	private static final String INIT_DATA_ROLE_FILE_NAME = "Role.json";
+	
+	/** The name of the file that contains the academic roles to be added upon system installation. */
+	private static final String INIT_DATA_ACADEMICROLE_FILE_NAME = "AcademicRole.json";
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(InstallSystemServiceBean.class.getCanonicalName());
@@ -55,6 +60,10 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	@EJB
 	private RoleDAO roleDAO;
 
+	/** The DAO for Academic Role objects. */
+	@EJB
+	private AcademicRoleDAO academicRoleDAO;
+	
 	/** Global information about the application. */
 	@EJB
 	private CoreInformation coreInformation;
@@ -66,9 +75,9 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	@Override
 	public void installSystem(MarvinConfiguration config, Academic admin) throws OperationFailedException {
 		logger.log(Level.FINER, "Installing system...");
-
-		// Creates the roles in the database from a JSON file located in META-INF/installSystem.
+	
 		try {
+			// Creates the roles in the database from a JSON file located in META-INF/installSystem.
 			File jsonFile = ResourceUtil.getResourceAsFile(INIT_DATA_PATH + INIT_DATA_ROLE_FILE_NAME);
 			try (Scanner scanner = new Scanner(jsonFile)) {
 				// Reads the content of the entire file, which contains a JSON array.
@@ -82,6 +91,22 @@ public class InstallSystemServiceBean implements InstallSystemService {
 					Role role = new Role(obj.getString("name"), obj.getString("descriptionKey"));
 					logger.log(Level.FINE, "Persisting role: {0}", role.getName());
 					roleDAO.save(role);
+				}
+			}
+			// Creates the academic roles in the database from a JSON file located in META-INF/installSystem.
+			File jsonFile2 = ResourceUtil.getResourceAsFile(INIT_DATA_PATH + INIT_DATA_ACADEMICROLE_FILE_NAME);
+			try (Scanner scanner = new Scanner(jsonFile2)) {
+				// Reads the content of the entire file, which contains a JSON array.
+				StringBuilder builder = new StringBuilder();
+				while (scanner.hasNextLine()) builder.append(scanner.nextLine());
+				
+				// Instantiates the JSON array and reads the objects.
+				JSONArray array = new JSONArray(builder.toString());
+				for (int i = 0; i < array.length(); i++) {
+					JSONObject obj = array.getJSONObject(i);
+					AcademicRole academicRole = new AcademicRole(obj.getString("name"), obj.getString("descriptionKey"));
+					logger.log(Level.FINE, "Persisting academic role: {0}", academicRole.getName());
+					academicRoleDAO.save(academicRole);
 				}
 			}
 		}

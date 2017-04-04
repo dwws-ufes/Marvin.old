@@ -1,9 +1,14 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.AcademicRole;
+import br.ufes.inf.nemo.marvin.core.domain.Role;
 
 /**
  * Interface for a DAO for objects of the Role domain class.
@@ -16,5 +21,9 @@ import br.ufes.inf.nemo.marvin.core.domain.AcademicRole;
  */
 @Local
 public interface AcademicRoleDAO extends BaseDAO<AcademicRole> {
+
+	AcademicRole retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+
+	List<AcademicRole> findByName(String name);
 	
 }

@@ -1,0 +1,83 @@
+package br.ufes.inf.nemo.marvin.core.domain;
+
+import java.util.Date;
+
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
+
+/**
+ * TODO: document this type.
+ *
+ * @author Gabriel Martins Miranda (garielmartinsmiranda@gmail.com)
+ * @version 1.0
+ */
+@Entity
+public class CourseAttendance extends PersistentObjectSupport{
+	
+	/** Serialization id. */
+	private static final long serialVersionUID = 1L;
+	
+	/** The course start date. */
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	private Date startDate;
+	
+	/** The course end date. */
+	@Temporal(TemporalType.DATE)
+	private Date endDate;
+	
+	/** The academic situation in the course. */
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private CourseSituation courseSituation;
+	
+	/** Getter for start date. */
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	/** Setter for start date. */
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	/** Getter for end date. */
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	/** Setter for end date. */
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	/** Getter for course situation. */
+	public CourseSituation getCourseSituation() {
+		return courseSituation;
+	}
+
+	/** Setter for course situation. */
+	public void setCourseSituation(CourseSituation courseSituation) {
+		this.courseSituation = courseSituation;
+	}
+
+	
+	/** The academic situation in the course */
+	public enum CourseSituation {
+		Active, Graduated, Terminated;
+		
+		@Override
+		public String toString() {
+			if(this.equals(CourseSituation.Active)) return "Active";
+			else if(this.equals(CourseSituation.Graduated)) return "Graduated";
+			else return "Terminated";
+		}
+	}
+}

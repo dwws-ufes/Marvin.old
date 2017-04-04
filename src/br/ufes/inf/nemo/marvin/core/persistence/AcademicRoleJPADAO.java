@@ -1,13 +1,21 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.AcademicRole;
+import br.ufes.inf.nemo.marvin.core.domain.AcademicRole_;
 
 /**
  * Stateless session bean implementing a DAO for objects of the Role domain class using JPA2.
@@ -34,5 +42,40 @@ public class AcademicRoleJPADAO extends BaseJPADAO<AcademicRole> implements Acad
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
+	}
+	
+	/** @see br.ufes.inf.nemo.marvin.core.persistence.RoleDAO#retrieveByName(java.lang.String) */
+	@Override
+	public AcademicRole retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+		logger.log(Level.FINE, "Retrieving the role whose name is \"{0}\"...", name);
+
+		// Constructs the query over the Academic class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<AcademicRole> cq = cb.createQuery(AcademicRole.class);
+		Root<AcademicRole> root = cq.from(AcademicRole.class);
+
+		// Filters the query with the email.
+		cq.where(cb.equal(root.get(AcademicRole_.name), name));
+		AcademicRole result = executeSingleResultQuery(cq, name);
+		logger.log(Level.INFO, "Retrieve role with the name \"{0}\" returned \"{1}\"", new Object[] { name, result });
+		return result;
+	}
+
+	/** @see br.ufes.inf.nemo.marvin.core.persistence.RoleDAO#findByName(java.lang.String) */
+	@Override
+	public List<AcademicRole> findByName(String name) {
+		logger.log(Level.FINE, "Finding roles whose name contain \"{0}\"...", name);
+
+		// Constructs the query over the Academic class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<AcademicRole> cq = cb.createQuery(AcademicRole.class);
+		Root<AcademicRole> root = cq.from(AcademicRole.class);
+
+		// Filters the query with the email.
+		name = "%" + name + "%";
+		cq.where(cb.like(root.get(AcademicRole_.name), name));
+		List<AcademicRole> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Found {0} roles whose name contains \"{1}\".", new Object[] { result.size(), name });
+		return result;
 	}
 }

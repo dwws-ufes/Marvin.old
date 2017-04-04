@@ -4,6 +4,9 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
+import org.json.JSONObject;
+
+import br.ufes.inf.nemo.jbutler.ResourceUtil;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
 /**
@@ -17,21 +20,21 @@ public class AcademicRole extends PersistentObjectSupport{
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 	
-	/** Name of the System Administrator role. */
-	public static final String COURSECOORDINATOR_ROLE_NAME = "Course Coordinator";
+	/** Name of the Course Coordinator academic role. */
+	public static final String COURSECOORDINATOR_ROLE_NAME = "CourseCord";
 
-	/** Name of the Student role. */
+	/** Name of the Student academic role. */
 	public static final String STUDENT_ROLE_NAME = "Student";
 
-	/** Name of the Alumni role. */
+	/** Name of the Alumni academic role. */
 	public static final String ALUMNI_ROLE_NAME = "Alumni";
 
-	/** The name that identifies the role across the system. */
+	/** The name that identifies the academic role across the system. */
 	@Basic
 	@Size(max = 10)
 	private String name;
 
-	/** Resource bundle key to the human-readable description of the role. */
+	/** Resource bundle key to the human-readable description of the academic role. */
 	@Basic
 	private String descriptionKey;
 
@@ -68,5 +71,17 @@ public class AcademicRole extends PersistentObjectSupport{
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(ResourceUtil.getResourceAsFile("META-INF/installSystem/AcademicRole.json"));
+
+		AcademicRole[] academicRoles = new AcademicRole[] { new AcademicRole("CourseCord", "core.academicrole.coursecoordinator"), new AcademicRole("Student", "core.academicrole.student"), new AcademicRole("Alumni", "core.academicrole.alumni") };
+		for (AcademicRole academicRole : academicRoles) {
+			JSONObject obj = new JSONObject();
+			obj.put("name", academicRole.getName());
+			obj.put("descriptionKey", academicRole.getDescriptionKey());
+			System.out.println(obj);
+		}
 	}
 }

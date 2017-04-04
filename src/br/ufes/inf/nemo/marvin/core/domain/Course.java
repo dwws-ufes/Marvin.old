@@ -42,12 +42,7 @@ public class Course extends PersistentObjectSupport{
 		this.name = name;
 	}
 	
-	/**
-	 * TODO: document this type.
-	 *
-	 * @author Gabriel Martins Miranda (garielmartinsmiranda@gmail.com)
-	 * @version 1.0
-	 */
+	/** Course academic level */
 	public enum AcademicLevel {
 		Undergraduate, Graduate;
 		
