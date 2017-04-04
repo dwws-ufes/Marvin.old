@@ -52,6 +52,42 @@
 					<p:ajax event="blur" update="shortNameField" />
 				</p:inputText>
 			</ui:decorate>
+			
+			<!-- Field: cpf. -->
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="cpf" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.field.cpf']}" />
+				<p:inputMask id="cpf" mask="#{msgs['jbutler.format.taxCode.primefaces']}" value="#{manageAcademicsController.selectedEntity.cpf}" required="true" disabled="#{manageAcademicsController.readOnly}">
+						<f:ajax event="blur" render="cpfField" />
+				</p:inputMask>
+			</ui:decorate>
+			
+			<!-- Field: IdentityCard. -->
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="identityCard" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.field.identityCard']}" />
+				<p:inputMask id="identityCard" mask="#{msgs['jbutler.regex.identityCard']}" maxlength="9" validatorMessage="jbutler.regex.identityCard.message" pt:placeholder="#{msgsCore['manageAcademics.field.shortName.placeholder']}" value="#{manageAcademicsController.selectedEntity.identityCard}" required="false" disabled="#{manageAcademicsController.readOnly}">
+						<f:ajax event="blur" render="identityCardField" />
+				</p:inputMask>
+			</ui:decorate>
+			
+			<!-- Field: BirthCity. -->
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="birthCity" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.field.birthCity']}" />
+				<p:inputText id="birthCity" value="#{manageAcademicsController.selectedEntity.birthCity}" required="false" pt:placeholder="#{msgsCore['manageAcademics.field.birthCity.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="birthCityField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			<!-- Field: Nationality. -->
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="nationality" />
+				<ui:param name="label" value="#{msgsCore['manageAcademics.field.nationality']}" />
+				<p:inputText id="nationality" value="#{manageAcademicsController.selectedEntity.nationality}" required="false" pt:placeholder="#{msgsCore['manageAcademics.field.nationality.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="nationalityField" />
+				</p:inputText>
+			</ui:decorate>
 
 			<!-- Field: birthDate. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
