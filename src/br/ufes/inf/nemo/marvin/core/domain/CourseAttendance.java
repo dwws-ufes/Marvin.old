@@ -71,13 +71,14 @@ public class CourseAttendance extends PersistentObjectSupport{
 	
 	/** The academic situation in the course */
 	public enum CourseSituation {
-		Active, Graduated, Terminated;
+		ACTIVE("Active"),
+		GRADUATED("Graduated"),
+		TERMINATED("Terminated");
 		
-		@Override
-		public String toString() {
-			if(this.equals(CourseSituation.Active)) return "Active";
-			else if(this.equals(CourseSituation.Graduated)) return "Graduated";
-			else return "Terminated";
-		}
+		String name;
+
+		CourseSituation(String name) {
+			this.name = name;
+		}	
 	}
 }
