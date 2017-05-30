@@ -18,6 +18,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.CourseCoordinationDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 
 /**
@@ -42,6 +43,10 @@ public class ManageCoursesServiceBean extends CrudServiceBean<Course> implements
 	/** TODO: document this field. */
 	@EJB
 	private CourseDAO courseDAO;
+	
+	/** TODO: document this field. */
+	@EJB
+	private CourseCoordinationDAO courseCoordinationDAO;
 	
 	/** TODO: document this field. */
 	@EJB
@@ -113,5 +118,10 @@ public class ManageCoursesServiceBean extends CrudServiceBean<Course> implements
 		catch (Exception e) {
 			logger.log(Level.SEVERE, "Error in inserting the course", e);
 		}
+	}
+
+	@Override
+	public Academic retrieveCourseCordinator(Long idCourse) {
+		return courseCoordinationDAO.retrieveCourseCordinator(idCourse);
 	}
 }

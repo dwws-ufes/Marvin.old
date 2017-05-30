@@ -35,6 +35,15 @@
 				</p:inputText>
 			</ui:decorate>
 			
+			<!-- Field: code. -->
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="code" />
+				<ui:param name="label" value="#{msgsCore['manageCourses.field.courseCode']}" />
+				<p:inputText id="code" value="#{manageCoursesController.selectedEntity.code}" mask="#{msgs['jbutler.regex.courseCode']}" maxlength="4" validatorMessage="jbutler.regex.courseCode.message"  required="true" disabled="#{manageCoursesController.readOnly}">
+					<p:ajax event="blur" update="codeField" />
+				</p:inputText>
+			</ui:decorate>
+			
 			<!-- Field: academic level. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="academicLevel" />
@@ -43,13 +52,14 @@
 		            <f:selectItems value="#{manageCoursesController.academicLevels}" var="academicLevel" itemValue="#{academicLevel}" itemLabel="#{academicLevel.name}&#160;&#160;" />
 		        </p:selectOneRadio>
 			</ui:decorate>
+			 
 
 			<!-- Field: creationDate. -->
 			<h:panelGroup rendered="#{manageCoursesController.readOnly}">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 					<ui:param name="fieldName" value="creationDate" />
 					<ui:param name="label" value="#{msgsCore['manageCourses.field.creationDate']}" />
-					<p:inputText id="creationDate" value="#{manageCoursesController.selectedEntity.creationDate}" disabled="true">
+					<p:inputText id="creationDate" value="#{manageCoursesController.selectedEntity.creationDate}" disabled="true" >
 						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
 					</p:inputText>
 				</ui:decorate>

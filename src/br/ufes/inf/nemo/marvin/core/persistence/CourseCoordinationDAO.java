@@ -3,6 +3,7 @@ package br.ufes.inf.nemo.marvin.core.persistence;
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination;
 
 /**
@@ -16,5 +17,5 @@ import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination;
  */
 @Local
 public interface CourseCoordinationDAO extends BaseDAO<CourseCoordination> {
-	
+	public Academic retrieveCourseCordinator(Long idCourse);
 }

@@ -32,6 +32,10 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 	@Size(max = 100)
 	private String name;
 	
+	@Basic
+	@NotNull
+	private Long code;
+	
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private AcademicLevel academicLevel;
@@ -106,6 +110,16 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 		this.lastLoginDate = lastLoginDate;
 	}
 	
+	/** Getter for code. */
+	public Long getCode() {
+		return code;
+	}
+	
+	/** Setter for code. */
+	public void setCode(Long code) {
+		this.code = code;
+	}
+
 	/** @see java.lang.Comparable#compareTo(java.lang.Object) */
 	@Override
 	public int compareTo(Course o) {

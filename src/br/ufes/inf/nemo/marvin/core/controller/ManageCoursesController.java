@@ -46,6 +46,11 @@ public class ManageCoursesController extends CrudController<Course> {
 		return AcademicLevel.values();
 	}
 	
+	/* public Academic getCourseCordinator()
+	{
+		return manageCoursesService.retrieveCourseCordinator(selectedEntity.getId());
+	}*/
+	
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Course> getCrudService() {

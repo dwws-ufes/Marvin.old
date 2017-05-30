@@ -8,9 +8,9 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 template="/WEB-INF/decorators/#{coreInfo.decorator}/decorator.xhtml">
 
-	<ui:define name="title"><h:outputText value="#{msgsCore['manageAcademics.title']}" /></ui:define>
+	<ui:define name="title"><h:outputText value="#{msgsCore['manageCourses.title']}" /></ui:define>
     
-    <ui:define name="description"><h:outputText value="#{msgsCore['manageAcademics.title.description']}" /></ui:define>
+    <ui:define name="description"><h:outputText value="#{msgsCore['manageCourses.title.description']}" /></ui:define>
 
 	<ui:define name="body">
 		<!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
@@ -63,9 +63,15 @@
 				<p:column headerText="#{msgsCore['manageCourses.field.academicLevels']}">
 					<h:outputText value="#{entity.academicLevel.name}" />
 				</p:column>
+				
+				<p:column headerText="#{msgsCore['manageCourses.field.courseCode']}">
+					<h:outputText value="#{entity.code}" />
+				</p:column>
 
 				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
 				<p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
+				
+				
 			</p:dataTable>
 			<p:hotkey bind="ctrl+left" handler="goToFirstPage(listingTable);" />
 			<p:hotkey bind="left" handler="goToPreviousPage(listingTable);" />
@@ -85,6 +91,7 @@
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.update']}" action="#{manageCoursesController.update}" rendered="#{manageCoursesController.selectedEntity != null}" />
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.delete']}" action="#{manageCoursesController.trash}" rendered="#{manageCoursesController.selectedEntity != null}" process="@this" update=":listingForm:trashGroup" />
 			</h:panelGroup>
+			
 
 			<!-- The trash panel: shows entities that have been selected for deletion. -->
 			<h:panelGroup id="trashGroup">
