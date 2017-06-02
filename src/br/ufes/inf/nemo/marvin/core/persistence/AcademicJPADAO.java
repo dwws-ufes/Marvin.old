@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
@@ -18,6 +19,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObj
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Academic_;
+import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.people.domain.Person_;
 
 /**
@@ -123,5 +125,13 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 		Academic result = executeSingleResultQuery(cq, passwordCode);
 		logger.log(Level.INFO, "Retrieve academic by the password code \"{0}\" returned \"{1}\"", new Object[] { passwordCode, result });
 		return result;
+	}
+
+	@Override
+	public List<Academic> retrieveByRole(Role role) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+		logger.log(Level.FINE, "Retrieving the academic whose role is \"{0}\"...", role);
+		Query query = entityManager.createQuery("SELECT a FROM Academic a WHERE :role MEMBER OF a.roles");
+		query.setParameter("role", role);
+		return (List<Academic>) query.getResultList();
 	}
 }

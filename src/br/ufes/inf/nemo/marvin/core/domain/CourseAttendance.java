@@ -62,12 +62,6 @@ public class CourseAttendance extends PersistentObjectSupport{
 	public CourseSituation getCourseSituation() {
 		return courseSituation;
 	}
-
-	/** Setter for course situation. */
-	public void setCourseSituation(CourseSituation courseSituation) {
-		this.courseSituation = courseSituation;
-	}
-
 	
 	/** The academic situation in the course */
 	public enum CourseSituation {

@@ -49,10 +49,6 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date lastUpdateDate;
-
-	/** The last time the user logged in the system. */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastLoginDate;
 	
 	/** Getter for name. */
 	public String getName() {
@@ -98,16 +94,6 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 	/** Setter for lastUpdateDate. */
 	public void setLastUpdateDate(Date lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
-	}
-
-	/** Getter for lastLoginDate. */
-	public Date getLastLoginDate() {
-		return lastLoginDate;
-	}
-
-	/** Setter for lastLoginDate. */
-	public void setLastLoginDate(Date lastLoginDate) {
-		this.lastLoginDate = lastLoginDate;
 	}
 	
 	/** Getter for code. */

@@ -19,7 +19,11 @@
 		<h:outputText value="#{msgsCore['manageCourses.title.update.description']}" rendered="#{(! manageCoursesController.readOnly) and (manageCoursesController.selectedEntity.id != null)}" />
 		<h:outputText value="#{msgsCore['manageCourses.title.retrieve.description']}" rendered="#{manageCoursesController.readOnly}" />
     </ui:define>
-
+    
+    <f:metadata>  
+    	<f:event type="preRenderView" listener="#{manageCoursesController.onLoad}"/>  
+	</f:metadata>
+    
 	<ui:define name="body">
 		<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form.xhtml">
 			<ui:param name="formName" value="form" />
@@ -52,8 +56,17 @@
 		            <f:selectItems value="#{manageCoursesController.academicLevels}" var="academicLevel" itemValue="#{academicLevel}" itemLabel="#{academicLevel.name}&#160;&#160;" />
 		        </p:selectOneRadio>
 			</ui:decorate>
+			
+			<!-- Field: course coordinator. -->
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="courseCoordinator" />
+				<ui:param name="label" value="#{msgsCore['manageCourses.field.courseCoordinator']}" />
+				<p:selectOneMenu id="courseCoordinator" value="#{manageCoursesController.courseCoordinator}" required="false" disabled="#{manageCoursesController.readOnly}">
+                	<f:selectItem itemLabel="Select Course Coordinator" itemValue="" noSelectionOption="true" />
+                	<f:selectItems value="#{manageCoursesController.courseCoordinators}" />
+				</p:selectOneMenu>
+			</ui:decorate>
 			 
-
 			<!-- Field: creationDate. -->
 			<h:panelGroup rendered="#{manageCoursesController.readOnly}">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
@@ -71,17 +84,6 @@
 					<ui:param name="fieldName" value="lastUpdateDate" />
 					<ui:param name="label" value="#{msgsCore['manageCourses.field.lastUpdateDate']}" />
 					<p:inputText id="lastUpdateDate" value="#{manageCoursesController.selectedEntity.lastUpdateDate}" disabled="true">
-						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
-					</p:inputText>
-				</ui:decorate>
-			</h:panelGroup>
-
-			<!-- Field: lastLoginDate. -->
-			<h:panelGroup rendered="#{manageCoursesController.readOnly}">
-				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
-					<ui:param name="fieldName" value="lastLoginDate" />
-					<ui:param name="label" value="#{msgsCore['manageCourses.field.lastLoginDate']}" />
-					<p:inputText id="lastLoginDate" value="#{manageCoursesController.selectedEntity.lastLoginDate}" disabled="true">
 						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
 					</p:inputText>
 				</ui:decorate>

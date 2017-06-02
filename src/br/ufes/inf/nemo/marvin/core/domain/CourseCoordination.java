@@ -59,4 +59,21 @@ public class CourseCoordination extends PersistentObjectSupport{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	public Academic getAcademic() {
+		return academic;
+	}
+
+	public void setAcademic(Academic academic) {
+		this.academic = academic;
+	}
+	
 }

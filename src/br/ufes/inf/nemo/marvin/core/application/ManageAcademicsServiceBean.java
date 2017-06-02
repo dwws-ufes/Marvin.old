@@ -150,4 +150,20 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	public List<Role> findRoleByName(String name) {
 		return roleDAO.findByName(name);
 	}
+
+	@Override
+	public List<Academic> retrieveAcademicbyRole(String roleName) {
+		try {
+			List<Role> roles = findRoleByName(roleName);
+			if(roles.isEmpty()){
+				logger.log(Level.SEVERE, "No role found!");
+				return null;
+			} else{
+				return academicDAO.retrieveByRole(roles.get(0));
+			}	
+		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

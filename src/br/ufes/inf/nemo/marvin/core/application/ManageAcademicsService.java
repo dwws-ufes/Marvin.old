@@ -31,4 +31,6 @@ public interface ManageAcademicsService extends CrudService<Academic> {
 	 * @return
 	 */
 	List<Role> findRoleByName(String name);
+	
+	List<Academic> retrieveAcademicbyRole(String roleName); 
 }

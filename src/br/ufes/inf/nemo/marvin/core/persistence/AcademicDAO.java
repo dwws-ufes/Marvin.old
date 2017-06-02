@@ -8,6 +8,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.domain.Role;
 
 /**
  * TODO: document this type.
@@ -53,4 +54,6 @@ public interface AcademicDAO extends BaseDAO<Academic> {
 	 * @throws MultiplePersistentObjectsFoundException
 	 */
 	Academic retrieveByPasswordCode(String passwordCode) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+
+	List<Academic> retrieveByRole(Role role) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 }

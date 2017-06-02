@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
+import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseCoordinationDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
@@ -29,12 +31,12 @@ import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
  */
 @Stateless
 @RolesAllowed("SysAdmin")
-public class ManageCoursesServiceBean extends CrudServiceBean<Course> implements ManageCoursesService {
+public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<CourseCoordination> implements ManageCourseCoordinationsService {
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageCoursesServiceBean.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(ManageCourseCoordinationsServiceBean.class.getCanonicalName());
 
 	/** TODO: document this field. */
 	@EJB
@@ -58,44 +60,27 @@ public class ManageCoursesServiceBean extends CrudServiceBean<Course> implements
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
-	public BaseDAO<Course> getDAO() {
-		return courseDAO;
+	public BaseDAO<CourseCoordination> getDAO() {
+		return courseCoordinationDAO;
 	}
 
-	/**
-	 * @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#validate(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject,
-	 *      br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject)
-	 */
+	
+	/////////////////////////
+	//TODO Fazer o desativar courseCoordination (colocar data final na coordenacao e tirar o role de coordenador do academic)
+	//////////////////////
+	
+	
+	/** @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#create(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject) */
 	@Override
-	protected Course validate(Course newEntity, Course oldEntity) {
-		// New courses must have their creation date and password code set.
-		Date now = new Date(System.currentTimeMillis());
-		if (oldEntity == null) {
-			newEntity.setCreationDate(now);
-		}
-
-		// All courses have their last update date set when persisted.
-		newEntity.setLastUpdateDate(now);
-		return newEntity;
+	public void create(CourseCoordination entity) {
+		// Performs the method as inherited (create the academic).
+		entity.setStartDate(Calendar.getInstance().getTime());
+		super.create(entity);
+		// Retrieves the current user, i.e., the admin.
 	}
 
-	/** @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#validateDelete(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject) */
 	@Override
-	public void validateDelete(Course entity) throws CrudException {
-		// Possibly throwing a CRUD Exception to indicate validation error.
-		CrudException crudException = null;
-		String crudExceptionMessage = "The course \"" + entity.getName() + " cannot be updated due to validation errors.";
-
-		// Validates business rules.
-		// Rule 1: cannot delete a with course attendance.
-		try {
-
-		}
-		catch (Exception e) {
-
-		}
-
-		// If one of the rules was violated, throw the exception.
-		if (crudException != null) throw crudException;
+	public Academic retrieveCourseCordinator(Long idCourse) {
+		return courseCoordinationDAO.retrieveCourseCordinator(idCourse);
 	}
 }

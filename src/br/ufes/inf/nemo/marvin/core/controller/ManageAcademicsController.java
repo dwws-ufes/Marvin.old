@@ -37,7 +37,7 @@ public class ManageAcademicsController extends CrudController<Academic> {
 	/** TODO: document this field. */
 	@EJB
 	private ManageAcademicsService manageAcademicsService;
-
+	
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Academic> getCrudService() {
