@@ -1,12 +1,16 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
+import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 
 /**
@@ -34,5 +38,12 @@ public class CourseJPADAO extends BaseJPADAO<Course> implements CourseDAO {
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
+	}
+
+	@Override
+	public List<Course> retrieveAllSortedByName() {
+		logger.log(Level.FINE, "Retrieving the courses sorted by name");
+		Query query = entityManager.createQuery("SELECT c FROM Course c ORDER BY c.name");
+		return (List<Course>) query.getResultList();
 	}
 }

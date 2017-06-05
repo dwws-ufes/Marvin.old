@@ -130,7 +130,7 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 	@Override
 	public List<Academic> retrieveByRole(Role role) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		logger.log(Level.FINE, "Retrieving the academic whose role is \"{0}\"...", role);
-		Query query = entityManager.createQuery("SELECT a FROM Academic a WHERE :role MEMBER OF a.roles");
+		Query query = entityManager.createQuery("SELECT a FROM Academic a WHERE :role MEMBER OF a.roles ORDER BY a.name");
 		query.setParameter("role", role);
 		return (List<Academic>) query.getResultList();
 	}

@@ -3,6 +3,7 @@ package br.ufes.inf.nemo.marvin.core.application;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,12 +17,16 @@ import javax.ejb.Stateless;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination;
+import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseCoordinationDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
 
 /**
  * TODO: document this type.
@@ -45,6 +50,10 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	/** TODO: document this field. */
 	@EJB
 	private CourseDAO courseDAO;
+	
+	/** TODO: document this field. */
+	@EJB
+	private RoleDAO roleDAO;
 	
 	/** TODO: document this field. */
 	@EJB
@@ -82,5 +91,77 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	@Override
 	public Academic retrieveCourseCordinator(Long idCourse) {
 		return courseCoordinationDAO.retrieveCourseCordinator(idCourse);
+	}
+
+	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#findRoleByName(java.lang.String) */
+	@Override
+	public List<Role> findRoleByName(String name) {
+		return roleDAO.findByName(name);
+	}
+
+	@Override
+	public List<Academic> retrieveAcademicbyRole(String roleName) {
+		try {
+			List<Role> roles = findRoleByName(roleName);
+			if(roles.isEmpty()){
+				logger.log(Level.SEVERE, "No role found!");
+				return null;
+			} else{
+				return academicDAO.retrieveByRole(roles.get(0));
+			}	
+		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public Map<String, Course> retrieveCourses(boolean hasCoordinator) {
+		Map<String, Course> courseCoordinators = new HashMap<String, Course>();
+		List<Course> courses = courseDAO.retrieveAllSortedByName();
+		if(!hasCoordinator){
+			List<CourseCoordination> c = courseCoordinationDAO.retrieveAll();
+			for (Course course : courses) {
+				boolean b = false;
+				for (CourseCoordination courseCoordination : c) {
+					if(course.equals(courseCoordination.getCourse())){
+						b = true;
+						break;
+					}
+				}
+				if(!b) courseCoordinators.put(course.getName(), course);	
+			}
+		}
+		else {
+			for (Course course : courses) {
+				courseCoordinators.put(course.getName(), course);
+			}
+		}
+		return courseCoordinators;
+	}
+	
+	@Override
+	public Map<String, Academic> retrieveAcademics(boolean isCoordinator) {
+		Map<String, Academic> courseCoordinators = new HashMap<String, Academic>();
+		List<Academic> academics = retrieveAcademicbyRole("Professor");
+		if(!isCoordinator){
+			List<CourseCoordination> c = courseCoordinationDAO.retrieveAll();
+			for (Academic academic : academics) {
+				boolean b = false;
+				for (CourseCoordination courseCoordination : c) {
+					if(academic.equals(courseCoordination.getAcademic())){
+						b = true;
+						break;
+					}
+				}
+				if(!b) courseCoordinators.put(academic.getName(), academic);
+			}	
+		}
+		else {
+			for (Academic academic : academics) {
+				courseCoordinators.put(academic.getName(), academic);
+			}
+		}
+		return courseCoordinators;
 	}
 }

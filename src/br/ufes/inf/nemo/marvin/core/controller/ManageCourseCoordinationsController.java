@@ -36,32 +36,80 @@ import br.ufes.inf.nemo.marvin.core.domain.Role;
  */
 @Named
 @SessionScoped
-public class ManageCoursesController extends CrudController<Course> {
+public class ManageCourseCoordinationsController extends CrudController<CourseCoordination> {
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageCoursesController.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(ManageCourseCoordinationsController.class.getCanonicalName());
 	
 	/** TODO: document this field. */
-	@EJB
-	private ManageCoursesService manageCoursesService;
 	
-
-	public AcademicLevel[] getAcademicLevels()
+	@EJB
+	private ManageCourseCoordinationsService manageCourseCoordinationsService;
+	
+	private String academic;
+	private Map<String, Academic> academics;
+	private String course;
+	private Map<String, Course> courses;
+	
+	public void onLoad()
 	{
-		return AcademicLevel.values();
+		course = null;
+		academic = null;
+		courses = manageCourseCoordinationsService.retrieveCourses(false);
+		academics = manageCourseCoordinationsService.retrieveAcademics(false);
+	}
+	
+	public void onAcademicChange() {
+		selectedEntity.setAcademic(academics.get(academic));
+    }
+	
+	public void onCourseChange(){
+		selectedEntity.setCourse(courses.get(course));
 	}
 	
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
-	protected CrudService<Course> getCrudService() {
-		return manageCoursesService;
+	protected CrudService<CourseCoordination> getCrudService() {
+		return manageCourseCoordinationsService;
 	}
+
+	public String getAcademic() {
+		return academic;
+	}
+
+	public void setAcademic(String academic) {
+		this.academic = academic;
+	}
+
+	public Map<String, Academic> getAcademics() {
+		return academics;
+	}
+
+	public void setAcademics(Map<String, Academic> academics) {
+		this.academics = academics;
+	}
+
+	public String getCourse() {
+		return course;
+	}
+
+	public void setCourse(String course) {
+		this.course = course;
+	}
+
+	public Map<String, Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(Map<String, Course> courses) {
+		this.courses = courses;
+	}	
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
-		addFilter(new SimpleFilter("manageCourses.filter.byName", "name", getI18nMessage("msgsCore", "manageCourses.text.filter.byName")));
+		addFilter(new SimpleFilter("manageCourseCoordinations.filter.byName", "name", getI18nMessage("msgsCore", "manageCourseCoordinations.text.filter.byName")));
 	}
 }
