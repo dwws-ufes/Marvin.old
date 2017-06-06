@@ -113,6 +113,20 @@
 					</p:column>
 				</p:autoComplete>			
 			</ui:decorate>
+			
+			<!-- Field: academic roles. -->
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="academicRoles"/>
+				<ui:param name="label" value="#{msgsCore['manageAcademics.field.academicRoles']}"/>
+				<p:autoComplete id="academicRoles" multiple="true" value="#{manageAcademicsController.selectedAcademicRoles}" completeMethod="#{manageAcademicsController.completeAcademicRoles}" var="academicRole" itemLabel="#{academicRole.name}" itemValue="academicRole" converter="#{manageAcademicsController.academicRoleConverter}" forceSelection="true" disabled="true">
+					<p:column>
+						<h:outputText value="#{academicRole.name}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{msgsCore[academicRole.descriptionKey]}" />
+					</p:column>
+				</p:autoComplete>			
+			</ui:decorate>
 
 			<!-- Field: lattesId. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">

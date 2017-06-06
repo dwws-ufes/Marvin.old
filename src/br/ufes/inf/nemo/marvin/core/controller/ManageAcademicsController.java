@@ -17,6 +17,7 @@ import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
 import br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.domain.AcademicRole;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 
 /**
@@ -104,5 +105,43 @@ public class ManageAcademicsController extends CrudController<Academic> {
 	 */
 	public List<Role> completeRoles(String query) {
 		return manageAcademicsService.findRoleByName(query);
+	}
+	
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	public PersistentObjectConverterFromId<AcademicRole> getAcademicRoleConverter() {
+		return manageAcademicsService.getAcademicRoleConverter();
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	public List<AcademicRole> getSelectedAcademicRoles() {
+		Set<AcademicRole> academicRoles = selectedEntity.getAcademicRoles();
+		return (academicRoles == null) ? new ArrayList<>() : new ArrayList<>(academicRoles);
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param selectedRoles
+	 */
+	public void setSelectedAcademicRoles(List<AcademicRole> selectedAcademicRoles) {
+		selectedEntity.setAcademicRoles((selectedAcademicRoles == null) ? new HashSet<>() : new HashSet<>(selectedAcademicRoles));
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param query
+	 * @return
+	 */
+	public List<AcademicRole> completeAcademicRoles(String query) {
+		return manageAcademicsService.findAcademicRoleByName(query);
 	}
 }

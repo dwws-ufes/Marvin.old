@@ -61,6 +61,10 @@ public class Academic extends Person {
 	/** Roles for this user. */
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles;
+	
+	/** Academic Roles for this user. */
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<AcademicRole> academicRoles;
 
 	/** The timestamp of the moment this academic was created. */
 	@Temporal(TemporalType.TIMESTAMP)
@@ -145,6 +149,16 @@ public class Academic extends Person {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
+	/** Getter for academic roles. */
+	public Set<AcademicRole> getAcademicRoles() {
+		return academicRoles;
+	}
+
+	/** Setter for academic roles. */
+	public void setAcademicRoles(Set<AcademicRole> academicRoles) {
+		this.academicRoles = academicRoles;
+	}
 
 	/** Getter for creationDate. */
 	public Date getCreationDate() {
@@ -185,5 +199,16 @@ public class Academic extends Person {
 	public void assignRole(Role role) {
 		if (roles == null) roles = new HashSet<>();
 		roles.add(role);
+	}
+	
+	/**
+	 * Assigns a academic role to an academic, i.e., adds the academic role to the set of academic roles.
+	 * 
+	 * @param academicRole
+	 *          The academic role to assign.
+	 */
+	public void assignAcademicRole(AcademicRole academicRole) {
+		if (academicRoles == null) academicRoles = new HashSet<>();
+		academicRoles.add(academicRole);
 	}
 }

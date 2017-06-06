@@ -20,10 +20,12 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.domain.AcademicRole;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.AcademicRoleDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseCoordinationDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
@@ -57,6 +59,10 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	
 	/** TODO: document this field. */
 	@EJB
+	private AcademicRoleDAO academicRoleDAO;
+	
+	/** TODO: document this field. */
+	@EJB
 	private CourseCoordinationDAO courseCoordinationDAO;
 	
 	/** TODO: document this field. */
@@ -84,6 +90,14 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	public void create(CourseCoordination entity) {
 		// Performs the method as inherited (create the academic).
 		entity.setStartDate(Calendar.getInstance().getTime());
+		try {
+			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
+			entity.getAcademic().assignAcademicRole(ar);
+			academicDAO.save(entity.getAcademic());
+		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		super.create(entity);
 		// Retrieves the current user, i.e., the admin.
 	}
@@ -145,16 +159,15 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 		Map<String, Academic> courseCoordinators = new HashMap<String, Academic>();
 		List<Academic> academics = retrieveAcademicbyRole("Professor");
 		if(!isCoordinator){
-			List<CourseCoordination> c = courseCoordinationDAO.retrieveAll();
-			for (Academic academic : academics) {
-				boolean b = false;
-				for (CourseCoordination courseCoordination : c) {
-					if(academic.equals(courseCoordination.getAcademic())){
-						b = true;
-						break;
-					}
+			AcademicRole ar;
+			try {
+				ar = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
+				for (Academic academic : academics) {
+					if(!academic.getAcademicRoles().contains(ar)) courseCoordinators.put(academic.getName(), academic);
 				}
-				if(!b) courseCoordinators.put(academic.getName(), academic);
+			} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}	
 		}
 		else {

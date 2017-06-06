@@ -23,8 +23,10 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.domain.AcademicRole;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.AcademicRoleDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
 
 /**
@@ -52,6 +54,10 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	
 	/** TODO: document this field. */
 	@EJB
+	private AcademicRoleDAO academicRoleDAO;
+	
+	/** TODO: document this field. */
+	@EJB
 	private CoreInformation coreInformation;
 	
 	/** TODO: document this field. */
@@ -64,6 +70,9 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 
 	/** TODO: document this field. */
 	private PersistentObjectConverterFromId<Role> roleConverter;
+	
+	/** TODO: document this field. */
+	private PersistentObjectConverterFromId<AcademicRole> academicRoleConverter;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
@@ -149,5 +158,18 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	@Override
 	public List<Role> findRoleByName(String name) {
 		return roleDAO.findByName(name);
+	}
+	
+	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#getRoleConverter() */
+	@Override
+	public PersistentObjectConverterFromId<AcademicRole> getAcademicRoleConverter() {
+		if (academicRoleConverter == null) academicRoleConverter = new PersistentObjectConverterFromId<AcademicRole>(academicRoleDAO);
+		return academicRoleConverter;
+	}
+
+	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#findRoleByName(java.lang.String) */
+	@Override
+	public List<AcademicRole> findAcademicRoleByName(String name) {
+		return academicRoleDAO.findByName(name);
 	}
 }
