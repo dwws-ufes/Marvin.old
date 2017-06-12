@@ -89,7 +89,7 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	@Override
 	public void create(CourseCoordination entity) {
 		// Performs the method as inherited (create the academic).
-		entity.setStartDate(Calendar.getInstance().getTime());
+		entity.setStartDate(new Date(System.currentTimeMillis()));
 		try {
 			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
 			entity.getAcademic().assignAcademicRole(ar);
@@ -176,5 +176,20 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 			}
 		}
 		return courseCoordinators;
+	}
+
+
+	@Override
+	public void disable(CourseCoordination entity) {
+		entity.setEndDate(new Date(System.currentTimeMillis()));
+		try {
+			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
+			entity.getAcademic().unassignAcademicRole(ar);
+			academicDAO.save(entity.getAcademic());
+		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.update(entity);
 	}
 }

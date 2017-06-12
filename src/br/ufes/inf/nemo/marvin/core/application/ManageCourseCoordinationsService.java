@@ -29,4 +29,6 @@ public interface ManageCourseCoordinationsService extends CrudService<CourseCoor
 	public Map<String, Course> retrieveCourses(boolean hasCoordinator);
 
 	public Map<String, Academic> retrieveAcademics(boolean isCoordinator);
+	
+	public void disable(CourseCoordination entity);
 }

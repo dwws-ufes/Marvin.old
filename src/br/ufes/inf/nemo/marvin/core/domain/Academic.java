@@ -211,4 +211,14 @@ public class Academic extends Person {
 		if (academicRoles == null) academicRoles = new HashSet<>();
 		academicRoles.add(academicRole);
 	}
+	
+	public void unassignRole(Role role)
+	{
+		if(roles.contains(role)) roles.remove(role);
+	}
+	
+	public void unassignAcademicRole(AcademicRole academicRole)
+	{
+		if(academicRoles.contains(academicRole)) academicRoles.remove(academicRole);
+	}
 }

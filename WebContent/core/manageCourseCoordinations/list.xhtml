@@ -69,11 +69,15 @@
 				</p:column>
 				
 				<p:column headerText="#{msgsCore['manageCourseCoordinations.field.startDate']}">
-					<h:outputText value="#{entity.startDate}" />
+					<h:outputText value="#{entity.startDate}" >
+						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
+					</h:outputText>
 				</p:column>
 				
 				<p:column headerText="#{msgsCore['manageCourseCoordinations.field.endDate']}">
-					<h:outputText value="#{entity.endDate}" />
+					<h:outputText value="#{entity.endDate}" >
+						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
+					</h:outputText>
 				</p:column>
 
 				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
@@ -106,7 +110,7 @@
 						<ui:param name="formName" value="trashForm" />
 						<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
 						<p:dataList value="#{manageCourseCoordinationsController.trashCan}" var="entity" type="ordered">
-			            	#{entity.name} 
+			            	#{entity.toString()} 
 			            </p:dataList>
 						<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 							<p:commandButton action="#{manageCourseCoordinationsController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />

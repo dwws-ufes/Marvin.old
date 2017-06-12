@@ -13,9 +13,12 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudValidationError;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
@@ -111,5 +114,24 @@ public class ManageCourseCoordinationsController extends CrudController<CourseCo
 	@Override
 	protected void initFilters() {
 		addFilter(new SimpleFilter("manageCourseCoordinations.filter.byName", "name", getI18nMessage("msgsCore", "manageCourseCoordinations.text.filter.byName")));
+	}
+	
+	@Override
+	public void delete() {
+		logger.log(Level.INFO, "Disable entity...");
+		List<Object> notDeleted = new ArrayList<Object>();
+
+		// Disables the entities that are in the trash can. Validates each exclusion, but don't stop in case of errors.
+		for (CourseCoordination entity : trashCan) manageCourseCoordinationsService.disable(entity);
+
+		// Writes the status message (only if at least one entity was deleted successfully). Empties it afterwards.
+		trashCan.removeAll(notDeleted);
+		if (!trashCan.isEmpty()) {
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.deleteSucceeded", trashCan.size());
+			trashCan.clear();
+		}
+
+		// Clears the selection.
+		selectedEntity = null;
 	}
 }

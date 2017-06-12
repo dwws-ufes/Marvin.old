@@ -18,17 +18,17 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
  * @version 1.0
  */
 @Entity
-public class CourseCoordination extends PersistentObjectSupport{
+public class CourseCoordination extends PersistentObjectSupport implements Comparable<CourseCoordination>{
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 	
 	/** The coordination start date. */
 	@NotNull
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date startDate;
 	
 	/** The coordination end date. */
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	
 	/** The course of coordination. */
@@ -75,6 +75,17 @@ public class CourseCoordination extends PersistentObjectSupport{
 
 	public void setAcademic(Academic academic) {
 		this.academic = academic;
+	}
+
+	@Override
+	public int compareTo(CourseCoordination o) {
+		// Check if it's the same entity.
+		return uuid.compareTo(o.uuid);
+	}
+	
+	@Override
+	public String toString() {
+		return course.getName() +" / "+academic.getName();
 	}
 	
 }

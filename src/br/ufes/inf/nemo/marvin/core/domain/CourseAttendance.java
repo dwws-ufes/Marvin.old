@@ -19,18 +19,18 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
  * @version 1.0
  */
 @Entity
-public class CourseAttendance extends PersistentObjectSupport{
+public class CourseAttendance extends PersistentObjectSupport implements Comparable<CourseAttendance>{
 	
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 	
 	/** The course start date. */
 	@NotNull
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date startDate;
 	
 	/** The course end date. */
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	
 	/** The academic situation in the course. */
@@ -74,5 +74,11 @@ public class CourseAttendance extends PersistentObjectSupport{
 		CourseSituation(String name) {
 			this.name = name;
 		}	
+	}
+
+	@Override
+	public int compareTo(CourseAttendance o) {
+		// Check if it's the same entity.
+		return uuid.compareTo(o.uuid);
 	}
 }
