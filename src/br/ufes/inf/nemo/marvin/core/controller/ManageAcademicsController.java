@@ -12,7 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
-import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
+import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
 import br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService;
@@ -38,7 +38,7 @@ public class ManageAcademicsController extends CrudController<Academic> {
 	/** TODO: document this field. */
 	@EJB
 	private ManageAcademicsService manageAcademicsService;
-	
+
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Academic> getCrudService() {
@@ -48,7 +48,7 @@ public class ManageAcademicsController extends CrudController<Academic> {
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
-		addFilter(new SimpleFilter("manageAcademics.filter.byName", "name", getI18nMessage("msgsCore", "manageAcademics.text.filter.byName")));
+		addFilter(new LikeFilter("manageAcademics.filter.byName", "name", getI18nMessage("msgsCore", "manageAcademics.text.filter.byName")));
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class ManageAcademicsController extends CrudController<Academic> {
 	public List<Role> completeRoles(String query) {
 		return manageAcademicsService.findRoleByName(query);
 	}
-	
+
 	/**
 	 * TODO: document this method.
 	 * 
