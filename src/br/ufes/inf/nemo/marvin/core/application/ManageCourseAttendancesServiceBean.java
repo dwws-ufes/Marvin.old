@@ -22,10 +22,12 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFo
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.AcademicRole;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
+import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
 import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicRoleDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.CourseAttendanceDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseCoordinationDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
@@ -38,12 +40,12 @@ import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
  */
 @Stateless
 @RolesAllowed("SysAdmin")
-public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<CourseCoordination> implements ManageCourseCoordinationsService {
+public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAttendance> implements ManageCourseAttendancesService {
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageCourseCoordinationsServiceBean.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(ManageCourseAttendancesServiceBean.class.getCanonicalName());
 
 	/** TODO: document this field. */
 	@EJB
@@ -63,7 +65,7 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	
 	/** TODO: document this field. */
 	@EJB
-	private CourseCoordinationDAO courseCoordinationDAO;
+	private CourseAttendanceDAO courseAttendanceDAO;
 	
 	/** TODO: document this field. */
 	@EJB
@@ -75,18 +77,18 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
-	public BaseDAO<CourseCoordination> getDAO() {
-		return courseCoordinationDAO;
+	public BaseDAO<CourseAttendance> getDAO() {
+		return courseAttendanceDAO;
 	}
 	
 	
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#create(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject) */
 	@Override
-	public void create(CourseCoordination entity) {
+	public void create(CourseAttendance entity) {
 		// Performs the method as inherited (create the academic).
 		entity.setStartDate(new Date(System.currentTimeMillis()));
 		try {
-			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
+			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.STUDENT_ROLE_NAME);
 			entity.getAcademic().assignAcademicRole(ar);
 			academicDAO.save(entity.getAcademic());
 		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
@@ -94,12 +96,7 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 			e.printStackTrace();
 		}
 		super.create(entity);
-		// Retrieves the current user, i.e., the admin.
-	}
-
-	@Override
-	public Academic retrieveCourseCordinator(Long idCourse) {
-		return courseCoordinationDAO.retrieveCourseCordinator(idCourse);
+		// Retrieves the current user, i.e., the admin.*/
 	}
 
 	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#findRoleByName(java.lang.String) */
@@ -126,17 +123,15 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	
 	@Override
 	public Map<String, Course> retrieveCourses(boolean hasCoordinator) {
-		Map<String, Course> coursesWithoutCoordination = new HashMap<String, Course>();
+		Map<String, Course> coursesMap = new HashMap<String, Course>();
 		List<Course> courses = courseDAO.retrieveAllSortedByName();
-		if(!hasCoordinator){
-			for (Course course : courses) if(!courseCoordinationDAO.courseHasActiveCoordinations(course)) coursesWithoutCoordination.put(course.getName(), course);
-		}
-		else for (Course course : courses) coursesWithoutCoordination.put(course.getName(), course);			
-		return coursesWithoutCoordination;
+		for (Course course : courses) coursesMap.put(course.getName(), course);			
+		return coursesMap;
 	}
 	
 	@Override
 	public Map<String, Academic> retrieveAcademics(boolean isCoordinator) {
+		/*
 		Map<String, Academic> courseCoordinators = new HashMap<String, Academic>();
 		List<Academic> academics = retrieveAcademicbyRole("Professor");
 		if(!isCoordinator){
@@ -150,12 +145,14 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 			}	
 		}
 		else for (Academic academic : academics) courseCoordinators.put(academic.getName(), academic);
-		return courseCoordinators;
+		return courseCoordinators;*/
+		return null;
 	}
 
 
 	@Override
-	public void disable(CourseCoordination entity) {
+	public void disable(CourseAttendance entity) {
+		/*
 		entity.setEndDate(new Date(System.currentTimeMillis()));
 		try {
 			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
@@ -165,6 +162,6 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		super.update(entity);
+		super.update(entity);*/
 	}
 }

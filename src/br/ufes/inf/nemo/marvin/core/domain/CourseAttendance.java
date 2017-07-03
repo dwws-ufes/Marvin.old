@@ -6,6 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -38,6 +39,16 @@ public class CourseAttendance extends PersistentObjectSupport implements Compara
 	@Enumerated(EnumType.STRING)
 	private CourseSituation courseSituation;
 	
+	/** The course of academic. */
+	@NotNull
+	@OneToOne
+	private Course course;
+	
+	/** The academic enrolled in course. */
+	@NotNull
+	@OneToOne
+	private Academic academic;
+	
 	/** Getter for start date. */
 	public Date getStartDate() {
 		return startDate;
@@ -63,6 +74,25 @@ public class CourseAttendance extends PersistentObjectSupport implements Compara
 		return courseSituation;
 	}
 	
+	/** Getter for course. */
+	public Course getCourse() {
+		return course;
+	}
+	/** Setter for course. */
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	/** Getter for academic. */
+	public Academic getAcademic() {
+		return academic;
+	}
+	/** Setter for academic. */
+	public void setAcademic(Academic academic) {
+		this.academic = academic;
+	}
+
+
 	/** The academic situation in the course */
 	public enum CourseSituation {
 		ACTIVE("Active"),
