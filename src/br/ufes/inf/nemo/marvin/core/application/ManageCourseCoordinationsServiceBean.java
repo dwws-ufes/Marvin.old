@@ -131,27 +131,13 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	
 	@Override
 	public Map<String, Course> retrieveCourses(boolean hasCoordinator) {
-		Map<String, Course> courseCoordinators = new HashMap<String, Course>();
+		Map<String, Course> coursesWithoutCoordination = new HashMap<String, Course>();
 		List<Course> courses = courseDAO.retrieveAllSortedByName();
 		if(!hasCoordinator){
-			List<CourseCoordination> c = courseCoordinationDAO.retrieveAll();
-			for (Course course : courses) {
-				boolean b = false;
-				for (CourseCoordination courseCoordination : c) {
-					if(course.equals(courseCoordination.getCourse())){
-						b = true;
-						break;
-					}
-				}
-				if(!b) courseCoordinators.put(course.getName(), course);	
-			}
+			for (Course course : courses) if(!courseCoordinationDAO.courseHasActiveCoordinations(course)) coursesWithoutCoordination.put(course.getName(), course);
 		}
-		else {
-			for (Course course : courses) {
-				courseCoordinators.put(course.getName(), course);
-			}
-		}
-		return courseCoordinators;
+		else for (Course course : courses) coursesWithoutCoordination.put(course.getName(), course);			
+		return coursesWithoutCoordination;
 	}
 	
 	@Override
@@ -162,19 +148,13 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 			AcademicRole ar;
 			try {
 				ar = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
-				for (Academic academic : academics) {
-					if(!academic.getAcademicRoles().contains(ar)) courseCoordinators.put(academic.getName(), academic);
-				}
+				for (Academic academic : academics)	if(!academic.getAcademicRoles().contains(ar)) courseCoordinators.put(academic.getName(), academic);
 			} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 		}
-		else {
-			for (Academic academic : academics) {
-				courseCoordinators.put(academic.getName(), academic);
-			}
-		}
+		else for (Academic academic : academics) courseCoordinators.put(academic.getName(), academic);
 		return courseCoordinators;
 	}
 

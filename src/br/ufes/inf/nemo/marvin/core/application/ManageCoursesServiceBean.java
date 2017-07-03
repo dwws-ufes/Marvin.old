@@ -87,13 +87,14 @@ public class ManageCoursesServiceBean extends CrudServiceBean<Course> implements
 		String crudExceptionMessage = "The course \"" + entity.getName() + " cannot be updated due to validation errors.";
 
 		// Validates business rules.
-		// Rule 1: cannot delete a with course attendance.
-		try {
-
+		// Rule 1: cannot delete a with course with coordination.
+		if(courseCoordinationDAO.courseHasCoordinations(entity))
+		{
+			logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 1: the course has a course coordination", new Object[] { entity.getName() });
+			crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageCourses.error.deleteCourseWithCoordination", entity.getName());
 		}
-		catch (Exception e) {
-
-		}
+		
+		// Rule 2: cannot delete a with course attendance.
 
 		// If one of the rules was violated, throw the exception.
 		if (crudException != null) throw crudException;

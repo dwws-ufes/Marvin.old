@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
@@ -15,6 +18,7 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.AcademicRole;
 import br.ufes.inf.nemo.marvin.core.domain.AcademicRole_;
 import br.ufes.inf.nemo.marvin.core.domain.Academic_;
+import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination;
 import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination_;
 
@@ -60,5 +64,58 @@ public class CourseCoordinationJPADAO extends BaseJPADAO<CourseCoordination> imp
 		//logger.log(Level.INFO, "Retrieve academic by the email \"{0}\" returned \"{1}\"", new Object[] { email, result });
 		//return result;
 		return null;
+	}
+
+	@Override
+	public boolean academicWasCoordinator(Academic academic) {
+		logger.log(Level.FINE, "Retrieving the coordinations of a academic");
+
+		// Constructs the query over the Course Coordination class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<CourseCoordination> cq = cb.createQuery(CourseCoordination.class);
+		Root<CourseCoordination> root = cq.from(CourseCoordination.class);
+
+		// Filters the query with the academic.
+		cq.where(cb.equal(root.get(CourseCoordination_.academic), academic));
+		List<CourseCoordination> result = entityManager.createQuery(cq).getResultList();
+
+		if(!result.isEmpty()) return true;
+		return false;
+	}
+	
+	@Override
+	public boolean courseHasCoordinations(Course course) {
+		logger.log(Level.FINE, "Retrieving the coordinations of a course");
+
+		// Constructs the query over the Course Coordination class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<CourseCoordination> cq = cb.createQuery(CourseCoordination.class);
+		Root<CourseCoordination> root = cq.from(CourseCoordination.class);
+
+		// Filters the query with the academic.
+		cq.where(cb.equal(root.get(CourseCoordination_.course), course));
+		List<CourseCoordination> result = entityManager.createQuery(cq).getResultList();
+
+		if(!result.isEmpty()) return true;
+		return false;
+	}
+	
+	@Override
+	public boolean courseHasActiveCoordinations(Course course){
+		// Constructs the query over the Course Coordination class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<CourseCoordination> cq = cb.createQuery(CourseCoordination.class);
+		Root<CourseCoordination> root = cq.from(CourseCoordination.class);
+
+		List<Predicate> predicates = new ArrayList<>();
+		predicates.add(cb.equal(root.get(CourseCoordination_.course), course));
+		predicates.add(cb.isNull(root.get(CourseCoordination_.endDate)));
+		// Filters the query with the academic.
+		
+		cq.select(root).where(predicates.toArray(new Predicate[]{}));
+		List<CourseCoordination> result = entityManager.createQuery(cq).getResultList();
+
+		if(!result.isEmpty()) return true;
+		return false;
 	}
 }

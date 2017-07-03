@@ -122,12 +122,13 @@ public class ManageCourseCoordinationsController extends CrudController<CourseCo
 		List<Object> notDeleted = new ArrayList<Object>();
 
 		// Disables the entities that are in the trash can. Validates each exclusion, but don't stop in case of errors.
-		for (CourseCoordination entity : trashCan) manageCourseCoordinationsService.disable(entity);
+		for (CourseCoordination entity : trashCan) if(entity.getEndDate() == null)	manageCourseCoordinationsService.disable(entity);
+		
 
 		// Writes the status message (only if at least one entity was deleted successfully). Empties it afterwards.
 		trashCan.removeAll(notDeleted);
 		if (!trashCan.isEmpty()) {
-			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.deleteSucceeded", trashCan.size());
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.disableSucceeded", trashCan.size());
 			trashCan.clear();
 		}
 

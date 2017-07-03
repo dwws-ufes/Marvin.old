@@ -54,7 +54,7 @@ public class AcademicRoleJPADAO extends BaseJPADAO<AcademicRole> implements Acad
 		CriteriaQuery<AcademicRole> cq = cb.createQuery(AcademicRole.class);
 		Root<AcademicRole> root = cq.from(AcademicRole.class);
 
-		// Filters the query with the email.
+		// Filters the query with the name.
 		cq.where(cb.equal(root.get(AcademicRole_.name), name));
 		AcademicRole result = executeSingleResultQuery(cq, name);
 		logger.log(Level.INFO, "Retrieve role with the name \"{0}\" returned \"{1}\"", new Object[] { name, result });

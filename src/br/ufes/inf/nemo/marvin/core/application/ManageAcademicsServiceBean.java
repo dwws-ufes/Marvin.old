@@ -27,6 +27,7 @@ import br.ufes.inf.nemo.marvin.core.domain.AcademicRole;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicRoleDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.CourseCoordinationDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
 
 /**
@@ -55,6 +56,10 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	/** TODO: document this field. */
 	@EJB
 	private AcademicRoleDAO academicRoleDAO;
+	
+	/** TODO: document this field. */
+	@EJB
+	private CourseCoordinationDAO courseCoordinationDAO;
 	
 	/** TODO: document this field. */
 	@EJB
@@ -118,6 +123,28 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 		catch (MultiplePersistentObjectsFoundException | PersistentObjectNotFoundException e) {
 			logger.log(Level.SEVERE, "Problem retrieving role " + Role.SYSADMIN_ROLE_NAME + " while validating an academic deletion!", e);
 		}
+		
+		// Rule 2: cannot delete a coordinator that is linked to a course coordination (activated).
+		AcademicRole coordinator;
+		try {
+			coordinator = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
+			if(entity.getAcademicRoles().contains(coordinator))
+			{
+				logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 2: acadmic has CourseCoordinator role", new Object[] { email });
+				crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageAcademics.error.deleteCurrentCoordinator", email);
+			}
+		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// Rule 3: cannot delete a academic that is linked to a disabled course coordination.
+		if(courseCoordinationDAO.academicWasCoordinator(entity))
+		{
+			logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 3: the academic was coordinator of some course coordination", new Object[] { email });
+			crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageAcademics.error.deleteOldCoordinator", email);
+		}
+		
 
 		// If one of the rules was violated, throw the exception.
 		if (crudException != null) throw crudException;
