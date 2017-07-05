@@ -10,6 +10,7 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
+import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance.Situation;
 import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 
@@ -30,6 +31,8 @@ public interface ManageCourseAttendancesService extends CrudService<CourseAttend
 	public Map<String, Course> retrieveCourses(boolean hasCoordinator);
 
 	public Map<String, Academic> retrieveAcademics(boolean isCoordinator);
+	
+	public Map<String, Situation> retrieveSituations();
 	
 	public void disable(CourseAttendance entity);
 }

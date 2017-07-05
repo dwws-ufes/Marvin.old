@@ -3,6 +3,7 @@ package br.ufes.inf.nemo.marvin.core.domain;
 import java.util.Date;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -37,7 +38,7 @@ public class CourseAttendance extends PersistentObjectSupport implements Compara
 	/** The academic situation in the course. */
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private CourseSituation courseSituation;
+	private Situation situation;
 	
 	/** The course of academic. */
 	@NotNull
@@ -68,12 +69,17 @@ public class CourseAttendance extends PersistentObjectSupport implements Compara
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-
-	/** Getter for course situation. */
-	public CourseSituation getCourseSituation() {
-		return courseSituation;
+	
+	/** Getter for situation. */
+	public Situation getSituation() {
+		return situation;
 	}
 	
+	/** Setter for situation. */
+	public void setSituation(Situation situation) {
+		this.situation = situation;
+	}
+
 	/** Getter for course. */
 	public Course getCourse() {
 		return course;
@@ -94,21 +100,40 @@ public class CourseAttendance extends PersistentObjectSupport implements Compara
 
 
 	/** The academic situation in the course */
-	public enum CourseSituation {
+	public enum Situation {
 		ACTIVE("Active"),
 		GRADUATED("Graduated"),
 		TERMINATED("Terminated");
 		
 		String name;
 
-		CourseSituation(String name) {
+		Situation(String name) {
 			this.name = name;
-		}	
+		}
+		
+		@Override
+		public String toString() {
+			return name;
+		}
+		
+		public static Situation getByName(String name)
+		{	
+			switch(name){
+				case "Graduated": {return Situation.GRADUATED;}
+				case "Terminated": {return Situation.TERMINATED;}
+				default: {return Situation.ACTIVE;}
+			}
+		}
 	}
 
 	@Override
 	public int compareTo(CourseAttendance o) {
 		// Check if it's the same entity.
 		return uuid.compareTo(o.uuid);
+	}
+	
+	@Override
+	public String toString() {
+		return course.getName() +" / "+academic.getName();
 	}
 }
