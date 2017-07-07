@@ -1,35 +1,23 @@
 package br.ufes.inf.nemo.marvin.core.controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 
-import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
-import br.ufes.inf.nemo.jbutler.ejb.application.CrudValidationError;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
-import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
-import br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService;
 import br.ufes.inf.nemo.marvin.core.application.ManageCourseCoordinationsService;
-import br.ufes.inf.nemo.marvin.core.application.ManageCoursesService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
-import br.ufes.inf.nemo.marvin.core.domain.Course.AcademicLevel;
 import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination;
-import br.ufes.inf.nemo.marvin.core.domain.Role;
 
 /**
  * TODO: document this type.

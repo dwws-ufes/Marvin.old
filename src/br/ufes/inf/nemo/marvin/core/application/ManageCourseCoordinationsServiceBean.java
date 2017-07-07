@@ -1,6 +1,5 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +13,6 @@ import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
-import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
@@ -96,12 +94,7 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 		super.create(entity);
 		// Retrieves the current user, i.e., the admin.
 	}
-
-	@Override
-	public Academic retrieveCourseCordinator(Long idCourse) {
-		return courseCoordinationDAO.retrieveCourseCordinator(idCourse);
-	}
-
+	
 	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#findRoleByName(java.lang.String) */
 	@Override
 	public List<Role> findRoleByName(String name) {

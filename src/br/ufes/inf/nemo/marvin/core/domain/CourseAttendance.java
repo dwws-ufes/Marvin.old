@@ -2,8 +2,6 @@ package br.ufes.inf.nemo.marvin.core.domain;
 
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;

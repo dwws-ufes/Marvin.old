@@ -1,12 +1,12 @@
-package br.ufes.inf.nemo.marvin.core.persistence;
+package br.ufes.inf.nemo.marvin.sae.persistence;
 
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
-import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
+import br.ufes.inf.nemo.marvin.sae.domain.Education;
 
 /**
- * Interface for a DAO for objects of the Course Attendance domain class.
+ * Interface for a DAO for objects of the Education domain class.
  * 
  * Using a mini CRUD framework for EJB3, basic DAO operation definitions are inherited from the superclass, whereas
  * operations that are specific to the managed domain class (if any) are specified in this class.
@@ -15,6 +15,6 @@ import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
  * @version 1.0
  */
 @Local
-public interface CourseAttendanceDAO extends BaseDAO<CourseAttendance> {
+public interface EducationDAO extends BaseDAO<Education> {
 	
 }

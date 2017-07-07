@@ -20,7 +20,6 @@ import br.ufes.inf.nemo.marvin.core.domain.Role;
 @Local
 public interface ManageCourseCoordinationsService extends CrudService<CourseCoordination>
 {
-	public Academic retrieveCourseCordinator(Long idCouse);
 	
 	public List<Role> findRoleByName(String name);
 	
