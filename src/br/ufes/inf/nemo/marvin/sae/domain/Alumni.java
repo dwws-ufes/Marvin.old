@@ -24,10 +24,6 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The alumni age. */
-	@NotNull
-	private short age;  
-	
 	/** The course of alumni. */
 	@NotNull
 	@OneToOne
@@ -39,12 +35,10 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 	private Academic academic;
 	
 	/** The education of alumni. */
-	@NotNull
 	@OneToOne
 	private Education education;
 	
 	/** The history of alumni */
-	@NotNull
 	@OneToOne
 	private AlumniHistory alumniHistory;
 	
@@ -66,7 +60,6 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 	public void setCourse(Course course) {
 		this.course = course;
 	}
-
 	/** Getter for academic. */
 	public Academic getAcademic() {
 		return academic;
@@ -74,14 +67,6 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 	/** Setter for academic. */
 	public void setAcademic(Academic academic) {
 		this.academic = academic;
-	}
-	/** Getter for age. */
-	public short getAge() {
-		return age;
-	}
-	/** Setter for age. */
-	public void setAge(short age) {
-		this.age = age;
 	}
 	/** Getter for education. */
 	public Education getEducation() {

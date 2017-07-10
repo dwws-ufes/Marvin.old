@@ -9,37 +9,37 @@
                 template="/WEB-INF/decorators/#{coreInfo.decorator}/decorator.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="#{msgsCore['manageAcademics.title.create']}" rendered="#{(! manageAcademicsController.readOnly) and (manageAcademicsController.selectedEntity.id == null)}" />
-		<h:outputText value="#{msgsCore['manageAcademics.title.update']}" rendered="#{(! manageAcademicsController.readOnly) and (manageAcademicsController.selectedEntity.id != null)}" />
-		<h:outputText value="#{msgsCore['manageAcademics.title.retrieve']}" rendered="#{manageAcademicsController.readOnly}" />
+		<h:outputText value="#{msgsSae['manageStatements.title.create']}" rendered="#{(! manageStatementsController.readOnly) and (manageStatementsController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsSae['manageStatements.title.update']}" rendered="#{(! manageStatementsController.readOnly) and (manageStatementsController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsSae['manageStatements.title.retrieve']}" rendered="#{manageStatementsController.readOnly}" />
 	</ui:define>
     
     <ui:define name="description">
-		<h:outputText value="#{msgsCore['manageAcademics.title.create.description']}" rendered="#{(! manageAcademicsController.readOnly) and (manageAcademicsController.selectedEntity.id == null)}" />
-		<h:outputText value="#{msgsCore['manageAcademics.title.update.description']}" rendered="#{(! manageAcademicsController.readOnly) and (manageAcademicsController.selectedEntity.id != null)}" />
-		<h:outputText value="#{msgsCore['manageAcademics.title.retrieve.description']}" rendered="#{manageAcademicsController.readOnly}" />
+		<h:outputText value="#{msgsSae['manageStatements.title.create.description']}" rendered="#{(! manageStatementsController.readOnly) and (manageStatementsController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsSae['manageStatements.title.update.description']}" rendered="#{(! manageStatementsController.readOnly) and (manageStatementsController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsSae['manageStatements.title.retrieve.description']}" rendered="#{manageStatementsController.readOnly}" />
     </ui:define>
 
 	<ui:define name="body">
 		<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form.xhtml">
 			<ui:param name="formName" value="form" />
-			<ui:param name="formLabel" value="#{msgsCore['manageAcademics.form.title']}" />
+			<ui:param name="formLabel" value="#{msgsSae['manageStatements.form.title']}" />
 			<p:hotkey bind="#{msgs['jbutler.crud.hotkey.focusFirstField']}" handler="findObjectById('form:name').focus();" />
 
 			<!-- Field: name. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="name" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.name']}" />
-				<p:inputText id="name" value="#{manageAcademicsController.selectedEntity.name}" required="true" pt:placeholder="#{msgsCore['manageAcademics.field.name.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
-					<p:ajax event="blur" update="nameField shortNameField" listener="#{manageAcademicsController.suggestShortName}" />
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.name']}" />
+				<p:inputText id="name" value="#{manageStatementsController.selectedEntity.name}" required="true" pt:placeholder="#{msgsSae['manageStatements.field.name.placeholder']}" disabled="#{manageStatementsController.readOnly}">
+					<p:ajax event="blur" update="nameField shortNameField" listener="#{manageStatementsController.suggestShortName}" />
 				</p:inputText>
 			</ui:decorate>
 
 			<!-- Field: email. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="email" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.email']}" />
-				<p:inputText id="email" value="#{manageAcademicsController.selectedEntity.email}" required="true" disabled="#{manageAcademicsController.readOnly}">
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.email']}" />
+				<p:inputText id="email" value="#{manageStatementsController.selectedEntity.email}" required="true" disabled="#{manageStatementsController.readOnly}">
 					<p:ajax event="blur" update="emailField" />
 				</p:inputText>
 			</ui:decorate>
@@ -47,8 +47,8 @@
 			<!-- Field: shortName. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="shortName" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.shortName']}" />
-				<p:inputText id="shortName" value="#{manageAcademicsController.selectedEntity.shortName}" required="true" pt:placeholder="#{msgsCore['manageAcademics.field.shortName.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.shortName']}" />
+				<p:inputText id="shortName" value="#{manageStatementsController.selectedEntity.shortName}" required="true" pt:placeholder="#{msgsSae['manageStatements.field.shortName.placeholder']}" disabled="#{manageStatementsController.readOnly}">
 					<p:ajax event="blur" update="shortNameField" />
 				</p:inputText>
 			</ui:decorate>
@@ -56,8 +56,8 @@
 			<!-- Field: cpf. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="cpf" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.cpf']}" />
-				<p:inputMask id="cpf" mask="#{msgs['jbutler.format.taxCode.primefaces']}" value="#{manageAcademicsController.selectedEntity.cpf}" required="true" disabled="#{manageAcademicsController.readOnly}">
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.cpf']}" />
+				<p:inputMask id="cpf" mask="#{msgs['jbutler.format.taxCode.primefaces']}" value="#{manageStatementsController.selectedEntity.cpf}" required="true" disabled="#{manageStatementsController.readOnly}">
 						<f:ajax event="blur" render="cpfField" />
 				</p:inputMask>
 			</ui:decorate>
@@ -65,8 +65,8 @@
 			<!-- Field: IdentityCard. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="identityCard" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.identityCard']}" />
-				<p:inputMask id="identityCard" mask="#{msgs['jbutler.regex.identityCard']}" maxlength="9" validatorMessage="jbutler.regex.identityCard.message" pt:placeholder="#{msgsCore['manageAcademics.field.identityCard.placeholder']}" value="#{manageAcademicsController.selectedEntity.identityCard}" required="false" disabled="#{manageAcademicsController.readOnly}">
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.identityCard']}" />
+				<p:inputMask id="identityCard" mask="#{msgs['jbutler.regex.identityCard']}" maxlength="9" validatorMessage="jbutler.regex.identityCard.message" pt:placeholder="#{msgsSae['manageStatements.field.identityCard.placeholder']}" value="#{manageStatementsController.selectedEntity.identityCard}" required="false" disabled="#{manageStatementsController.readOnly}">
 						<f:ajax event="blur" render="identityCardField" />
 				</p:inputMask>
 			</ui:decorate>
@@ -74,8 +74,8 @@
 			<!-- Field: BirthCity. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="birthCity" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.birthCity']}" />
-				<p:inputText id="birthCity" value="#{manageAcademicsController.selectedEntity.birthCity}" required="false" pt:placeholder="#{msgsCore['manageAcademics.field.birthCity.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.birthCity']}" />
+				<p:inputText id="birthCity" value="#{manageStatementsController.selectedEntity.birthCity}" required="false" pt:placeholder="#{msgsSae['manageStatements.field.birthCity.placeholder']}" disabled="#{manageStatementsController.readOnly}">
 					<p:ajax event="blur" update="birthCityField" />
 				</p:inputText>
 			</ui:decorate>
@@ -83,8 +83,8 @@
 			<!-- Field: Nationality. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="nationality" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.nationality']}" />
-				<p:inputText id="nationality" value="#{manageAcademicsController.selectedEntity.nationality}" required="false" pt:placeholder="#{msgsCore['manageAcademics.field.nationality.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.nationality']}" />
+				<p:inputText id="nationality" value="#{manageStatementsController.selectedEntity.nationality}" required="false" pt:placeholder="#{msgsSae['manageStatements.field.nationality.placeholder']}" disabled="#{manageStatementsController.readOnly}">
 					<p:ajax event="blur" update="nationalityField" />
 				</p:inputText>
 			</ui:decorate>
@@ -92,8 +92,8 @@
 			<!-- Field: birthDate. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="birthDate" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.birthDate']}" />
-				<p:inputMask id="birthDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{manageAcademicsController.selectedEntity.birthDate}" disabled="#{manageAcademicsController.readOnly}">
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.birthDate']}" />
+				<p:inputMask id="birthDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{manageStatementsController.selectedEntity.birthDate}" disabled="#{manageStatementsController.readOnly}">
 					<p:ajax event="blur" update="birthDateField" />
 					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
 				</p:inputMask>
@@ -103,13 +103,13 @@
 			<!-- Field: roles. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="roles" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.roles']}" />
-				<p:autoComplete id="roles" multiple="true" value="#{manageAcademicsController.selectedRoles}" completeMethod="#{manageAcademicsController.completeRoles}" var="role" itemLabel="#{role.name}" itemValue="#{role}" converter="#{manageAcademicsController.roleConverter}" forceSelection="true" disabled="#{manageAcademicsController.readOnly}">
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.roles']}" />
+				<p:autoComplete id="roles" multiple="true" value="#{manageStatementsController.selectedRoles}" completeMethod="#{manageStatementsController.completeRoles}" var="role" itemLabel="#{role.name}" itemValue="#{role}" converter="#{manageStatementsController.roleConverter}" forceSelection="true" disabled="#{manageStatementsController.readOnly}">
 					<p:column>
 						<h:outputText value="#{role.name}" />
 					</p:column>
 					<p:column>
-						<h:outputText value="#{msgsCore[role.descriptionKey]}" />
+						<h:outputText value="#{msgsSae[role.descriptionKey]}" />
 					</p:column>
 				</p:autoComplete>			
 			</ui:decorate>
@@ -117,13 +117,13 @@
 			<!-- Field: academic roles. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="academicRoles"/>
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.academicRoles']}"/>
-				<p:autoComplete id="academicRoles" multiple="true" value="#{manageAcademicsController.selectedAcademicRoles}" completeMethod="#{manageAcademicsController.completeAcademicRoles}" var="academicRole" itemLabel="#{academicRole.name}" itemValue="academicRole" converter="#{manageAcademicsController.academicRoleConverter}" forceSelection="true" disabled="true">
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.academicRoles']}"/>
+				<p:autoComplete id="academicRoles" multiple="true" value="#{manageStatementsController.selectedAcademicRoles}" completeMethod="#{manageStatementsController.completeAcademicRoles}" var="academicRole" itemLabel="#{academicRole.name}" itemValue="academicRole" converter="#{manageStatementsController.academicRoleConverter}" forceSelection="true" disabled="true">
 					<p:column>
 						<h:outputText value="#{academicRole.name}" />
 					</p:column>
 					<p:column>
-						<h:outputText value="#{msgsCore[academicRole.descriptionKey]}" />
+						<h:outputText value="#{msgsSae[academicRole.descriptionKey]}" />
 					</p:column>
 				</p:autoComplete>			
 			</ui:decorate>
@@ -131,56 +131,56 @@
 			<!-- Field: lattesId. -->
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 				<ui:param name="fieldName" value="lattesId" />
-				<ui:param name="label" value="#{msgsCore['manageAcademics.field.lattesId']}" />
-				<p:inputText id="lattesId" value="#{manageAcademicsController.selectedEntity.lattesId}" required="false" pt:placeholder="#{msgsCore['manageAcademics.field.lattesId.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+				<ui:param name="label" value="#{msgsSae['manageStatements.field.lattesId']}" />
+				<p:inputText id="lattesId" value="#{manageStatementsController.selectedEntity.lattesId}" required="false" pt:placeholder="#{msgsSae['manageStatements.field.lattesId.placeholder']}" disabled="#{manageStatementsController.readOnly}">
 					<p:ajax event="blur" update="lattesIdField" />
 				</p:inputText>
 			</ui:decorate>
 
 			<!-- Field: creationDate. -->
-			<h:panelGroup rendered="#{manageAcademicsController.readOnly}">
+			<h:panelGroup rendered="#{manageStatementsController.readOnly}">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 					<ui:param name="fieldName" value="creationDate" />
-					<ui:param name="label" value="#{msgsCore['manageAcademics.field.creationDate']}" />
-					<p:inputText id="creationDate" value="#{manageAcademicsController.selectedEntity.creationDate}" disabled="true">
+					<ui:param name="label" value="#{msgsSae['manageStatements.field.creationDate']}" />
+					<p:inputText id="creationDate" value="#{manageStatementsController.selectedEntity.creationDate}" disabled="true">
 						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
 					</p:inputText>
 				</ui:decorate>
 			</h:panelGroup>
 
 			<!-- Field: lastUpdateDate. -->
-			<h:panelGroup rendered="#{manageAcademicsController.readOnly}">
+			<h:panelGroup rendered="#{manageStatementsController.readOnly}">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 					<ui:param name="fieldName" value="lastUpdateDate" />
-					<ui:param name="label" value="#{msgsCore['manageAcademics.field.lastUpdateDate']}" />
-					<p:inputText id="lastUpdateDate" value="#{manageAcademicsController.selectedEntity.lastUpdateDate}" disabled="true">
+					<ui:param name="label" value="#{msgsSae['manageStatements.field.lastUpdateDate']}" />
+					<p:inputText id="lastUpdateDate" value="#{manageStatementsController.selectedEntity.lastUpdateDate}" disabled="true">
 						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
 					</p:inputText>
 				</ui:decorate>
 			</h:panelGroup>
 
 			<!-- Field: lastLoginDate. -->
-			<h:panelGroup rendered="#{manageAcademicsController.readOnly}">
+			<h:panelGroup rendered="#{manageStatementsController.readOnly}">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
 					<ui:param name="fieldName" value="lastLoginDate" />
-					<ui:param name="label" value="#{msgsCore['manageAcademics.field.lastLoginDate']}" />
-					<p:inputText id="lastLoginDate" value="#{manageAcademicsController.selectedEntity.lastLoginDate}" disabled="true">
+					<ui:param name="label" value="#{msgsSae['manageStatements.field.lastLoginDate']}" />
+					<p:inputText id="lastLoginDate" value="#{manageStatementsController.selectedEntity.lastLoginDate}" disabled="true">
 						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
 					</p:inputText>
 				</ui:decorate>
 			</h:panelGroup>
 
-			<h:panelGroup rendered="#{! manageAcademicsController.readOnly}">
+			<h:panelGroup rendered="#{! manageStatementsController.readOnly}">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
-					<p:commandButton id="cancelButton" action="#{manageAcademicsController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
-					<p:commandButton id="saveButton" action="#{manageAcademicsController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :globalMessages" icon="fa fa-fw fa-save" />
+					<p:commandButton id="cancelButton" action="#{manageStatementsController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
+					<p:commandButton id="saveButton" action="#{manageStatementsController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :globalMessages" icon="fa fa-fw fa-save" />
 					<p:defaultCommand target="saveButton" />
-					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageAcademicsController.list}" immediate="true" />
+					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageStatementsController.list}" immediate="true" />
 				</ui:decorate>
 			</h:panelGroup>
-			<h:panelGroup rendered="#{manageAcademicsController.readOnly}">
+			<h:panelGroup rendered="#{manageStatementsController.readOnly}">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
-					<p:commandButton id="backButton" action="#{manageAcademicsController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-arrow-circle-left" />
+					<p:commandButton id="backButton" action="#{manageStatementsController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-arrow-circle-left" />
 					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageInstitutionsController.list}" immediate="true" />
 				</ui:decorate>
 			</h:panelGroup>

@@ -4,8 +4,8 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
@@ -15,64 +15,26 @@ public class Education extends PersistentObjectSupport implements Comparable<Edu
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The state where the Education has been concluded. */
-	@Basic
-	@NotNull
-	@Size(max = 20)
-	private String state;
-	
-	/** The country where the Education has been concluded. */
-	@Basic
-	@NotNull
-	@Size(max = 30)
-	private String country;
-	
-	/** The educational instituition where the Education has been concluded. */
-	@Basic
-	@NotNull
-	@Size(max = 100)
-	private String educationalInstitution;
-	
 	/** The year when the Education has been concluded. */
 	@Basic
 	@NotNull
-	private int year;
+	private Integer year;
+	
+	@OneToOne
+	@NotNull
+	private EducationInstituition educationInstituition;
 	
 	/** The Education Type */
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private EducationType educationType;
-	
-	/** Getter for state. */
-	public String getState() {
-		return state;
-	}
-	/** Setter for state. */
-	public void setState(String state) {
-		this.state = state;
-	}
-	/** Getter for country. */
-	public String getCountry() {
-		return country;
-	}
-	/** Setter for country. */
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	/** Getter for educational institution. */
-	public String getEducationalInstitution() {
-		return educationalInstitution;
-	}
-	/** Setter for educational institution. */
-	public void setEducationalInstitution(String educationalInstitution) {
-		this.educationalInstitution = educationalInstitution;
-	}
+
 	/** Getter for year. */
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 	/** Setter for year. */
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 	/** Getter for Education Type. */
@@ -86,7 +48,7 @@ public class Education extends PersistentObjectSupport implements Comparable<Edu
 
 	@Override
 	public int compareTo(Education e) {
-		return educationalInstitution.compareTo(e.getEducationalInstitution());
+		return year.compareTo(e.getYear());
 	}
 	
 	public enum EducationType

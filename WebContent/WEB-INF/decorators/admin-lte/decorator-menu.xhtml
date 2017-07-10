@@ -30,6 +30,21 @@
 			</li>
 		</h:panelGroup>
 		
+		<!-- SAE (Admins only). -->
+		<c:set var="menuOpen" value="#{request.requestURL.indexOf('/manageAlumnis/') != -1}" />
+		<h:panelGroup rendered="#{sessionController.admin}">
+			<li class="treeview #{menuOpen ? 'active' : ''}">
+				<a href="#"><i class="fa fa-users"></i> <span><h:outputText value="#{msgsSae['sae.menu.generalSettings']}" /></span> <i class="fa fa-angle-left pull-right"></i></a>
+				<ul class="treeview-menu #{menuOpen ? 'menu-open' : ''}" style="display: #{menuOpen ? 'block' : 'none'};">
+					<li><h:link outcome="/sae/manageAlumnis/list"><h:outputText value="#{msgsSae['sae.menu.generalSettings.manageAlumnis']}" /></h:link></li>
+					<li><h:link outcome="/sae/manageAlumniHistories/list"><h:outputText value="#{msgsSae['sae.menu.generalSettings.manageAlumniHistories']}" /></h:link></li>
+					<li><h:link outcome="/sae/manageEducations/list"><h:outputText value="#{msgsSae['sae.menu.generalSettings.manageEducations']}" /></h:link></li>
+					<li><h:link outcome="/sae/manageStatements/list"><h:outputText value="#{msgsSae['sae.menu.generalSettings.manageStatements']}" /></h:link></li>
+					<li><h:link outcome="/sae/manageSuggestions/list"><h:outputText value="#{msgsSae['sae.menu.generalSettings.manageSuggestions']}" /></h:link></li>
+				</ul>
+			</li>
+		</h:panelGroup>
+		
 		<!-- Research (Professors and Admins). -->
 		<c:set var="menuOpen" value="#{request.requestURL.indexOf('/research/') != -1}" />
 		<h:panelGroup rendered="#{sessionController.admin or sessionController.professor}">
