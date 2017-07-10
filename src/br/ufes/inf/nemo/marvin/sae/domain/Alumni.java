@@ -1,7 +1,11 @@
 package br.ufes.inf.nemo.marvin.sae.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
@@ -43,6 +47,16 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 	@NotNull
 	@OneToOne
 	private AlumniHistory alumniHistory;
+	
+	/** The timestamp of the moment this academic was created. */
+	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
+	private Date creationDate;
+
+	/** The last time the data about the user was updated. */
+	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
+	private Date lastUpdateDate;
 
 	/** Getter for course. */
 	public Course getCourse() {
@@ -84,6 +98,18 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 	/** Setter for Alumni History. */
 	public void setAlumniHistory(AlumniHistory alumniHistory) {
 		this.alumniHistory = alumniHistory;
+	}
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 	@Override
 	public int compareTo(Alumni a) {
