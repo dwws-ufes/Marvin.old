@@ -12,16 +12,18 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.lang.model.util.Elements;
-
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
+import org.jsoup.select.Elements;
 
 import br.ufes.inf.nemo.jbutler.ResourceUtil;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.research.domain.JournalPaper;
 import br.ufes.inf.nemo.marvin.research.domain.Book;
 import br.ufes.inf.nemo.marvin.research.domain.BookChapter;
 import br.ufes.inf.nemo.marvin.research.domain.ConferencePaper;
-import br.ufes.inf.nemo.marvin.research.domain.JournalPaper;
 import br.ufes.inf.nemo.marvin.research.domain.Publication;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesParseException;
 

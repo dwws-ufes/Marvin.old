@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import br.ufes.inf.nemo.marvin.sae.domain.EducationInstituition;
+import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
 
 /**
  * Stateless session bean implementing a DAO for objects of the Suggestion domain class using JPA2.

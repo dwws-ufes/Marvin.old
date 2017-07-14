@@ -28,8 +28,11 @@ import br.ufes.inf.nemo.marvin.core.persistence.AcademicRoleDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseAttendanceDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
+import br.ufes.inf.nemo.marvin.sae.application.ManageAlumnisService;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
+import br.ufes.inf.nemo.marvin.sae.domain.Education;
 import br.ufes.inf.nemo.marvin.sae.persistence.AlumniDAO;
+import br.ufes.inf.nemo.marvin.sae.persistence.EducationDAO;
 
 /**
  * TODO: document this type.

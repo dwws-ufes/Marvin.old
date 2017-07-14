@@ -4,6 +4,7 @@ import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.marvin.sae.domain.EducationInstituition;
+import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
 
 /**
  * Interface for a DAO for objects of the Suggestion domain class.
