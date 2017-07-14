@@ -30,7 +30,7 @@
 			</li>
 		</h:panelGroup>
 		
-		<!-- SAE (Admins only). -->
+		<!-- SAE (Admins only).
 		<c:set var="menuOpen" value="#{request.requestURL.indexOf('/manageAlumnis/') != -1}" />
 		<h:panelGroup rendered="#{sessionController.admin}">
 			<li class="treeview #{menuOpen ? 'active' : ''}">
@@ -44,6 +44,7 @@
 				</ul>
 			</li>
 		</h:panelGroup>
+		-->
 		
 		<!-- Research (Professors and Admins). -->
 		<c:set var="menuOpen" value="#{request.requestURL.indexOf('/research/') != -1}" />
