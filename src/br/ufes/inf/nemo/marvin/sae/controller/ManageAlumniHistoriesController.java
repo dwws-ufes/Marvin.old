@@ -10,8 +10,6 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.marvin.sae.application.ManageAlumniHistoriesService;
-import br.ufes.inf.nemo.marvin.sae.application.ManageAlumnisService;
-import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory;
 
 /**

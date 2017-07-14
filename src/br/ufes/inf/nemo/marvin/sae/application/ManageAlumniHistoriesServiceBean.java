@@ -10,9 +10,7 @@ import javax.ejb.Stateless;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
-import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory;
-import br.ufes.inf.nemo.marvin.sae.persistence.AlumniDAO;
 import br.ufes.inf.nemo.marvin.sae.persistence.AlumniHistoryDAO;
 
 /**
