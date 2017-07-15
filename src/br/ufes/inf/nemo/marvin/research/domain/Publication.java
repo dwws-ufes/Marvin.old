@@ -53,6 +53,10 @@ public abstract class Publication extends PersistentObjectSupport implements Com
 	private Academic owner;
 
 	/** TODO: document this field. */
+	@ManyToOne
+	private Venue venue;
+
+	/** TODO: document this field. */
 	@ElementCollection
 	private List<String> authors = new ArrayList<>();
 
@@ -108,6 +112,14 @@ public abstract class Publication extends PersistentObjectSupport implements Com
 		this.owner = owner;
 	}
 
+	public Venue getVenue() {
+		return venue;
+	}
+
+	public void setVenue(Venue venue) {
+		this.venue = venue;
+	}
+
 	/** Getter for pages. */
 	public String getPages() {
 		return pages;
@@ -155,22 +167,23 @@ public abstract class Publication extends PersistentObjectSupport implements Com
 	protected String getBibKey() {
 		// Starts from the title.
 		String bibKey = title;
-		
+
 		// Removes accents from letters.
 		bibKey = Normalizer.normalize(bibKey, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-		
+
 		// Converts all charactes to lowercase.
 		bibKey = bibKey.toLowerCase();
-		
+
 		// Replace all non-alphanumeric characters into underscores.
 		bibKey = bibKey.replaceAll("[^a-z0-9]", "_");
-		
+
 		// Attaches the year to the modified title to finish the key.
 		return bibKey + "_" + year;
 	}
-	
+
 	/**
 	 * TODO: document this method.
+	 * 
 	 * @return
 	 */
 	protected String getAuthorList() {
@@ -183,10 +196,10 @@ public abstract class Publication extends PersistentObjectSupport implements Com
 				idx = author.lastIndexOf(' ');
 				if (idx != -1) author = author.substring(idx + 1) + ", " + author.substring(0, idx);
 			}
-		
+
 			builder.append(author).append(" and ");
 		}
-		
+
 		// Deletes the trailing "and".
 		int len = builder.length();
 		builder.delete(len - 5, len);
@@ -215,6 +228,6 @@ public abstract class Publication extends PersistentObjectSupport implements Com
 		return cmp;
 
 		// Lastly, compares by persistence id.
-		//return super.compareTo(o);
+		// return super.compareTo(o);
 	}
 }

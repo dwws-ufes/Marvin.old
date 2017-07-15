@@ -18,9 +18,9 @@ public class ConferencePaper extends Publication {
 
 	/** TODO: document this field. */
 	private String bookTitle;
-	
+
 	/** Constructor. */
-	protected ConferencePaper() { }
+	protected ConferencePaper() {}
 
 	/** Constructor. */
 	public ConferencePaper(String title, int year, String pages, String doi, String publisher, String bookTitle) {
@@ -38,23 +38,30 @@ public class ConferencePaper extends Publication {
 	public void setBookTitle(String bookTitle) {
 		this.bookTitle = bookTitle;
 	}
-	
+
 	/** @see br.ufes.inf.nemo.marvin.research.domain.Publication#toBibTeX() */
 	@Override
 	public String toBibTeX() {
 		StringBuilder builder = new StringBuilder();
-		
+
 		// Produces the BibTeX entry for this type of publication.
-		builder.append("@inproceedings{").append(getBibKey()).append(",\n");																										// @inproceedings{bibKey,
-		builder.append("\ttitle = {{").append(title).append("}},\n");																														//  title = {{Publication's Title}},
-		builder.append("\tauthor = {").append(getAuthorList().toUpperCase()).append("},\n");																		//  author = {Author list},
-		builder.append("\tbooktitle = {{").append(bookTitle).append("}},\n");																										//  booktitle = {{Conference proceedings title}},
-		if (pages != null && ! pages.isEmpty()) builder.append("\tpages = {").append(pages).append("},\n");											//  pages = {Start Page--End Page},
-		if (doi != null && ! doi.isEmpty()) builder.append("\tdoi = {").append(doi).append("},\n");															//  doi = {Digital Object Identifier},
-		if (publisher != null && ! publisher.isEmpty()) builder.append("\tpublisher = {{").append(publisher).append("}},\n");		//  publisher = {{Publisher's name}},
-		builder.append("\tyear = {").append(getYear()).append("}\n");																														//  year = {Publication year}
-		builder.append("}\n");																																																	// }
-		
+		builder.append("@inproceedings{").append(getBibKey()).append(",\n"); // @inproceedings{bibKey,
+		builder.append("\ttitle = {{").append(title).append("}},\n"); // title = {{Publication's Title}},
+		builder.append("\tauthor = {").append(getAuthorList().toUpperCase()).append("},\n"); // author = {Author list},
+		builder.append("\tbooktitle = {{").append(bookTitle).append("}},\n"); // booktitle = {{Conference proceedings
+																																					// title}},
+		if (pages != null && !pages.isEmpty()) builder.append("\tpages = {").append(pages).append("},\n"); // pages = {Start
+																																																				// Page--End
+																																																				// Page},
+		if (doi != null && !doi.isEmpty()) builder.append("\tdoi = {").append(doi).append("},\n"); // doi = {Digital Object
+																																																// Identifier},
+		if (publisher != null && !publisher.isEmpty()) builder.append("\tpublisher = {{").append(publisher).append("}},\n"); // publisher
+																																																													// =
+																																																													// {{Publisher's
+																																																													// name}},
+		builder.append("\tyear = {").append(getYear()).append("}\n"); // year = {Publication year}
+		builder.append("}\n"); // }
+
 		return builder.toString();
 	}
 }

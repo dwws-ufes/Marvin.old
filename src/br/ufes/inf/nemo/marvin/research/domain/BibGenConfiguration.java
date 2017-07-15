@@ -23,7 +23,7 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
 public class BibGenConfiguration extends PersistentObjectSupport {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** TODO: document this field. */
 	@Size(max = 30)
 	private String name;

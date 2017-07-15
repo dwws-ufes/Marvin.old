@@ -16,20 +16,20 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
 public class BibGenResearcher extends PersistentObjectSupport implements Comparable<BibGenResearcher> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** TODO: document this field. */
 	@ManyToOne
 	private Academic researcher;
 
 	/** TODO: document this field. */
 	private Integer startYear;
-	
+
 	/** TODO: document this field. */
 	private Integer endYear;
 
 	/** Constructor. */
-	protected BibGenResearcher() { }
-	
+	protected BibGenResearcher() {}
+
 	/** Constructor. */
 	public BibGenResearcher(Academic researcher, Integer startYear, Integer endYear) {
 		this.researcher = researcher;
@@ -76,8 +76,8 @@ public class BibGenResearcher extends PersistentObjectSupport implements Compara
 	/** @see br.ufes.inf.nemo.jbutler.ejb.domain.DomainObjectSupport#equals(java.lang.Object) */
 	@Override
 	public boolean equals(Object obj) {
-		if (! (obj instanceof BibGenResearcher)) return false;
-		return researcher.equals(((BibGenResearcher)obj).researcher);
+		if (!(obj instanceof BibGenResearcher)) return false;
+		return researcher.equals(((BibGenResearcher) obj).researcher);
 	}
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.domain.DomainObjectSupport#hashCode() */
@@ -85,6 +85,5 @@ public class BibGenResearcher extends PersistentObjectSupport implements Compara
 	public int hashCode() {
 		return researcher.hashCode();
 	}
-	
-	
+
 }
