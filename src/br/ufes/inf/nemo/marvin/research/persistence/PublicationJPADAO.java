@@ -43,7 +43,9 @@ public class PublicationJPADAO extends BaseJPADAO<Publication> implements Public
 		return entityManager;
 	}
 
-	/** @see br.ufes.inf.nemo.marvin.research.persistence.PublicationDAO#retrieveCountByAcademic(br.ufes.inf.nemo.marvin.core.domain.Academic) */
+	/**
+	 * @see br.ufes.inf.nemo.marvin.research.persistence.PublicationDAO#retrieveCountByAcademic(br.ufes.inf.nemo.marvin.core.domain.Academic)
+	 */
 	@Override
 	public long retrieveCountByAcademic(Academic academic) {
 		logger.log(Level.FINE, "Retrieving the publication count of academic \"{0}\" ({1})...", new Object[] { academic.getName(), academic.getEmail() });
@@ -64,7 +66,9 @@ public class PublicationJPADAO extends BaseJPADAO<Publication> implements Public
 		return count;
 	}
 
-	/** @see br.ufes.inf.nemo.marvin.research.persistence.PublicationDAO#retrieveByAcademic(br.ufes.inf.nemo.marvin.core.domain.Academic) */
+	/**
+	 * @see br.ufes.inf.nemo.marvin.research.persistence.PublicationDAO#retrieveByAcademic(br.ufes.inf.nemo.marvin.core.domain.Academic)
+	 */
 	@Override
 	public List<Publication> retrieveByAcademic(Academic academic) {
 		logger.log(Level.FINE, "Retrieving the publications of academic \"{0}\" ({1})...", new Object[] { academic.getName(), academic.getEmail() });
@@ -81,7 +85,10 @@ public class PublicationJPADAO extends BaseJPADAO<Publication> implements Public
 		return result;
 	}
 
-	/** @see br.ufes.inf.nemo.marvin.research.persistence.PublicationDAO#retrieveByAcademicAndYearRange(br.ufes.inf.nemo.marvin.core.domain.Academic, int, int) */
+	/**
+	 * @see br.ufes.inf.nemo.marvin.research.persistence.PublicationDAO#retrieveByAcademicAndYearRange(br.ufes.inf.nemo.marvin.core.domain.Academic,
+	 *      int, int)
+	 */
 	@Override
 	public List<Publication> retrieveByAcademicAndYearRange(Academic academic, Integer startYear, Integer endYear) {
 		logger.log(Level.FINE, "Retrieving the publications of academic \"{0}\" ({1}) within range [{2}--{3}]...", new Object[] { academic.getName(), academic.getEmail(), startYear, endYear });
@@ -96,7 +103,7 @@ public class PublicationJPADAO extends BaseJPADAO<Publication> implements Public
 		constraints.add(cb.equal(root.get(Publication_.owner), academic));
 		if (startYear != null) constraints.add(cb.ge(root.get(Publication_.year), startYear));
 		if (endYear != null) constraints.add(cb.le(root.get(Publication_.year), endYear));
-		cq.where(cb.and(constraints.toArray(new Predicate[] { })));
+		cq.where(cb.and(constraints.toArray(new Predicate[] {})));
 		List<Publication> result = entityManager.createQuery(cq).getResultList();
 		logger.log(Level.INFO, "Retrieve publications of academic \"{0}\" ({1}) within range [{2}--{3}] returned {4} results.", new Object[] { academic.getName(), academic.getEmail(), startYear, endYear, result.size() });
 		return result;
