@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/WEB-INF/decorators/#{coreInfo.decorator}/decorator.xhtml">
+	
+	<ui:define name="title"><h:outputText value="#{msgsResearch['calculateAcademicsScores.title']}" /></ui:define>
+    
+    <ui:define name="description"><h:outputText value="#{msgsResearch['calculateAcademicsScores.title.description']}" /></ui:define>
+
+  	<ui:define name="body">
+		<p><h:outputText value="#{msgsResearch['calculateAcademicsScores.text.instructions']}" /></p>
+
+		<!-- The form to be filled with a selection of researchers and optional start/end years. -->
+		<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsResearch['calculateAcademicsScores.form.calculate']}" />
+			<p:focus />
+			
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="startYear" />
+				<ui:param name="label" value="#{msgsResearch['calculateAcademicsScores.field.startYear']}" />
+				<p:inputNumber id="startYear" minValue="0" decimalPlaces="0" thousandSeparator="" value="#{calculateAcademicsScoresController.startYear}" pt:placeholder="#{msgsResearch['generateBibliography.field.startYear.placeholder']}">
+					<p:ajax event="blur" update="startYearField" />
+				</p:inputNumber>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="endYear" />
+				<ui:param name="label" value="#{msgsResearch['calculateAcademicsScores.field.endYear']}" />
+				<p:inputNumber id="endYear" minValue="0" decimalPlaces="0" thousandSeparator="" value="#{calculateAcademicsScoresController.endYear}" pt:placeholder="#{msgsResearch['generateBibliography.field.endYear.placeholder']}">
+					<p:ajax event="blur" update="endYearField" />
+				</p:inputNumber>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="researchers" />
+				<ui:param name="label" value="#{msgsResearch['calculateAcademicsScores.field.researchers']}" />
+				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-9,ui-grid-col-3">
+					<p:selectManyMenu id="researchers" value="#{calculateAcademicsScoresController.selectedResearchers}" converter="#{calculateAcademicsScoresController.academicConverter}" effect="fade" filter="true" filterMatchMode="startsWith" style="width: 100%">
+						<f:selectItems value="#{calculateAcademicsScoresController.researchers}" var="researcher" itemLabel="#{researcher.name}" itemValue="#{researcher}" />
+					</p:selectManyMenu>
+				</p:panelGrid>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+				<p:commandButton id="startOverButton" action="#{calculateAcademicsScoresController.startOver}" value="#{msgsResearch['calculateAcademicsScores.button.startOver']}" icon="fa fa-fw fa-refresh" />
+				<p:commandButton id="calculateButton" action="#{calculateAcademicsScoresController.calculate}" value="#{msgsResearch['calculateAcademicsScores.button.calculate']}" icon="fa fa-fw fa-calculator" />
+			</ui:decorate>
+		</ui:decorate>
+	</ui:define>
+</ui:composition>
+
+	

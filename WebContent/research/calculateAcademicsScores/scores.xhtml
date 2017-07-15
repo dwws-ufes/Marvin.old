@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/WEB-INF/decorators/#{coreInfo.decorator}/decorator.xhtml">
+	
+	<ui:define name="title"><h:outputText value="#{msgsResearch['calculateAcademicsScores.title']}" /></ui:define>
+    
+    <ui:define name="description"><h:outputText value="#{msgsResearch['calculateAcademicsScores.title.description']}" /></ui:define>
+
+  	<ui:define name="body">
+		<p><h:outputText value="#{msgsResearch['calculateAcademicsScores.text.result']}" /></p>
+
+		<p:dataTable widgetVar="listingTable"
+			value="#{calculateAcademicsScoresController.academicScores}" 
+			var="academicScore"
+			loadingMessage="#{msgs['jbutler.text.ajax.loading']}"
+			selectionMode="single" 
+			selection="#{calculateAcademicsScoresController.selectedAcademicScore}" 
+			rowKey="#{academicScore.academic.uuid}"
+			>
+
+			<p:column headerText="#{msgsResearch['calculateAcademicsScores.field.academic']}">
+				<h:outputText value="#{academicScore.academic.name}" />
+			</p:column>
+
+			<p:column headerText="#{msgsResearch['calculateAcademicsScores.field.conference']}">
+				<h:outputText value="#{academicScore.scoreConference}" />
+			</p:column>
+			
+			<p:column headerText="#{msgsResearch['calculateAcademicsScores.field.journal']}">
+				<h:outputText value="#{academicScore.scoreJournal}" />
+			</p:column>
+
+			<p:column headerText="#{msgsResearch['calculateAcademicsScores.field.total']}">
+				<h:outputText value="#{academicScore.scoreTotal}" />
+			</p:column>
+
+			<p:ajax event="rowSelect" oncomplete="PF('publicationDialog').show()" update="publicationTable,academicScoreText" listener="#{calculateAcademicsScoresController.onRowSelect}" />
+		</p:dataTable>
+		<ui:decorate
+			template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
+			<p:commandButton id="startOverButton"
+				action="#{calculateAcademicsScoresController.startOver}"
+				value="#{msgsResearch['calculateAcademicsScores.button.startOver']}"
+				icon="fa fa-fw fa-refresh" />
+		</ui:decorate>
+		<p:dialog
+			header="#{msgsResearch['calculateAcademicsScores.modal.title']}"
+			widgetVar="publicationDialog" modal="true"
+			closable="false" width="50%" height="500px"
+			>
+			<h3>
+				<h:outputFormat id="academicScoreText"
+					value="#{msgsResearch['calculateAcademicsScores.text.selectedAcademic']}">
+					<f:param
+						value="#{calculateAcademicsScoresController.selectedAcademicScore.academic.name}" />
+				</h:outputFormat>
+			</h3>
+			<p:dataTable id="publicationTable"
+				value="#{calculateAcademicsScoresController.publicationScores}"
+				var="publicationScore"
+				loadingMessage="#{msgs['jbutler.text.ajax.loading']}"
+				scrollable="true"
+				scrollHeight="70%"
+				>
+
+				<p:column
+					headerText="#{msgsResearch['calculateAcademicsScores.field.publication']}">
+					<h:outputText value="#{publicationScore.publication.title}" />
+				</p:column>
+
+				<p:column
+					headerText="#{msgsResearch['calculateAcademicsScores.field.venue']}">
+					<h:outputText value="#{publicationScore.publication.venue.name}" />
+				</p:column>
+				
+				<p:column
+					headerText="#{msgsResearch['calculateAcademicsScores.field.category']}">
+					<h:outputText value="#{publicationScore.publication.venue.category.name}" />
+				</p:column>
+				
+				<p:column
+					headerText="#{msgsResearch['calculateAcademicsScores.field.year']}">
+					<h:outputText value="#{publicationScore.publication.year}" />
+				</p:column>
+
+				<p:column
+					headerText="#{msgsResearch['calculateAcademicsScores.field.score']}">
+					<h:outputText value="#{publicationScore.score}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton
+				value="#{msgsResearch['calculateAcademicsScores.modal.button.back']}"
+				type="button" onclick="PF('publicationDialog').hide();" />
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+
+	

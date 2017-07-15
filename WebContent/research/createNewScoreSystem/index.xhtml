@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                template="/WEB-INF/decorators/#{coreInfo.decorator}/decorator.xhtml">
+	
+	<ui:define name="title"><h:outputText value="#{msgsResearch['createNewScoreSystem.title']}" /></ui:define>
+    
+    <ui:define name="description"><h:outputText value="#{msgsResearch['createNewScoreSystem.title.description']}" /></ui:define>
+
+  	<ui:define name="body">
+		<p><h:outputText value="#{msgsResearch['createNewScoreSystem.text.instructions']}" /></p>
+		<!-- The form to be filled with authentication information. -->
+		<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="form" />
+			<ui:param name="formLabel" value="#{msgsResearch['createNewScoreSystem.title']}" />
+			<p:focus />
+
+			<p:dataTable 
+				id="scores"
+				var="score"
+				value="#{createNewScoreSystemController.scores}" 
+				editable="true" 
+				editMode="cell" 
+				reflow="true"
+				>
+
+				<p:column headerText="#{msgsResearch['createNewScoreSystem.field.qualis']}">
+				    <h:outputText value="#{score.qualis.level}" />				    
+				</p:column>
+				<p:column headerText="#{msgsResearch['createNewScoreSystem.field.conference']}">
+					<p:cellEditor>
+					    <f:facet name="output">
+					    	<h:outputText value="#{score.scoreConference}" />
+					    </f:facet>
+	               	   <f:facet name="input">
+	               	   		<p:inputNumber id="scoreConference" thousandSeparator="" decimalPlaces="0" required="true" value="#{score.scoreConference}" />
+	               	   </f:facet>
+               	   </p:cellEditor>
+				</p:column>
+				<p:column headerText="#{msgsResearch['createNewScoreSystem.field.journal']}">
+					<p:cellEditor>
+					    <f:facet name="output">
+					    	<h:outputText value="#{score.scoreJournal}" />
+					    </f:facet>
+	               	   <f:facet name="input">
+	               	   		<p:inputNumber id="scoreJournal" thousandSeparator="" decimalPlaces="0" required="true" value="#{score.scoreJournal}" />
+	               	   </f:facet>
+               	   </p:cellEditor>
+				</p:column>
+			</p:dataTable>
+
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
+				<p:commandButton id="saveButton" action="#{createNewScoreSystemController.save}" value="#{msgsResearch['createNewScoreSystem.button.save']}" icon="fa fa-fw fa-save" />
+
+			</ui:decorate>
+		</ui:decorate>
+
+	</ui:define>
+</ui:composition>
+
+	
