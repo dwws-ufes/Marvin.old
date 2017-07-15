@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,6 +69,10 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** Global information about the application. */
 	@EJB
 	private CoreInformation coreInformation;
+	
+	/**Call Qualis Registration*/
+	@Inject
+	private Event<InstallEvent> installEvent; 
 
 	/**
 	 * @see br.ufes.inf.nemo.marvin.core.application.InstallSystemService#installSystem(br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration,
@@ -144,6 +150,8 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			// Reloads the bean that holds the configuration and determines if the system is installed.
 			logger.log(Level.FINER, "Reloading core information...");
 			coreInformation.init();
+			
+			installEvent.fire(new InstallEvent()); 
 		}
 		catch (NoSuchAlgorithmException e) {
 			// Logs and rethrows the exception for the controller to display the error to the user.

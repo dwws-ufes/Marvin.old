@@ -10,6 +10,8 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
@@ -43,6 +45,10 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 	/** The DAO for Publication objects. */
 	@EJB
 	private PublicationDAO publicationDAO;
+	
+	/**Calls Venue-Publication Matching*/
+	@Inject
+	private Event<VenuesImportEvent> venuesImportEvent; 
 
 	/** @see br.ufes.inf.nemo.marvin.research.application.UploadLattesCVService#uploadLattesCV(java.io.InputStream) */
 	@Override
@@ -95,5 +101,7 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 			if (publication instanceof BookChapter) System.out.println("bookTitle = " + ((BookChapter)publication).getBookTitle());
 			publicationDAO.save(publication);
 		}
+		
+		venuesImportEvent.fire(new VenuesImportEvent());
 	}
 }
