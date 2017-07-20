@@ -12,7 +12,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
-import br.ufes.inf.nemo.marvin.sae.domain.Education.EducationType;
 
 @Entity
 public class AlumniHistory extends PersistentObjectSupport implements Comparable<AlumniHistory>{
@@ -199,6 +198,37 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 				case "From 10 to 15 minumum salaries": {return SalaryRange.FROM_10_TO_15_SM;}
 				case "From 15 to 20 minumum salaries": {return SalaryRange.FROM_15_TO_20_SM;}
 				default: {return SalaryRange.MORE_THAN_20_SM;}
+			}
+		}
+	}
+	
+	public enum EducationType
+	{
+		HIGHER_EDUCATION("Higher Education"),
+		SPECIALIZED_EDUCATION("Specialized Education"),
+		MASTER_DEGREE("Master Degree"),
+		PHD("PhD"),
+		POST_DOCTORATE("Post-Doctorate");
+
+		String name;
+
+		EducationType(String name) {
+			this.name = name;
+		}
+		
+		@Override
+		public String toString() {
+			return name;
+		}
+		
+		public static EducationType getByName(String name)
+		{	
+			switch(name){
+				case "Higher Education": {return EducationType.HIGHER_EDUCATION;}
+				case "Specialized Education": {return EducationType.SPECIALIZED_EDUCATION;}
+				case "Master Degree": {return EducationType.MASTER_DEGREE;}
+				case "PhD": {return EducationType.PHD;}
+				default: {return EducationType.POST_DOCTORATE;}
 			}
 		}
 	}

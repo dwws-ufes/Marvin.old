@@ -76,28 +76,4 @@ public class ManageAlumnisServiceBean extends CrudServiceBean<Alumni> implements
 //		// If one of the rules was violated, throw the exception.
 //		if (crudException != null) throw crudException;
 	}
-
-	/** @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#create(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject) */
-	@Override
-	public void create(Alumni entity) {
-		// Performs the method as inherited (create the academic).
-		super.create(entity);
-		
-//		try {
-//			// Retrieves the current user, i.e., the admin.
-//			Academic admin = academicDAO.retrieveByEmail(sessionContext.getCallerPrincipal().getName());
-//			
-//			// Creates the data model with the information needed to send an e-mail to the new academic.
-//			Map<String, Object> dataModel = new HashMap<>();
-//			dataModel.put("config", coreInformation.getCurrentConfig());
-//			dataModel.put("admin", admin);
-//			dataModel.put("academic", entity);
-//		
-//			// Then, fire an e-mail event so the e-mail gets sent.
-//			mailEvent.fire(new MailEvent(entity.getEmail(), MailerTemplate.NEW_ACADEMIC_REGISTERED, dataModel));
-//		}
-//		catch (Exception e) {
-//			logger.log(Level.SEVERE, "Could NOT send e-mail using template: " + MailerTemplate.NEW_ACADEMIC_REGISTERED, e);
-//		}
-	}
 }

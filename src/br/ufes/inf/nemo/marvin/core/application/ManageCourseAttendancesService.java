@@ -9,7 +9,6 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
-import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance.Situation;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 
 /**

@@ -10,15 +10,13 @@ import javax.inject.Named;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
-import br.ufes.inf.nemo.marvin.core.domain.Academic;
-import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.sae.application.ManageAlumniHistoriesService;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory.DegreeArea;
+import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory.EducationType;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory.PracticeArea;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory.SalaryRange;
-import br.ufes.inf.nemo.marvin.sae.domain.Education.EducationType;
 
 /**
  * TODO: document this type.
