@@ -1,4 +1,4 @@
-package br.ufes.inf.nemo.marvin.sae.domain;
+package br.ufes.inf.nemo.marvin.core.domain;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
