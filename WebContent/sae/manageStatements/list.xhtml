@@ -56,12 +56,16 @@
 				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
 				emptyMessage="#{manageStatementsController.filtering ? msgsSae['manageStatements.text.noEntitiesFiltered'] : msgsSae['manageStatements.text.noEntities']}">
 
-				<p:column headerText="#{msgsSae['manageStatements.field.name']}">
-					<h:outputText value="#{entity.name}" />
+				<p:column headerText="#{msgsSae['manageStatements.field.sendDate']}">
+					<h:outputText value="#{entity.sendDate}" />
 				</p:column>
 
-				<p:column headerText="#{msgsSae['manageStatements.field.email']}">
-					<h:outputText value="#{entity.email}" />
+				<p:column headerText="#{msgsSae['manageStatements.field.courseName']}">
+					<h:outputText value="#{entity.course}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsSae['manageStatements.field.statementStatus']}">
+					<h:outputText value="#{entity.statementStatus}" />
 				</p:column>
 
 				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
@@ -93,7 +97,7 @@
 						<ui:param name="formName" value="trashForm" />
 						<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
 						<p:dataList value="#{manageStatementsController.trashCan}" var="entity" type="ordered">
-			            	#{entity.name} 
+			            	#{entity.toString()} 
 			            </p:dataList>
 						<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 							<p:commandButton action="#{manageStatementsController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />

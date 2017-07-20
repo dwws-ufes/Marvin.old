@@ -57,23 +57,19 @@
 				emptyMessage="#{manageAlumnisController.filtering ? msgsSae['manageAlumnis.text.noEntitiesFiltered'] : msgsSae['manageAlumnis.text.noEntities']}">
 
 				<p:column headerText="#{msgsSae['manageAlumnis.field.academic.name']}">
-					<h:outputText value="#{entity.academic.name}" />
-				</p:column>
-				
-				<p:column headerText="#{msgsSae['manageAlumnis.field.academic.birthDate']}">
-					<h:outputText value="#{entity.academic.birthDate}" />
+					<h:outputText value="#{entity.courseAttendance.academic.name}" />
 				</p:column>
 
-				<p:column headerText="#{msgsSae['manageAlumnis.field.course']}">
-					<h:outputText value="#{entity.course.name}" />
+				<p:column headerText="#{msgsSae['manageAlumnis.field.course.name']}">
+					<h:outputText value="#{entity.courseAttendance.course.name}" />
 				</p:column>
 				
-				<p:column headerText="#{msgsSae['manageAlumnis.field.education.year']}">
-					<h:outputText value="#{entity.education.year}" />
+				<p:column headerText="#{msgsSae['manageAlumnis.field.courseAttendance.startDate.year']}">
+					<h:outputText value="#{entity.courseAttendance.startYear}" />
 				</p:column>
 				
-				<p:column headerText="#{msgsSae['manageAlumnis.field.education.educationalInstitution']}">
-					<h:outputText value="#{entity.education.educationalInstitution}" />
+				<p:column headerText="#{msgsSae['manageAlumnis.field.courseAttendance.endDate.year']}">
+					<h:outputText value="#{entity.courseAttendance.endYear}" />
 				</p:column>
 
 				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
@@ -87,14 +83,10 @@
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
-					<p:commandButton action="#{manageAlumnisController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-user-plus" />
 					<p:commandButton action="#{manageAlumnisController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageAlumnisController.selectedEntity == null}" />
-					<p:commandButton action="#{manageAlumnisController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageAlumnisController.selectedEntity == null}" />
 					<p:commandButton action="#{manageAlumnisController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageAlumnisController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
 				</ui:decorate>
-				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.create']}" action="#{manageAlumnisController.create}" />
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.retrieve']}" action="#{manageAlumnisController.retrieve}" rendered="#{manageAlumnisController.selectedEntity != null}" />
-				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.update']}" action="#{manageAlumnisController.update}" rendered="#{manageAlumnisController.selectedEntity != null}" />
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.delete']}" action="#{manageAlumnisController.trash}" rendered="#{manageAlumnisController.selectedEntity != null}" process="@this" update=":listingForm:trashGroup" />
 			</h:panelGroup>
 

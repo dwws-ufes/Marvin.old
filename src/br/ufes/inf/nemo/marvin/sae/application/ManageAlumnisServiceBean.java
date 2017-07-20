@@ -49,9 +49,6 @@ public class ManageAlumnisServiceBean extends CrudServiceBean<Alumni> implements
 		if (oldEntity == null) {
 			newEntity.setCreationDate(now);
 		}
-
-		// All academics have their last update date set when persisted.
-		newEntity.setLastUpdateDate(now);
 		return newEntity;
 	}
 

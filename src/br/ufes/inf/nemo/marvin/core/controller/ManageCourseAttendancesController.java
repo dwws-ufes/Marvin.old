@@ -68,7 +68,6 @@ public class ManageCourseAttendancesController extends CrudController<CourseAtte
 	}
 	
 	public void onSituationChange(){
-		System.out.println("VAI TOMAR NO CU");
 		selectedEntity.setSituation(Situation.getByName(situation));
 	}
 	

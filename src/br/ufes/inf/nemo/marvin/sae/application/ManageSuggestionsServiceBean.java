@@ -1,6 +1,9 @@
 package br.ufes.inf.nemo.marvin.sae.application;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
@@ -10,6 +13,8 @@ import javax.ejb.Stateless;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.marvin.core.domain.Course;
+import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
 import br.ufes.inf.nemo.marvin.sae.persistence.SuggestionDAO;
 
@@ -31,6 +36,10 @@ public class ManageSuggestionsServiceBean extends CrudServiceBean<Suggestion> im
 	/** TODO: document this field. */
 	@EJB
 	private SuggestionDAO suggestionDAO;
+	
+	/** TODO: document this field. */
+	@EJB
+	private CourseDAO courseDAO;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
@@ -47,7 +56,7 @@ public class ManageSuggestionsServiceBean extends CrudServiceBean<Suggestion> im
 		// New academics must have their creation date and password code set.
 		Date now = new Date(System.currentTimeMillis());
 		if (oldEntity == null) {
-			//newEntity.setCreationDate(now);
+			newEntity.setSendDate(now);
 		}
 
 		// All academics have their last update date set when persisted.
@@ -102,5 +111,13 @@ public class ManageSuggestionsServiceBean extends CrudServiceBean<Suggestion> im
 //		catch (Exception e) {
 //			logger.log(Level.SEVERE, "Could NOT send e-mail using template: " + MailerTemplate.NEW_ACADEMIC_REGISTERED, e);
 //		}
+	}
+	
+	@Override
+	public Map<String, Course> retrieveCourses() {
+		Map<String, Course> coursesMap = new HashMap<String, Course>();
+		List<Course> courses = courseDAO.retrieveAllSortedByName();
+		for (Course course : courses) coursesMap.put(course.getName(), course);			
+		return coursesMap;
 	}
 }

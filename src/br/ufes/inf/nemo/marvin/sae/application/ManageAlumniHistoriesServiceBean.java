@@ -1,6 +1,9 @@
 package br.ufes.inf.nemo.marvin.sae.application;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
@@ -10,7 +13,15 @@ import javax.ejb.Stateless;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.marvin.core.domain.Course;
+import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance.Situation;
+import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory;
+import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory.DegreeArea;
+import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory.PracticeArea;
+import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory.SalaryRange;
+import br.ufes.inf.nemo.marvin.sae.domain.Education.EducationType;
+import br.ufes.inf.nemo.marvin.sae.persistence.AlumniDAO;
 import br.ufes.inf.nemo.marvin.sae.persistence.AlumniHistoryDAO;
 
 /**
@@ -31,6 +42,10 @@ public class ManageAlumniHistoriesServiceBean extends CrudServiceBean<AlumniHist
 	/** TODO: document this field. */
 	@EJB
 	private AlumniHistoryDAO alumniHistoryDAO;
+	
+	/** TODO: document this field. */
+	@EJB
+	private AlumniDAO alumniDAO;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
@@ -47,11 +62,9 @@ public class ManageAlumniHistoriesServiceBean extends CrudServiceBean<AlumniHist
 		// New academics must have their creation date and password code set.
 		Date now = new Date(System.currentTimeMillis());
 		if (oldEntity == null) {
-			//newEntity.setCreationDate(now);
+			newEntity.setSendDate(now);
 		}
 
-		// All academics have their last update date set when persisted.
-		//newEntity.setLastUpdateDate(now);
 		return newEntity;
 	}
 
@@ -102,5 +115,13 @@ public class ManageAlumniHistoriesServiceBean extends CrudServiceBean<AlumniHist
 //		catch (Exception e) {
 //			logger.log(Level.SEVERE, "Could NOT send e-mail using template: " + MailerTemplate.NEW_ACADEMIC_REGISTERED, e);
 //		}
+	}
+
+	@Override
+	public Map<String, Alumni> retrieveAlumnis() {
+		Map<String, Alumni> alumnisMap = new HashMap<String, Alumni>();
+		List<Alumni> alumnis = alumniDAO.retrieveAll();
+		for (Alumni alumni : alumnis) alumnisMap.put(alumni.toString(), alumni);			
+		return alumnisMap;
 	}
 }

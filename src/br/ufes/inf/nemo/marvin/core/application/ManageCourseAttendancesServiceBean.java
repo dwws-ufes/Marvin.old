@@ -28,6 +28,7 @@ import br.ufes.inf.nemo.marvin.core.persistence.AcademicRoleDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseAttendanceDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
+import br.ufes.inf.nemo.marvin.sae.application.ManageAlumnisService;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.persistence.AlumniDAO;
 
@@ -56,6 +57,10 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 	
 	/** TODO: document this field. */
 	@EJB
+	private AlumniDAO alumniDAO;
+	
+	/** TODO: document this field. */
+	@EJB
 	private RoleDAO roleDAO;
 	
 	/** TODO: document this field. */
@@ -65,10 +70,6 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 	/** TODO: document this field. */
 	@EJB
 	private CourseAttendanceDAO courseAttendanceDAO;
-	
-	/** TODO: document this field. */
-	@EJB
-	private AlumniDAO alumniDAO;
 	
 	/** TODO: document this field. */
 	@EJB
@@ -163,27 +164,17 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 			entity.getAcademic().unassignAcademicRole(ar);
 			ar = academicRoleDAO.retrieveByName(AcademicRole.ALUMNI_ROLE_NAME);
 			entity.getAcademic().assignAcademicRole(ar);
-			academicDAO.save(entity.getAcademic());
-			
-			//Creating Alumni instance
-			Alumni alumni = new Alumni();
-			alumni.setAcademic(entity.getAcademic());
-			alumni.setCourse(entity.getCourse());
-			alumniDAO.save(alumni);			
+			academicDAO.save(entity.getAcademic());			
 			
 		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		super.update(entity);
-	}
-
-
-	@Override
-	public Map<String, Situation> retrieveSituations() {
-		Map<String, Situation> situations = new HashMap<String, Situation>();
-		situations.put("Graduated", Situation.GRADUATED);
-		situations.put("Terminated", Situation.TERMINATED);
-		return situations;
+		//Create the Alumni
+		Alumni alumni = new Alumni();
+		alumni.setCourseAttendance(entity);
+		alumni.setCreationDate(entity.getEndDate());
+		alumniDAO.save(alumni);
 	}
 }

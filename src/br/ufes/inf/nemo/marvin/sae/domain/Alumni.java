@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
+import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
 
 /**
  * TODO: document this type.
@@ -27,62 +28,22 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 	/** The course of alumni. */
 	@NotNull
 	@OneToOne
-	private Course course;
+	private CourseAttendance courseAttendance;
 	
-	/** The user of alumni. */
-	@NotNull
+	/* TODO: Por enquanto esta classe nao sera utilizada
 	@OneToOne
-	private Academic academic;
-	
-	/** The education of alumni. */
-	@OneToOne
-	private Education education;
-	
-	/** The history of alumni */
-	@OneToOne
-	private AlumniHistory alumniHistory;
+	private Education education;*/
 	
 	/** The timestamp of the moment this academic was created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date creationDate;
 
-	/** The last time the data about the user was updated. */
-	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull
-	private Date lastUpdateDate;
-
-	/** Getter for course. */
-	public Course getCourse() {
-		return course;
+	public CourseAttendance getCourseAttendance() {
+		return courseAttendance;
 	}
-	/** Setter for course. */
-	public void setCourse(Course course) {
-		this.course = course;
-	}
-	/** Getter for academic. */
-	public Academic getAcademic() {
-		return academic;
-	}
-	/** Setter for academic. */
-	public void setAcademic(Academic academic) {
-		this.academic = academic;
-	}
-	/** Getter for education. */
-	public Education getEducation() {
-		return education;
-	}
-	/** Setter for education. */
-	public void setEducation(Education education) {
-		this.education = education;
-	}
-	/** Getter for Alumni History. */
-	public AlumniHistory getAlumniHistory() {
-		return alumniHistory;
-	}
-	/** Setter for Alumni History. */
-	public void setAlumniHistory(AlumniHistory alumniHistory) {
-		this.alumniHistory = alumniHistory;
+	public void setCourseAttendance(CourseAttendance courseAttendance) {
+		this.courseAttendance = courseAttendance;
 	}
 	public Date getCreationDate() {
 		return creationDate;
@@ -90,20 +51,15 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	public Date getLastUpdateDate() {
-		return lastUpdateDate;
-	}
-	public void setLastUpdateDate(Date lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
+
 	@Override
 	public int compareTo(Alumni a) {
 		// Check if it's the same entity.
-		return uuid.compareTo(a.getAcademic().getName());
+		return uuid.compareTo(a.getCourseAttendance().getAcademic().getName());
 	}
 	
 	@Override
 	public String toString() {
-		return academic.getName();
+		return courseAttendance.getAcademic().getName() + " - " + courseAttendance.getCourse().getName() + " at " + courseAttendance.getStartYear();
 	}
 }

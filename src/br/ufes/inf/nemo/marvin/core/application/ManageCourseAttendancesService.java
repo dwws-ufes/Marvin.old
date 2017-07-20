@@ -30,7 +30,5 @@ public interface ManageCourseAttendancesService extends CrudService<CourseAttend
 
 	public Map<String, Academic> retrieveAcademics(boolean isCoordinator);
 	
-	public Map<String, Situation> retrieveSituations();
-	
 	public void disable(CourseAttendance entity);
 }

@@ -35,7 +35,6 @@ public class Suggestion extends PersistentObjectSupport implements Comparable<Su
 	private String content;
 	
 	/** The answer of statement. */
-	@NotNull
 	@Lob @Basic
 	private String answer;
 	
@@ -76,4 +75,9 @@ public class Suggestion extends PersistentObjectSupport implements Comparable<Su
 		return sendDate.compareTo(s.getSendDate());
 	}
 
+	@Override
+	public String toString() {
+		return course.getName() + " - " + sendDate.toGMTString();
+	}
+	
 }

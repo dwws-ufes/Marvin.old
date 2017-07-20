@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.sae.controller;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
@@ -9,6 +10,7 @@ import javax.inject.Named;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
+import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.sae.application.ManageSuggestionsService;
 import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
 
@@ -31,6 +33,20 @@ public class ManageSuggestionsController extends CrudController<Suggestion> {
 	@EJB
 	private ManageSuggestionsService manageSuggestionsService;
 
+	private String course;
+	private Map<String, Course> courses;
+	
+	public void onLoadForm()
+	{
+		course = null;
+		courses = manageSuggestionsService.retrieveCourses();
+	}
+	
+	
+	public void onCourseChange(){
+		selectedEntity.setCourse(courses.get(course));
+	}
+
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Suggestion> getCrudService() {
@@ -40,6 +56,19 @@ public class ManageSuggestionsController extends CrudController<Suggestion> {
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
-		addFilter(new LikeFilter("manageSuggestions.filter.byName", "name", getI18nMessage("msgsCore", "manageSuggestions.text.filter.byName")));
+		addFilter(new LikeFilter("manageSuggestions.filter.byName", "name", getI18nMessage("msgsSae", "manageSuggestions.text.filter.byName")));
 	}
+	
+	public String getCourse() {
+		return course;
+	}
+	public void setCourse(String course) {
+		this.course = course;
+	}
+	public Map<String, Course> getCourses() {
+		return courses;
+	}
+	public void setCourses(Map<String, Course> courses) {
+		this.courses = courses;
+	}	
 }

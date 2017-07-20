@@ -40,6 +40,6 @@ public class ManageAlumnisController extends CrudController<Alumni> {
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
-		addFilter(new LikeFilter("manageAlumnis.filter.byName", "name", getI18nMessage("msgsCore", "manageAlumnis.text.filter.byName")));
+		addFilter(new LikeFilter("manageAlumnis.filter.byName", "name", getI18nMessage("msgsSae", "manageAlumnis.text.filter.byName")));
 	}
 }
