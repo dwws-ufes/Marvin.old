@@ -1,7 +1,5 @@
 package br.ufes.inf.nemo.marvin.sae.controller;
 
-import java.util.logging.Logger;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -23,9 +21,6 @@ import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 public class ManageAlumnisController extends CrudController<Alumni> {
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
-
-	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageAlumnisController.class.getCanonicalName());
 
 	/** TODO: document this field. */
 	@EJB

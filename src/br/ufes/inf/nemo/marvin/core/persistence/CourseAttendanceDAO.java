@@ -1,8 +1,12 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
 
 /**
@@ -16,5 +20,7 @@ import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
  */
 @Local
 public interface CourseAttendanceDAO extends BaseDAO<CourseAttendance> {
+	public List<CourseAttendance> retriveCourseAttendances (Academic academic);
 	
+	public List<Course> retriveCoursesInCourseAttendance (Academic academic);
 }

@@ -232,4 +232,9 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 			}
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "History of "+alumni.toString();
+	}
 }

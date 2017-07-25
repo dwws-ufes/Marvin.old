@@ -1,15 +1,16 @@
 package br.ufes.inf.nemo.marvin.sae.controller;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
+import br.ufes.inf.nemo.marvin.core.controller.SessionController;
 import br.ufes.inf.nemo.marvin.sae.application.ManageAlumniHistoriesService;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory;
@@ -30,9 +31,6 @@ public class ManageAlumniHistoriesController extends CrudController<AlumniHistor
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
 
-	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageAlumniHistoriesController.class.getCanonicalName());
-
 	/** TODO: document this field. */
 	@EJB
 	private ManageAlumniHistoriesService manageAlumniHistoriesService;
@@ -46,10 +44,13 @@ public class ManageAlumniHistoriesController extends CrudController<AlumniHistor
 	private String alumni;
 	private Map<String, Alumni> alumnis;
 	
+	@Inject
+	private SessionController sessionController;
+	
 	public void onLoadForm()
 	{
 		alumni = null;
-		alumnis = manageAlumniHistoriesService.retrieveAlumnis();
+		alumnis = manageAlumniHistoriesService.retrieveAlumnis(sessionController.getCurrentUser());
 	}
 	
 
@@ -94,6 +95,5 @@ public class ManageAlumniHistoriesController extends CrudController<AlumniHistor
 
 	public void setAlumnis(Map<String, Alumni> alumnis) {
 		this.alumnis = alumnis;
-	}
-	
+	}	
 }

@@ -91,7 +91,7 @@
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
-					<p:commandButton action="#{manageAlumniHistoriesController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-user-plus" />
+					<p:commandButton action="#{manageAlumniHistoriesController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-plus-circle" />
 					<p:commandButton action="#{manageAlumniHistoriesController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageAlumniHistoriesController.selectedEntity == null}" />
 					<p:commandButton action="#{manageAlumniHistoriesController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageAlumniHistoriesController.selectedEntity == null}" />
 					<p:commandButton action="#{manageAlumniHistoriesController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageAlumniHistoriesController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
@@ -109,7 +109,7 @@
 						<ui:param name="formName" value="trashForm" />
 						<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
 						<p:dataList value="#{manageAlumniHistoriesController.trashCan}" var="entity" type="ordered">
-			            	#{entity.alumni.academic.name} 
+			            	#{entity.toString()} 
 			            </p:dataList>
 						<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 							<p:commandButton action="#{manageAlumniHistoriesController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />

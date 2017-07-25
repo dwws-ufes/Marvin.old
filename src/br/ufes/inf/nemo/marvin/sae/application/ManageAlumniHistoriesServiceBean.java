@@ -1,17 +1,25 @@
 package br.ufes.inf.nemo.marvin.sae.application;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
+import br.ufes.inf.nemo.marvin.core.domain.Academic;
+import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
+import br.ufes.inf.nemo.marvin.core.persistence.CourseAttendanceDAO;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory;
 import br.ufes.inf.nemo.marvin.sae.persistence.AlumniDAO;
@@ -39,6 +47,14 @@ public class ManageAlumniHistoriesServiceBean extends CrudServiceBean<AlumniHist
 	/** TODO: document this field. */
 	@EJB
 	private AlumniDAO alumniDAO;
+	
+	/** TODO: document this field. */
+	@EJB
+	private CourseAttendanceDAO courseAttendanceDAO;
+	
+	/** TODO: document this field. */
+	@Resource
+	private SessionContext sessionContext;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
@@ -62,10 +78,19 @@ public class ManageAlumniHistoriesServiceBean extends CrudServiceBean<AlumniHist
 	}
 
 	@Override
-	public Map<String, Alumni> retrieveAlumnis() {
+	public Map<String, Alumni> retrieveAlumnis(Academic academic) {
 		Map<String, Alumni> alumnisMap = new HashMap<String, Alumni>();
-		List<Alumni> alumnis = alumniDAO.retrieveAll();
-		for (Alumni alumni : alumnis) alumnisMap.put(alumni.toString(), alumni);			
+		List<CourseAttendance> courseAttendances;
+		Alumni alumni;
+		courseAttendances = courseAttendanceDAO.retriveCourseAttendances(academic);
+		for (CourseAttendance courseAttendance : courseAttendances) {
+			try {
+				alumni = alumniDAO.retriveAlumni(courseAttendance);
+				if(!alumniHistoryDAO.alumniWithHistory(alumni)) alumnisMap.put(alumni.toString(), alumni);
+			} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+				e.printStackTrace();
+			}
+		}					
 		return alumnisMap;
 	}
 }

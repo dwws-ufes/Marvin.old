@@ -83,31 +83,11 @@
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
-					<p:commandButton action="#{manageAlumnisController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageAlumnisController.selectedEntity == null}" />
-					<p:commandButton action="#{manageAlumnisController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageAlumnisController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
+					<p:commandButton action="#{manageAlumnisController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageAlumnisController.selectedEntity == null}" />			
 				</ui:decorate>
-				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.retrieve']}" action="#{manageAlumnisController.retrieve}" rendered="#{manageAlumnisController.selectedEntity != null}" />
-				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.delete']}" action="#{manageAlumnisController.trash}" rendered="#{manageAlumnisController.selectedEntity != null}" process="@this" update=":listingForm:trashGroup" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.retrieve']}" action="#{manageAlumnisController.retrieve}" rendered="#{manageAlumnisController.selectedEntity != null}" />		
 			</h:panelGroup>
 
-			<!-- The trash panel: shows entities that have been selected for deletion. -->
-			<h:panelGroup id="trashGroup">
-				<h:panelGroup rendered="#{not empty manageAlumnisController.trashCan}">
-					<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-danger.xhtml">
-						<ui:param name="formName" value="trashForm" />
-						<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
-						<p:dataList value="#{manageAlumnisController.trashCan}" var="entity" type="ordered">
-			            	#{entity.name} 
-			            </p:dataList>
-						<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
-							<p:commandButton action="#{manageAlumnisController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
-							<p:commandButton action="#{manageAlumnisController.delete}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" process="@this" update=":globalMessages :listingForm" />
-						</ui:decorate>
-						<p:hotkey bind="#{msgs['jbutler.crud.hotkey.cancelDeletion']}" action="#{manageAlumnisController.cancelDeletion}" process="@this" update=":listingForm" />
-						<p:hotkey bind="#{msgs['jbutler.crud.hotkey.confirmDeletion']}" action="#{manageAlumnisController.delete}" process="@this" update=":globalMessages :listingForm"/>
-					</ui:decorate>
-				</h:panelGroup>
-			</h:panelGroup>
 		</ui:decorate>
 	</ui:define>
 </ui:composition>

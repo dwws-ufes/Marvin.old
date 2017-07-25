@@ -1,15 +1,16 @@
 package br.ufes.inf.nemo.marvin.sae.controller;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
+import br.ufes.inf.nemo.marvin.core.controller.SessionController;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.sae.application.ManageSuggestionsService;
 import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
@@ -26,9 +27,6 @@ public class ManageSuggestionsController extends CrudController<Suggestion> {
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
 
-	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageSuggestionsController.class.getCanonicalName());
-
 	/** TODO: document this field. */
 	@EJB
 	private ManageSuggestionsService manageSuggestionsService;
@@ -36,10 +34,13 @@ public class ManageSuggestionsController extends CrudController<Suggestion> {
 	private String course;
 	private Map<String, Course> courses;
 	
+	@Inject
+	private SessionController sessionController;
+	
 	public void onLoadForm()
 	{
 		course = null;
-		courses = manageSuggestionsService.retrieveCourses();
+		courses = manageSuggestionsService.retrieveCourses(sessionController.getCurrentUser());
 	}
 	
 	

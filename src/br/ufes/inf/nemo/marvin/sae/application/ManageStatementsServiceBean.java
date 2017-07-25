@@ -13,10 +13,13 @@ import javax.ejb.Stateless;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
+import br.ufes.inf.nemo.marvin.core.persistence.CourseAttendanceDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 import br.ufes.inf.nemo.marvin.sae.domain.Statement;
 import br.ufes.inf.nemo.marvin.sae.domain.Statement.StatementStatus;
+import br.ufes.inf.nemo.marvin.sae.persistence.AlumniDAO;
 import br.ufes.inf.nemo.marvin.sae.persistence.StatementDAO;
 
 /**
@@ -40,7 +43,7 @@ public class ManageStatementsServiceBean extends CrudServiceBean<Statement> impl
 	
 	/** TODO: document this field. */
 	@EJB
-	private CourseDAO courseDAO;
+	private CourseAttendanceDAO courseAttendanceDAO;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
@@ -112,10 +115,22 @@ public class ManageStatementsServiceBean extends CrudServiceBean<Statement> impl
 	}
 
 	@Override
-	public Map<String, Course> retrieveCourses() {
+	public Map<String, Course> retrieveCourses(Academic academic) {
 		Map<String, Course> coursesMap = new HashMap<String, Course>();
-		List<Course> courses = courseDAO.retrieveAllSortedByName();
+		List<Course> courses = courseAttendanceDAO.retriveCoursesInCourseAttendance(academic);
 		for (Course course : courses) coursesMap.put(course.getName(), course);			
 		return coursesMap;
+	}
+
+	@Override
+	public void approve(Statement statement) {
+		statement.setStatementStatus(StatementStatus.APPROVED);
+		statementDAO.save(statement);
+	}
+
+	@Override
+	public void reject(Statement statement) {
+		statement.setStatementStatus(StatementStatus.DISAPPROVED);
+		statementDAO.save(statement);
 	}
 }

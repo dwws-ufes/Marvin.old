@@ -34,7 +34,7 @@
 		<c:set var="menuOpen" value="#{request.requestURL.indexOf('/sae/') != -1}" />
 		<h:panelGroup rendered="#{sessionController.admin}">
 			<li class="treeview #{menuOpen ? 'active' : ''}">
-				<a href="#"><i class="fa fa-users"></i> <span><h:outputText value="#{msgsSae['core.menu.sae']}" /></span> <i class="fa fa-angle-left pull-right"></i></a>
+				<a href="#"><i class="fa fa-university"></i> <span><h:outputText value="#{msgsSae['core.menu.sae']}" /></span> <i class="fa fa-angle-left pull-right"></i></a>
 				<ul class="treeview-menu #{menuOpen ? 'menu-open' : ''}" style="display: #{menuOpen ? 'block' : 'none'};">
 					<li><h:link outcome="/sae/manageAlumnis/list"><h:outputText value="#{msgsSae['core.menu.sae.manageAlumnis']}" /></h:link></li>
 					<li><h:link outcome="/sae/manageAlumniHistories/list"><h:outputText value="#{msgsSae['core.menu.sae.manageAlumniHistories']}" /></h:link></li>

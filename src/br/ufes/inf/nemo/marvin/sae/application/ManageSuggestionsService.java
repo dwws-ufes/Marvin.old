@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
+import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
 
@@ -16,5 +17,5 @@ import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
  */
 @Local
 public interface ManageSuggestionsService extends CrudService<Suggestion> {
-	public Map<String, Course> retrieveCourses();
+	public Map<String, Course> retrieveCourses(Academic academic);
 }
