@@ -42,7 +42,7 @@
 			<ui:param name="formName" value="listingForm" />
 
 			<p:dataTable
-				id="dataTable"
+				id="dataTableStatements"
 				widgetVar="listingTable"
 				value="#{manageStatementsController.lazyEntities}" 
 				var="entity" 
@@ -84,8 +84,8 @@
 					<p:commandButton action="#{manageStatementsController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageStatementsController.selectedEntity == null}" />
 					<p:commandButton action="#{manageStatementsController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageStatementsController.selectedEntity == null}" />
 					<p:commandButton action="#{manageStatementsController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageStatementsController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
-					<p:commandButton action="#{manageStatementsController.approve}" update="dataTable" value="#{msgs['jbutler.crud.button.approve']}" icon="fa fa-fw fa-thumbs-up" disabled="#{manageStatementsController.selectedEntity == null}" />
-					<p:commandButton action="#{manageStatementsController.reject}" update="dataTable" value="#{msgs['jbutler.crud.button.reject']}" icon="fa fa-fw fa-thumbs-down" disabled="#{manageStatementsController.selectedEntity == null}" />
+					<p:commandButton action="#{manageStatementsController.approve}" update="dataTableStatements" value="#{msgs['jbutler.crud.button.approve']}" icon="fa fa-fw fa-thumbs-up" disabled="#{manageStatementsController.selectedEntity == null}" />
+					<p:commandButton action="#{manageStatementsController.reject}" update="dataTableStatements" value="#{msgs['jbutler.crud.button.reject']}" icon="fa fa-fw fa-thumbs-down" disabled="#{manageStatementsController.selectedEntity == null}" />
 				</ui:decorate>
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.create']}" action="#{manageStatementsController.create}" />
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.retrieve']}" action="#{manageStatementsController.retrieve}" rendered="#{manageStatementsController.selectedEntity != null}" />

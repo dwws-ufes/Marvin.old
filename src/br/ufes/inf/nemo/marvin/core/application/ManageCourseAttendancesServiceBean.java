@@ -92,10 +92,8 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 		entity.setStartDate(new Date(System.currentTimeMillis()));
 		try {
 			//Removing Student Role and assign Alumni Role
-			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.STUDENT_ROLE_NAME);
+			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.ENROLLED_STUDENT_ROLE_NAME);
 			entity.getAcademic().assignAcademicRole(ar);
-			ar = academicRoleDAO.retrieveByName(AcademicRole.ALUMNI_ROLE_NAME);
-			entity.getAcademic().unassignAcademicRole(ar);
 			entity.setSituation(Situation.ACTIVE);
 			academicDAO.save(entity.getAcademic());
 		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
@@ -137,13 +135,13 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 	}
 	
 	@Override
-	public Map<String, Academic> retrieveAcademics(boolean isStudent) {
+	public Map<String, Academic> retrieveAcademics(boolean isCurrentStudent) {
 		Map<String, Academic> students = new HashMap<String, Academic>();
-		List<Academic> academics = retrieveAcademicbyRole("Student");
-		if(!isStudent){
+		List<Academic> academics = retrieveAcademicbyRole(Role.STUDENT_ROLE_NAME);
+		if(!isCurrentStudent){
 			AcademicRole ar;
 			try {
-				ar = academicRoleDAO.retrieveByName(AcademicRole.STUDENT_ROLE_NAME);
+				ar = academicRoleDAO.retrieveByName(AcademicRole.ENROLLED_STUDENT_ROLE_NAME);
 				for (Academic academic : academics)	if(!academic.getAcademicRoles().contains(ar)) students.put(academic.getName(), academic);
 			} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 				e.printStackTrace();
@@ -159,7 +157,7 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 		entity.setEndDate(new Date(System.currentTimeMillis()));
 		try {
 			//Removing Student Role from academic and assiging Alumni Role
-			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.STUDENT_ROLE_NAME);
+			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.ENROLLED_STUDENT_ROLE_NAME);
 			entity.getAcademic().unassignAcademicRole(ar);
 			ar = academicRoleDAO.retrieveByName(AcademicRole.ALUMNI_ROLE_NAME);
 			entity.getAcademic().assignAcademicRole(ar);

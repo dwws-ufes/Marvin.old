@@ -30,9 +30,9 @@
 			</li>
 		</h:panelGroup>
 		
-		<!-- SAE (Admins only). -->
+		<!-- SAE (Admins, Professors and Student). -->
 		<c:set var="menuOpen" value="#{request.requestURL.indexOf('/sae/') != -1}" />
-		<h:panelGroup rendered="#{sessionController.admin}">
+		<h:panelGroup rendered="#{(sessionController.admin) or (sessionController.admin) or (sessionController.student)}">
 			<li class="treeview #{menuOpen ? 'active' : ''}">
 				<a href="#"><i class="fa fa-university"></i> <span><h:outputText value="#{msgsSae['core.menu.sae']}" /></span> <i class="fa fa-angle-left pull-right"></i></a>
 				<ul class="treeview-menu #{menuOpen ? 'menu-open' : ''}" style="display: #{menuOpen ? 'block' : 'none'};">

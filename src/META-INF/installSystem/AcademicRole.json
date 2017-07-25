@@ -4,8 +4,8 @@
 		"descriptionKey": "core.academicrole.coursecoordinator"
 	},
 	{
-		"name": "Student",
-		"descriptionKey": "core.academicrole.student"
+		"name": "EnrStudent",
+		"descriptionKey": "core.academicrole.enrolledstudent"
 	},
 	{
 		"name": "Alumni",
