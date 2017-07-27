@@ -1,8 +1,11 @@
 package br.ufes.inf.nemo.marvin.sae.application;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
+import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 
 /**
@@ -13,5 +16,5 @@ import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
  */
 @Local
 public interface ManageAlumnisService extends CrudService<Alumni> {
-
+	public List<Alumni> list(Academic currentUser);
 }

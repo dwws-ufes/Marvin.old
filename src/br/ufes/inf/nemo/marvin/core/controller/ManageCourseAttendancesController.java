@@ -10,6 +10,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
@@ -22,6 +23,8 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
 import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance.Situation;
+import br.ufes.inf.nemo.marvin.sae.controller.ManageAlumnisController;
+import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 
 /**
  * TODO: document this type.
@@ -38,8 +41,7 @@ public class ManageCourseAttendancesController extends CrudController<CourseAtte
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(ManageCourseAttendancesController.class.getCanonicalName());
 	
-	/** TODO: document this field. */
-	
+	/** TODO: document this field. */	
 	@EJB
 	private ManageCourseAttendancesService manageCourseAttendancesService;
 	
@@ -132,7 +134,8 @@ public class ManageCourseAttendancesController extends CrudController<CourseAtte
 		List<Object> notDeleted = new ArrayList<Object>();
 		if(selectedEntity.getSituation().equals(Situation.ACTIVE)) selectedEntity.setSituation(Situation.getByName(situation));
 		// Disables the entities that are in the trash can. Validates each exclusion, but don't stop in case of errors.
-		for (CourseAttendance entity : trashCan) if(entity.getEndDate() == null)	manageCourseAttendancesService.disable(entity);
+		for (CourseAttendance entity : trashCan) if(entity.getEndDate() == null) manageCourseAttendancesService.disable(entity);
+		
 		
 
 		// Writes the status message (only if at least one entity was deleted successfully). Empties it afterwards.

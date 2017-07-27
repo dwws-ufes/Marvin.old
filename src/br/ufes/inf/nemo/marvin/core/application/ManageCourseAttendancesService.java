@@ -10,6 +10,7 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
+import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 
 /**
  * TODO: document this type.
@@ -20,7 +21,6 @@ import br.ufes.inf.nemo.marvin.core.domain.Role;
 @Local
 public interface ManageCourseAttendancesService extends CrudService<CourseAttendance>
 {
-	
 	public List<Role> findRoleByName(String name);
 	
 	public List<Academic> retrieveAcademicbyRole(String roleName); 

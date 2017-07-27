@@ -12,6 +12,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
@@ -28,6 +29,10 @@ import br.ufes.inf.nemo.marvin.core.persistence.AcademicRoleDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseAttendanceDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
+import br.ufes.inf.nemo.marvin.sae.application.ManageAlumniHistoriesService;
+import br.ufes.inf.nemo.marvin.sae.application.ManageAlumniHistoriesServiceBean;
+import br.ufes.inf.nemo.marvin.sae.application.ManageAlumnisService;
+import br.ufes.inf.nemo.marvin.sae.controller.ManageAlumnisController;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.persistence.AlumniDAO;
 
@@ -77,6 +82,9 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 	/** TODO: document this field. */
 	@Resource
 	private SessionContext sessionContext;
+	
+	@Inject
+	private ManageAlumnisService manageAlumnisService;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
@@ -172,6 +180,6 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 		Alumni alumni = new Alumni();
 		alumni.setCourseAttendance(entity);
 		alumni.setCreationDate(entity.getEndDate());
-		alumniDAO.save(alumni);
+		manageAlumnisService.create(alumni);
 	}
 }
