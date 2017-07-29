@@ -34,11 +34,11 @@
 				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
 				reflow="true">
 				
-				<p:column headerText="#{msgsResearch['importQualisData.field.venueAcronym']}" styleClass="ui-grid-col-1" rendered="#{importQualisDataController.renderAcronym}">
+				<p:column headerText="#{msgsResearch['importQualisData.field.venueAcronym']}" styleClass="ui-grid-col-2" rendered="#{importQualisDataController.renderAcronym}">
 					<h:outputText value="#{qualifiedVenue.venue.acronym}" />
 				</p:column>
 				
-				<p:column headerText="#{msgsResearch['importQualisData.field.venueISSN']}" styleClass="ui-grid-col-1" rendered="#{!importQualisDataController.renderAcronym}">
+				<p:column headerText="#{msgsResearch['importQualisData.field.venueISSN']}" styleClass="ui-grid-col-2" rendered="#{!importQualisDataController.renderAcronym}">
 					<h:outputText value="#{qualifiedVenue.venue.issn}" />
 				</p:column>
 								

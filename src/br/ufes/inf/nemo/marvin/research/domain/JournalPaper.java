@@ -80,6 +80,12 @@ public class JournalPaper extends Publication {
 		this.issn = issn;
 	}
 
+	/** @see br.ufes.inf.nemo.marvin.research.domain.Publication#getVenueString() */
+	@Override
+	public String getVenueString() {
+		return journal;
+	}
+
 	/** @see br.ufes.inf.nemo.marvin.research.domain.Publication#toBibTeX() */
 	@Override
 	public String toBibTeX() {

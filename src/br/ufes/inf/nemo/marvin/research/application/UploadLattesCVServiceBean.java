@@ -13,15 +13,18 @@ import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
+import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.marvin.research.domain.BookChapter;
 import br.ufes.inf.nemo.marvin.research.domain.Publication;
+import br.ufes.inf.nemo.marvin.research.domain.Venue;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesIdNotRegisteredException;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesParseException;
 import br.ufes.inf.nemo.marvin.research.persistence.PublicationDAO;
+import br.ufes.inf.nemo.marvin.research.persistence.VenueDAO;
 
 /**
  * TODO: document this type.
@@ -46,9 +49,29 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 	@EJB
 	private PublicationDAO publicationDAO;
 	
+	/** The DAO for Venue objects. */
+	@EJB
+	private VenueDAO venueDAO;
+	
 	/**Calls Venue-Publication Matching*/
 	@Inject
 	private Event<MatchPublicationsEvent> matchPublicationsEvent; 
+	
+	/** TODO: document this field. */
+	private PersistentObjectConverterFromId<Venue> venueConverter;
+
+	/** @see br.ufes.inf.nemo.marvin.research.application.UploadLattesCVService#getVenueConverter() */
+	@Override
+	public PersistentObjectConverterFromId<Venue> getVenueConverter() {
+		if (venueConverter == null) venueConverter = new PersistentObjectConverterFromId<Venue>(venueDAO);
+		return venueConverter;
+	}
+	
+	/** @see br.ufes.inf.nemo.marvin.research.application.UploadLattesCVService#findVenueByName(java.lang.String) */
+	@Override
+	public List<Venue> findVenueByName(String query) {
+		return venueDAO.findByNameOrAcronym(query);
+	}
 
 	/** @see br.ufes.inf.nemo.marvin.research.application.UploadLattesCVService#uploadLattesCV(java.io.InputStream) */
 	@Override
@@ -102,7 +125,19 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 			publicationDAO.save(publication);
 		}
 		
+		// FIXME: the matches need to be confirmed by calling saveMatches(). Therefore, the publications should be detached here.
+		// Update JButler, adding detach() method to BaseDAO.
+		
 		// Fires an event that triggers the matching between venues and publications.
 		matchPublicationsEvent.fire(new MatchPublicationsEvent(owner));
+	}
+
+	/** @see br.ufes.inf.nemo.marvin.research.application.UploadLattesCVService#saveMatches(java.util.Set) */
+	@Override
+	public void saveMatches(Set<Publication> publications) {
+		// Saves all publications.
+		for (Publication publication : publications) {
+			publicationDAO.save(publication);
+		}
 	}
 }

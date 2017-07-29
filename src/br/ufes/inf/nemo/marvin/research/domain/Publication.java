@@ -214,6 +214,13 @@ public abstract class Publication extends PersistentObjectSupport implements Com
 	 */
 	public abstract String toBibTeX();
 
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	public abstract String getVenueString();
+
 	/** @see java.lang.Comparable#compareTo(java.lang.Object) */
 	@Override
 	public int compareTo(Publication o) {

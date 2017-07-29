@@ -1,6 +1,7 @@
 package br.ufes.inf.nemo.marvin.research.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -16,10 +17,12 @@ import javax.inject.Named;
 import org.primefaces.model.UploadedFile;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
+import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.research.application.PublicationInfo;
 import br.ufes.inf.nemo.marvin.research.application.UploadLattesCVService;
 import br.ufes.inf.nemo.marvin.research.domain.Publication;
+import br.ufes.inf.nemo.marvin.research.domain.Venue;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesIdNotRegisteredException;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesParseException;
 
@@ -56,6 +59,9 @@ public class UploadLattesCVController extends JSFController {
 	private Set<Publication> publications;
 
 	/** TODO: document this field. */
+	private Set<Publication> papers;
+
+	/** TODO: document this field. */
 	private Publication selectedPublication;
 
 	/** TODO: document this field. */
@@ -77,6 +83,11 @@ public class UploadLattesCVController extends JSFController {
 	/** Getter for publications. */
 	public Set<Publication> getPublications() {
 		return publications;
+	}
+
+	/** Getter for papers. */
+	public Set<Publication> getPapers() {
+		return papers;
 	}
 
 	/** Getter for selectedPublication. */
@@ -101,6 +112,24 @@ public class UploadLattesCVController extends JSFController {
 
 	/**
 	 * TODO: document this method.
+	 * @return
+	 */
+	public PersistentObjectConverterFromId<Venue> getVenueConverter() {
+		return uploadLattesCVService.getVenueConverter();
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param query
+	 * @return
+	 */
+	public List<Venue> completeVenues(String query) {
+		return uploadLattesCVService.findVenueByName(query);
+	}
+
+	/**
+	 * TODO: document this method.
 	 */
 	public String upload() {
 		// Manages the conversation.
@@ -116,7 +145,7 @@ public class UploadLattesCVController extends JSFController {
 			publications.addAll(info.getBooks());
 			publications.addAll(info.getBookChapters());
 			publications.addAll(info.getConferencePapers());
-			
+
 			// Retrieve information on the researcher.
 			researcher = info.getResearcher();
 			previousQuantity = info.getPreviousQuantity();
@@ -154,7 +183,25 @@ public class UploadLattesCVController extends JSFController {
 	public String confirm() {
 		// Assigns the publications to the researcher.
 		uploadLattesCVService.assignPublicationsToAcademic(publications, researcher);
-		
+
+		// Separates papers (publications with venues, i.e., conference and journal papers).
+		papers = new TreeSet<>();
+		for (Publication publication : publications)
+			if (!publication.getVenueString().isEmpty()) papers.add(publication);
+
+		// Renders the matching page.
+		return VIEW_PATH + "match.xhtml";
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	public String match() {
+		// Saves the matches.
+		uploadLattesCVService.saveMatches(papers);
+
 		// Ends the conversation and renders a result page.
 		if (!conversation.isTransient()) conversation.end();
 		return VIEW_PATH + "success.xhtml";

@@ -39,6 +39,12 @@ public class ConferencePaper extends Publication {
 		this.bookTitle = bookTitle;
 	}
 
+	/** @see br.ufes.inf.nemo.marvin.research.domain.Publication#getVenueString() */
+	@Override
+	public String getVenueString() {
+		return bookTitle;
+	}
+
 	/** @see br.ufes.inf.nemo.marvin.research.domain.Publication#toBibTeX() */
 	@Override
 	public String toBibTeX() {

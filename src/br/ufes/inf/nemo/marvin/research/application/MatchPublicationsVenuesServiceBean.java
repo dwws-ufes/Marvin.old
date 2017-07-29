@@ -25,8 +25,8 @@ import br.ufes.inf.nemo.marvin.research.persistence.VenueDAO;
 /**
  * TODO: document this type.
  *
- * @author Allan Araujo (allan.lp001@gmail.com)
- * @author Gabriel Macena (gmacena.nhx@hotmail.com)
+ * @author Allan Araujo
+ * @author Gabriel Macena
  * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.0
  */

@@ -11,4 +11,12 @@ import br.ufes.inf.nemo.marvin.research.domain.VenueCategory;
 @Local
 public interface VenueDAO extends BaseDAO<Venue> {
 	List<Venue> retrieveByCategory(VenueCategory category);
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param param
+	 * @return
+	 */
+	List<Venue> findByNameOrAcronym(String param);
 }

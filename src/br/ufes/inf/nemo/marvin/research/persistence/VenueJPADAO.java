@@ -49,4 +49,22 @@ public class VenueJPADAO extends BaseJPADAO<Venue> implements VenueDAO {
 		logger.log(Level.INFO, "Retrieve venues of category \"{0}\" returned {1} results.", new Object[] { category.getName(), result.size() });
 		return result;
 	}
+	
+	/** @see br.ufes.inf.nemo.marvin.research.persistence.VenueDAO#findByNameOrAcronym(java.lang.String) */
+	@Override
+	public List<Venue> findByNameOrAcronym(String param) {
+		logger.log(Level.FINE, "Finding venues whose name/acronym contain \"{0}\"...", param);
+
+		// Constructs the query over the Venue class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Venue> cq = cb.createQuery(Venue.class);
+		Root<Venue> root = cq.from(Venue.class);
+
+		// Filters the query with the name or acronym.
+		param = "%" + param + "%";
+		cq.where(cb.or(cb.like(root.get(Venue_.name), param), cb.like(root.get(Venue_.acronym), param)));
+		List<Venue> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Found {0} venues whose name/acronym contains \"{1}\".", new Object[] { result.size(), param });
+		return result;
+	}
 }

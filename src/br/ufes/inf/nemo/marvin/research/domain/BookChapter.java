@@ -53,6 +53,12 @@ public class BookChapter extends Publication {
 		this.edition = edition;
 	}
 
+	/** @see br.ufes.inf.nemo.marvin.research.domain.Publication#getVenueString() */
+	@Override
+	public String getVenueString() {
+		return "";
+	}
+
 	/** @see br.ufes.inf.nemo.marvin.research.domain.Publication#toBibTeX() */
 	@Override
 	public String toBibTeX() {

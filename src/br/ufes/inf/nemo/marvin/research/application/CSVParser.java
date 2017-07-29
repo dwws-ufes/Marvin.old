@@ -37,7 +37,10 @@ public class CSVParser {
 					
 					values = line.split(csvSplitBy);
 					if (values.length == 3 && category.equals(VenueCategory.CONFERENCE)) {
-						Venue v = new Venue(values[1].trim());
+						String name = values[1].trim();
+						int idx = name.indexOf(" - ");
+						if (idx != -1) name = name.substring(idx + 3);		// Remove acronym from name.
+						Venue v = new Venue(name);
 						v.setAcronym(values[0].trim());
 						venuesMap.put(v, values[2].trim());
 						line = reader.readLine();
