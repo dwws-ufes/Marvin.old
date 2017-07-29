@@ -80,7 +80,9 @@ public class CalculateAcademicsScoresServiceBean implements CalculateAcademicsSc
 					Venue pubVenue = p.getVenue();
 					if (pubVenue == null) continue; //No way of calculating the score of publications without associated venues.
 					try {
-						Qualification quaPubVenue = qualificationDAO.retrieveClosestByVenueAndYear(pubVenue, p.getYear());
+						// FIXME: allow user to choose before or after.
+						//Qualification quaPubVenue = qualificationDAO.retrieveClosestBeforeByVenueAndYear(pubVenue, p.getYear());
+						Qualification quaPubVenue = qualificationDAO.retrieveClosestAfterByVenueAndYear(pubVenue, p.getYear());
 						PublicationScore publicationScore = new PublicationScore();
 	
 						publicationScore.setPublication(p);
@@ -137,5 +139,4 @@ public class CalculateAcademicsScoresServiceBean implements CalculateAcademicsSc
 			throw new EJBException(e);
 		}
 	}
-
 }

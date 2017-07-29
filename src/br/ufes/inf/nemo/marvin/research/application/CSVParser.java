@@ -36,10 +36,10 @@ public class CSVParser {
 				while (line != null) {
 					
 					values = line.split(csvSplitBy);
-					if (values.length == 4 && category.equals(VenueCategory.CONFERENCE)) {
+					if (values.length == 3 && category.equals(VenueCategory.CONFERENCE)) {
 						Venue v = new Venue(values[1].trim());
 						v.setAcronym(values[0].trim());
-						venuesMap.put(v, values[3].trim());
+						venuesMap.put(v, values[2].trim());
 						line = reader.readLine();
 					}
 					else if(values.length == 3 && category.equals(VenueCategory.JOURNAL)){

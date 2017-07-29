@@ -16,7 +16,9 @@ public interface QualificationDAO extends BaseDAO<Qualification> {
 
 	List<Qualification> retrieveByYear(int year);
 
-	Qualification retrieveClosestByVenueAndYear(Venue venue, Integer refYear) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+	Qualification retrieveClosestBeforeByVenueAndYear(Venue venue, Integer refYear) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+
+	Qualification retrieveClosestAfterByVenueAndYear(Venue venue, Integer refYear) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 
 	Qualification retrieveByVenueAndYear(Venue venue, Integer year);
 }

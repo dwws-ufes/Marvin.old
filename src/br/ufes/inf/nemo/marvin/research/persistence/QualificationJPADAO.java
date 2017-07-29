@@ -91,15 +91,15 @@ public class QualificationJPADAO extends BaseJPADAO<Qualification> implements Qu
 	}
 
 	@Override
-	public Qualification retrieveClosestByVenueAndYear(Venue venue, Integer refYear) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
-		logger.log(Level.FINE, "Retrieving the qualification of venue \"{0}\" closest to year {1}...", new Object[] { venue.getName(), refYear });
+	public Qualification retrieveClosestBeforeByVenueAndYear(Venue venue, Integer refYear) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+		logger.log(Level.FINE, "Retrieving the qualification of venue \"{0}\" closest before year {1}...", new Object[] { venue.getName(), refYear });
 
 		// Constructs the query over the Publication class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Qualification> cq = cb.createQuery(Qualification.class);
 		Root<Qualification> root = cq.from(Qualification.class);
 
-		// Constructs the subquery that will return the year closest to the refYear
+		// Constructs the subquery that will return the year closest before to the refYear
 		Subquery<Integer> sq = cq.subquery(Integer.class);
 		Root<Qualification> sqRoot = sq.from(Qualification.class);
 		sq.select(cb.greatest(sqRoot.get(Qualification_.year)));
@@ -115,11 +115,44 @@ public class QualificationJPADAO extends BaseJPADAO<Qualification> implements Qu
 		if (partialResult.size() > 1) {
 			// This is a workaround for a bug related to the registration of venues. It will be fixed in a future version.
 			Qualification result = partialResult.get(0);
-			logger.log(Level.INFO, "Retrieve qualification of venue \"{0}\" closest to year {1}.", new Object[] { venue.getName(), refYear });
+			logger.log(Level.INFO, "Retrieve qualification of venue \"{0}\" closest before year {1}.", new Object[] { venue.getName(), refYear });
 			return result;
 		}
 		Qualification result = executeSingleResultQuery(cq);
-		logger.log(Level.INFO, "Retrieve qualification of venue \"{0}\" closest to year {1}.", new Object[] { venue.getName(), refYear });
+		logger.log(Level.INFO, "Retrieve qualification of venue \"{0}\" closest before year {1}.", new Object[] { venue.getName(), refYear });
+		return result;
+	}
+
+	@Override
+	public Qualification retrieveClosestAfterByVenueAndYear(Venue venue, Integer refYear) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+		logger.log(Level.FINE, "Retrieving the qualification of venue \"{0}\" closest after year {1}...", new Object[] { venue.getName(), refYear });
+
+		// Constructs the query over the Publication class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Qualification> cq = cb.createQuery(Qualification.class);
+		Root<Qualification> root = cq.from(Qualification.class);
+
+		// Constructs the subquery that will return the year closest after to the refYear
+		Subquery<Integer> sq = cq.subquery(Integer.class);
+		Root<Qualification> sqRoot = sq.from(Qualification.class);
+		sq.select(cb.least(sqRoot.get(Qualification_.year)));
+		sq.where(cb.ge(sqRoot.get(Qualification_.year), refYear));
+
+		// Filters the query with the academic and the result of the subquery.
+		List<Predicate> constraints = new ArrayList<>();
+		constraints.add(cb.equal(root.get(Qualification_.venue), venue));
+		constraints.add(cb.equal(root.get(Qualification_.year), sq));
+		cq.where(cb.and(constraints.toArray(new Predicate[] {})));
+
+		List<Qualification> partialResult = entityManager.createQuery(cq).getResultList();
+		if (partialResult.size() > 1) {
+			// This is a workaround for a bug related to the registration of venues. It will be fixed in a future version.
+			Qualification result = partialResult.get(0);
+			logger.log(Level.INFO, "Retrieve qualification of venue \"{0}\" closest after year {1}.", new Object[] { venue.getName(), refYear });
+			return result;
+		}
+		Qualification result = executeSingleResultQuery(cq);
+		logger.log(Level.INFO, "Retrieve qualification of venue \"{0}\" closest after year {1}.", new Object[] { venue.getName(), refYear });
 		return result;
 	}
 }

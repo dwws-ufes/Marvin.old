@@ -48,7 +48,7 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 	
 	/**Calls Venue-Publication Matching*/
 	@Inject
-	private Event<VenuesImportEvent> venuesImportEvent; 
+	private Event<MatchPublicationsEvent> matchPublicationsEvent; 
 
 	/** @see br.ufes.inf.nemo.marvin.research.application.UploadLattesCVService#uploadLattesCV(java.io.InputStream) */
 	@Override
@@ -102,6 +102,7 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 			publicationDAO.save(publication);
 		}
 		
-		venuesImportEvent.fire(new VenuesImportEvent());
+		// Fires an event that triggers the matching between venues and publications.
+		matchPublicationsEvent.fire(new MatchPublicationsEvent(owner));
 	}
 }

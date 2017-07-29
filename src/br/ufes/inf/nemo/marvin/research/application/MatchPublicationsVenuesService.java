@@ -6,5 +6,5 @@ import javax.ejb.Local;
 
 @Local
 public interface MatchPublicationsVenuesService extends Serializable {
-	void matchPublicationsVenues(VenuesImportEvent event);
+	void matchPublicationsVenues(MatchPublicationsEvent event);
 }

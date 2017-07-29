@@ -47,11 +47,6 @@ public class ImportQualisDataServiceBean implements ImportQualisDataService {
 	@EJB
 	private QualificationDAO qualificationDAO;
 
-	
-	/**Calls Venue-Publication Matching*/
-	@Inject
-	private Event<VenuesImportEvent> venuesImportEvent; 
-
 	@Override
 	public List<QualifiedVenue> importQualisData(InputStream inputStream, VenueCategory category)
 			throws CSVParseException, QualisLevelNotRegisteredException {
@@ -129,8 +124,6 @@ public class ImportQualisDataServiceBean implements ImportQualisDataService {
 			qualificationDAO.save(qualification);
 			System.out.println("Saved venue: " + venue.getName());
 		}
-		
-		venuesImportEvent.fire(new VenuesImportEvent()); 
 	}
 
 }
