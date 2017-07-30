@@ -18,15 +18,19 @@ public class ConferencePaper extends Publication {
 
 	/** TODO: document this field. */
 	private String bookTitle;
+	
+	/** TODO: document this field. */
+	private String eventName;
 
 	/** Constructor. */
 	protected ConferencePaper() {}
 
 	/** Constructor. */
-	public ConferencePaper(String title, int year, String pages, String doi, String publisher, String bookTitle) {
+	public ConferencePaper(String title, int year, String pages, String doi, String publisher, String bookTitle, String eventName) {
 		super(title, year, pages, doi, publisher);
 		if (bookTitle.length() > 254) bookTitle = bookTitle.substring(0, 254);
 		this.bookTitle = bookTitle;
+		this.eventName = eventName;
 	}
 
 	/** Getter for bookTitle. */
@@ -37,6 +41,16 @@ public class ConferencePaper extends Publication {
 	/** Setter for bookTitle. */
 	public void setBookTitle(String bookTitle) {
 		this.bookTitle = bookTitle;
+	}
+
+	/** Getter for eventName. */
+	public String getEventName() {
+		return eventName;
+	}
+
+	/** Setter for eventName. */
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 
 	/** @see br.ufes.inf.nemo.marvin.research.domain.Publication#getVenueString() */

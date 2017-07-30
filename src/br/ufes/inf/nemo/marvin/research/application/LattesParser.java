@@ -315,7 +315,7 @@ class LattesParser implements PublicationInfo {
 	private void extractInProceedings(SortedSet<LattesEntry> entries) {
 		conferencePapers = new TreeSet<>();
 		for (LattesEntry entry : entries) {
-			ConferencePaper paper = new ConferencePaper(entry.getTitle(), entry.getYear(), entry.getPages(), entry.getDoi(), entry.getPublisher(), entry.getVenue());
+			ConferencePaper paper = new ConferencePaper(entry.getTitle(), entry.getYear(), entry.getPages(), entry.getDoi(), entry.getPublisher(), entry.getExtra01(), entry.getVenue());
 			extractAuthors(paper, entry.getAuthors());
 			conferencePapers.add(paper);
 		}
