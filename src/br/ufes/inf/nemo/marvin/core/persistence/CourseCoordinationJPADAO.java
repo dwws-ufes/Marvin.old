@@ -60,10 +60,10 @@ public class CourseCoordinationJPADAO extends BaseJPADAO<CourseCoordination> imp
 		cq.where(cb.equal(root.get(CourseCoordination_.academic), academic));
 		List<CourseCoordination> result = entityManager.createQuery(cq).getResultList();
 
-		if(!result.isEmpty()) return true;
+		if (!result.isEmpty()) return true;
 		return false;
 	}
-	
+
 	@Override
 	public boolean courseHasCoordinations(Course course) {
 		logger.log(Level.FINE, "Retrieving the coordinations of a course");
@@ -77,12 +77,12 @@ public class CourseCoordinationJPADAO extends BaseJPADAO<CourseCoordination> imp
 		cq.where(cb.equal(root.get(CourseCoordination_.course), course));
 		List<CourseCoordination> result = entityManager.createQuery(cq).getResultList();
 
-		if(!result.isEmpty()) return true;
+		if (!result.isEmpty()) return true;
 		return false;
 	}
-	
+
 	@Override
-	public boolean courseHasActiveCoordinations(Course course){
+	public boolean courseHasActiveCoordinations(Course course) {
 		// Constructs the query over the Course Coordination class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<CourseCoordination> cq = cb.createQuery(CourseCoordination.class);
@@ -92,11 +92,11 @@ public class CourseCoordinationJPADAO extends BaseJPADAO<CourseCoordination> imp
 		predicates.add(cb.equal(root.get(CourseCoordination_.course), course));
 		predicates.add(cb.isNull(root.get(CourseCoordination_.endDate)));
 		// Filters the query with the academic.
-		
-		cq.select(root).where(predicates.toArray(new Predicate[]{}));
+
+		cq.select(root).where(predicates.toArray(new Predicate[] {}));
 		List<CourseCoordination> result = entityManager.createQuery(cq).getResultList();
 
-		if(!result.isEmpty()) return true;
+		if (!result.isEmpty()) return true;
 		return false;
 	}
 }

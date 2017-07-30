@@ -46,27 +46,27 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	/** TODO: document this field. */
 	@EJB
 	private AcademicDAO academicDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CourseDAO courseDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private RoleDAO roleDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private AcademicRoleDAO academicRoleDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CourseCoordinationDAO courseCoordinationDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CoreInformation coreInformation;
-	
+
 	/** TODO: document this field. */
 	@Resource
 	private SessionContext sessionContext;
@@ -76,9 +76,10 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	public BaseDAO<CourseCoordination> getDAO() {
 		return courseCoordinationDAO;
 	}
-	
-	
-	/** @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#create(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject) */
+
+	/**
+	 * @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#create(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject)
+	 */
 	@Override
 	public void create(CourseCoordination entity) {
 		// Performs the method as inherited (create the academic).
@@ -87,14 +88,15 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
 			entity.getAcademic().assignAcademicRole(ar);
 			academicDAO.save(entity.getAcademic());
-		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+		}
+		catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		super.create(entity);
 		// Retrieves the current user, i.e., the admin.
 	}
-	
+
 	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#findRoleByName(java.lang.String) */
 	@Override
 	public List<Role> findRoleByName(String name) {
@@ -105,47 +107,53 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	public List<Academic> retrieveAcademicbyRole(String roleName) {
 		try {
 			List<Role> roles = findRoleByName(roleName);
-			if(roles.isEmpty()){
+			if (roles.isEmpty()) {
 				logger.log(Level.SEVERE, "No role found!");
 				return null;
-			} else{
+			}
+			else {
 				return academicDAO.retrieveByRole(roles.get(0));
-			}	
-		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+			}
+		}
+		catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	@Override
 	public Map<String, Course> retrieveCourses(boolean hasCoordinator) {
 		Map<String, Course> coursesWithoutCoordination = new HashMap<String, Course>();
 		List<Course> courses = courseDAO.retrieveAllSortedByName();
-		if(!hasCoordinator){
-			for (Course course : courses) if(!courseCoordinationDAO.courseHasActiveCoordinations(course)) coursesWithoutCoordination.put(course.getName(), course);
+		if (!hasCoordinator) {
+			for (Course course : courses)
+				if (!courseCoordinationDAO.courseHasActiveCoordinations(course)) coursesWithoutCoordination.put(course.getName(), course);
 		}
-		else for (Course course : courses) coursesWithoutCoordination.put(course.getName(), course);			
+		else for (Course course : courses)
+			coursesWithoutCoordination.put(course.getName(), course);
 		return coursesWithoutCoordination;
 	}
-	
+
 	@Override
 	public Map<String, Academic> retrieveAcademics(boolean isCoordinator) {
 		Map<String, Academic> courseCoordinators = new HashMap<String, Academic>();
 		List<Academic> academics = retrieveAcademicbyRole("Professor");
-		if(!isCoordinator){
+		if (!isCoordinator) {
 			AcademicRole ar;
 			try {
 				ar = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
-				for (Academic academic : academics)	if(!academic.getAcademicRoles().contains(ar)) courseCoordinators.put(academic.getName(), academic);
-			} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+				for (Academic academic : academics)
+					if (!academic.getAcademicRoles().contains(ar)) courseCoordinators.put(academic.getName(), academic);
+			}
+			catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}	
+			}
 		}
-		else for (Academic academic : academics) courseCoordinators.put(academic.getName(), academic);
+		else for (Academic academic : academics)
+			courseCoordinators.put(academic.getName(), academic);
 		return courseCoordinators;
 	}
-
 
 	@Override
 	public void disable(CourseCoordination entity) {
@@ -154,7 +162,8 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
 			entity.getAcademic().unassignAcademicRole(ar);
 			academicDAO.save(entity.getAcademic());
-		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+		}
+		catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

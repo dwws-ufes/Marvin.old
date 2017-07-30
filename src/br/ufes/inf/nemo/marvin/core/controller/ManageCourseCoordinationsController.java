@@ -33,33 +33,32 @@ public class ManageCourseCoordinationsController extends CrudController<CourseCo
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(ManageCourseCoordinationsController.class.getCanonicalName());
-	
+
 	/** TODO: document this field. */
-	
+
 	@EJB
 	private ManageCourseCoordinationsService manageCourseCoordinationsService;
-	
+
 	private String academic;
 	private Map<String, Academic> academics;
 	private String course;
 	private Map<String, Course> courses;
-	
-	public void onLoad()
-	{
+
+	public void onLoad() {
 		course = null;
 		academic = null;
 		courses = manageCourseCoordinationsService.retrieveCourses(false);
 		academics = manageCourseCoordinationsService.retrieveAcademics(false);
 	}
-	
+
 	public void onAcademicChange() {
 		selectedEntity.setAcademic(academics.get(academic));
-    }
-	
-	public void onCourseChange(){
+	}
+
+	public void onCourseChange() {
 		selectedEntity.setCourse(courses.get(course));
 	}
-	
+
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<CourseCoordination> getCrudService() {
@@ -96,22 +95,22 @@ public class ManageCourseCoordinationsController extends CrudController<CourseCo
 
 	public void setCourses(Map<String, Course> courses) {
 		this.courses = courses;
-	}	
+	}
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
 		addFilter(new SimpleFilter("manageCourseCoordinations.filter.byName", "name", getI18nMessage("msgsCore", "manageCourseCoordinations.text.filter.byName")));
 	}
-	
+
 	@Override
 	public void delete() {
 		logger.log(Level.INFO, "Disable entity...");
 		List<Object> notDeleted = new ArrayList<Object>();
 
 		// Disables the entities that are in the trash can. Validates each exclusion, but don't stop in case of errors.
-		for (CourseCoordination entity : trashCan) if(entity.getEndDate() == null)	manageCourseCoordinationsService.disable(entity);
-		
+		for (CourseCoordination entity : trashCan)
+			if (entity.getEndDate() == null) manageCourseCoordinationsService.disable(entity);
 
 		// Writes the status message (only if at least one entity was deleted successfully). Empties it afterwards.
 		trashCan.removeAll(notDeleted);

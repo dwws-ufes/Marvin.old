@@ -31,88 +31,82 @@ import br.ufes.inf.nemo.marvin.research.persistence.ScoreDAO;
 import br.ufes.inf.nemo.marvin.research.persistence.ScoreSystemDAO;
 
 @Stateless
-@RolesAllowed({"SysAdmin"})
+@RolesAllowed({ "SysAdmin" })
 public class CalculateAcademicsScoresServiceBean implements CalculateAcademicsScoresService {
 
 	/** Serialization id. */
 	private static final long serialVersionUID = -494464487767933751L;
-	
+
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(CalculateAcademicsScoresServiceBean.class.getCanonicalName());
-	
+
 	@EJB
 	private PublicationDAO publicationDAO;
 
 	@EJB
 	private ScoreSystemDAO scoreSystemDAO;
-	
+
 	@EJB
 	private ScoreDAO scoreDAO;
-	
+
 	@EJB
 	private QualificationDAO qualificationDAO;
 
 	@Override
-	public List<AcademicScore> calculateAcademicsScore(List<Academic> academics, int startYear, int endYear) throws ScoreSystemNotRegisteredException { 
+	public List<AcademicScore> calculateAcademicsScore(List<Academic> academics, int startYear, int endYear) throws ScoreSystemNotRegisteredException {
 		try {
-			//Retrieve the current scores
+			// Retrieve the current scores
 			ScoreSystem currentScoreSystem = scoreSystemDAO.retrieveCurrentScoreSystem();
 			List<Score> currentScoresList = scoreDAO.retrieveByScoreSystem(currentScoreSystem);
 			Map<Qualis, Score> scoreQualisMap = new HashMap<Qualis, Score>();
-			for(Score s : currentScoresList) {
+			for (Score s : currentScoresList) {
 				scoreQualisMap.put(s.getQualis(), s);
 			}
 
-
 			List<AcademicScore> academicScoreList = new ArrayList<AcademicScore>();
-			for(Academic a : academics) {
+			for (Academic a : academics) {
 				AcademicScore as = new AcademicScore();
 				as.setAcademic(a);
 
 				List<Publication> publicationsList = publicationDAO.retrieveByAcademicAndYearRange(a, startYear, endYear);
 				List<PublicationScore> publicationScoreList = new ArrayList<PublicationScore>();
 
-				//Stores the academic score in each category
+				// Stores the academic score in each category
 				int scoreConferenceAcademic = 0;
 				int scoreJournalAcademic = 0;
 
-				for(Publication p : publicationsList) {
+				for (Publication p : publicationsList) {
 					Venue pubVenue = p.getVenue();
-					if (pubVenue == null) continue; //No way of calculating the score of publications without associated venues.
+					if (pubVenue == null) continue; // No way of calculating the score of publications without associated venues.
 					try {
 						// FIXME: allow user to choose before or after.
-						//Qualification quaPubVenue = qualificationDAO.retrieveClosestBeforeByVenueAndYear(pubVenue, p.getYear());
+						// Qualification quaPubVenue = qualificationDAO.retrieveClosestBeforeByVenueAndYear(pubVenue, p.getYear());
 						Qualification quaPubVenue = qualificationDAO.retrieveClosestAfterByVenueAndYear(pubVenue, p.getYear());
 						PublicationScore publicationScore = new PublicationScore();
-	
+
 						publicationScore.setPublication(p);
-	
-						//Stores the current publication score
+
+						// Stores the current publication score
 						int currentScore = 0;
 						boolean venueIsConference = pubVenue.getCategory().equals(VenueCategory.CONFERENCE);
-						
+
 						Qualis qualis = quaPubVenue.getQualis();
 						Score score = scoreQualisMap.get(qualis);
-	
-						if(venueIsConference)
-							currentScore += score.getScoreConference();
-						else 
-							currentScore += score.getScoreJournal();
-	
+
+						if (venueIsConference) currentScore += score.getScoreConference();
+						else currentScore += score.getScoreJournal();
+
 						publicationScore.setScore(currentScore);
-						
-						if (venueIsConference)
-							scoreConferenceAcademic += currentScore;
-						else
-							scoreJournalAcademic += currentScore;
-						
+
+						if (venueIsConference) scoreConferenceAcademic += currentScore;
+						else scoreJournalAcademic += currentScore;
+
 						publicationScoreList.add(publicationScore);
 					}
-					catch(PersistentObjectNotFoundException e) {
+					catch (PersistentObjectNotFoundException e) {
 						// If there is no qualification that applies to the current publication,
 						// skip this publication and go to the next one;
-						logger.log(Level.WARNING,
-								"No qualification from an year that is less than or equal to the publication's year was found.");					
+						logger.log(Level.WARNING, "No qualification from an year that is less than or equal to the publication's year was found.");
 					}
 					catch (MultiplePersistentObjectsFoundException e) {
 						// This is a bug. Log and throw a runtime exception.
@@ -127,13 +121,14 @@ public class CalculateAcademicsScoresServiceBean implements CalculateAcademicsSc
 				academicScoreList.add(as);
 			}
 			return academicScoreList;
-		} catch (PersistentObjectNotFoundException e) {
+		}
+		catch (PersistentObjectNotFoundException e) {
 			// If there is no Score System that is currently active, throw an
 			// exception from the domain.
-			logger.log(Level.WARNING,
-					"No currently active score system was found.");
+			logger.log(Level.WARNING, "No currently active score system was found.");
 			throw new ScoreSystemNotRegisteredException();
-		} catch (MultiplePersistentObjectsFoundException e) {
+		}
+		catch (MultiplePersistentObjectsFoundException e) {
 			// This is a bug. Log and throw a runtime exception.
 			logger.log(Level.SEVERE, "Multiple score systems found that are currently active.", e);
 			throw new EJBException(e);

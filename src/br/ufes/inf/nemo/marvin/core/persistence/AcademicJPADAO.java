@@ -19,9 +19,6 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObj
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Academic_;
-import br.ufes.inf.nemo.marvin.core.domain.Course;
-import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
-import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance_;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.people.domain.Person_;
 
@@ -137,5 +134,5 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 		query.setParameter("role", role);
 		return (List<Academic>) query.getResultList();
 	}
-	
+
 }

@@ -44,7 +44,7 @@ public class AcademicRoleJPADAO extends BaseJPADAO<AcademicRole> implements Acad
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
-	
+
 	/** @see br.ufes.inf.nemo.marvin.core.persistence.RoleDAO#retrieveByName(java.lang.String) */
 	@Override
 	public AcademicRole retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {

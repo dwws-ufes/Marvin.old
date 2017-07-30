@@ -152,13 +152,13 @@ public class InstallSystemController extends JSFController {
 	 */
 	public String saveConfig() {
 		logger.log(Level.FINEST, "Previously received data:\n\t- admin.name = {0}\n\t- admin.email = {1}", new Object[] { admin.getName(), admin.getEmail() });
-		logger.log(Level.FINEST, "Received input data:\n\t- config.institutionAcronym = {0}\n\t- config.smtpServer:Port = {1}:{2}\n\t- config.smtpUsername = {3}", new Object[] {config.getInstitutionAcronym(), config.getSmtpServerAddress(), config.getSmtpServerPort(), config.getSmtpUsername()});
+		logger.log(Level.FINEST, "Received input data:\n\t- config.institutionAcronym = {0}\n\t- config.smtpServer:Port = {1}:{2}\n\t- config.smtpUsername = {3}", new Object[] { config.getInstitutionAcronym(), config.getSmtpServerAddress(), config.getSmtpServerPort(), config.getSmtpUsername() });
 
 		// Lastly, sets the base URL for this installation of Marvin.
 		ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
 		String baseURL = "http://" + ectx.getRequestServerName() + ":" + ectx.getRequestServerPort() + ectx.getApplicationContextPath();
 		config.setBaseURL(baseURL);
-		
+
 		// Installs the system.
 		try {
 			installSystemService.installSystem(config, admin);

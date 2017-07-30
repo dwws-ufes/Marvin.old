@@ -24,5 +24,5 @@ public interface AcademicRoleDAO extends BaseDAO<AcademicRole> {
 	AcademicRole retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 
 	List<AcademicRole> findByName(String name);
-	
+
 }

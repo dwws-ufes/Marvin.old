@@ -182,7 +182,7 @@ public class GenerateBibliographyController extends JSFController {
 	 * TODO: document this method.
 	 */
 	public StreamedContent getBibliographyFile() {
-		try (InputStream in  = new ByteArrayInputStream(bibliography.toString().getBytes("UTF-8"))) {
+		try (InputStream in = new ByteArrayInputStream(bibliography.toString().getBytes("UTF-8"))) {
 			logger.log(Level.INFO, "Downloading: " + in.available());
 			return new DefaultStreamedContent(in, "text/plain", "bibliography.bib");
 		}

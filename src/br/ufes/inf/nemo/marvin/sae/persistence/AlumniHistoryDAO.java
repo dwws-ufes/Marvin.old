@@ -1,12 +1,8 @@
 package br.ufes.inf.nemo.marvin.sae.persistence;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
-import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory;
 
@@ -21,5 +17,5 @@ import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory;
  */
 @Local
 public interface AlumniHistoryDAO extends BaseDAO<AlumniHistory> {
-	public boolean alumniWithHistory (Alumni alumni);
+	public boolean alumniWithHistory(Alumni alumni);
 }

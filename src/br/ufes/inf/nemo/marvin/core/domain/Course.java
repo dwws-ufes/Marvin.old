@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
-
 /**
  * TODO: document this type.
  *
@@ -21,25 +20,25 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
  * @version 1.0
  */
 @Entity
-public class Course extends PersistentObjectSupport implements Comparable<Course>{
+public class Course extends PersistentObjectSupport implements Comparable<Course> {
 
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The course' name. */
 	@Basic
 	@NotNull
 	@Size(max = 100)
 	private String name;
-	
+
 	@Basic
 	@NotNull
 	private Long code;
-	
+
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private AcademicLevel academicLevel;
-	
+
 	/** The timestamp of the moment this course was created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
@@ -49,7 +48,7 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date lastUpdateDate;
-	
+
 	/** Getter for name. */
 	public String getName() {
 		return name;
@@ -59,20 +58,20 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/** Getter for academicLevel. */
 	public AcademicLevel getAcademicLevel() {
 		return academicLevel;
 	}
-	
+
 	/** Setter for academicLevel. */
 	public void setAcademicLevel(AcademicLevel academicLevel) {
 		this.academicLevel = academicLevel;
 	}
-	
+
 	/** Setter for academicLevel. */
 	public void setAcademicLevel(String academicLevel) {
-		if(academicLevel.equals("Undergraduate")) this.academicLevel = AcademicLevel.UNDERGRADUATE;
+		if (academicLevel.equals("Undergraduate")) this.academicLevel = AcademicLevel.UNDERGRADUATE;
 		else this.academicLevel = AcademicLevel.GRADUATE;
 	}
 
@@ -95,12 +94,12 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 	public void setLastUpdateDate(Date lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
 	}
-	
+
 	/** Getter for code. */
 	public Long getCode() {
 		return code;
 	}
-	
+
 	/** Setter for code. */
 	public void setCode(Long code) {
 		this.code = code;
@@ -124,12 +123,11 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 	public String toString() {
 		return name;
 	}
-	
+
 	/** Course academic level */
 	public enum AcademicLevel {
-		UNDERGRADUATE("Undergraduate"),
-		GRADUATE("Graduate");
-		
+		UNDERGRADUATE("Undergraduate"), GRADUATE("Graduate");
+
 		String name;
 
 		/** Getter for academicLevel name. */
@@ -144,6 +142,6 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 
 		AcademicLevel(String name) {
 			this.name = name;
-		}	
+		}
 	}
 }

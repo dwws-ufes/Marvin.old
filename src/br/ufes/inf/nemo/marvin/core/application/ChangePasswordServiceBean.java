@@ -38,24 +38,26 @@ public class ChangePasswordServiceBean implements ChangePasswordService {
 	/** TODO: document this field. */
 	@EJB
 	private AcademicDAO academicDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CoreInformation coreInformation;
-	
+
 	/** TODO: document this field. */
 	@Inject
 	private Event<MailEvent> mailEvent;
 
-	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#retrieveAcademicByPasswordCode(java.lang.String) */
+	/**
+	 * @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#retrieveAcademicByPasswordCode(java.lang.String)
+	 */
 	@Override
 	public Academic retrieveAcademicByPasswordCode(String passwordCode) throws InvalidPasswordCodeException {
-		// Retrieves the academic given her password code. 
+		// Retrieves the academic given her password code.
 		try {
 			logger.log(Level.INFO, "Academic with password code {0} wants to set/change her password.", new Object[] { passwordCode });
 			return academicDAO.retrieveByPasswordCode(passwordCode);
 		}
-		
+
 		// In case the password code fails to retrieve a single academic, report it as invalid.
 		catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 			logger.log(Level.WARNING, "Unable to retrieve an academic with password code: " + passwordCode, e);
@@ -63,28 +65,31 @@ public class ChangePasswordServiceBean implements ChangePasswordService {
 		}
 	}
 
-	/** @see br.ufes.inf.nemo.marvin.core.application.ChangePasswordService#setNewPassword(java.lang.String, java.lang.String) */
+	/**
+	 * @see br.ufes.inf.nemo.marvin.core.application.ChangePasswordService#setNewPassword(java.lang.String,
+	 *      java.lang.String)
+	 */
 	@Override
 	public void setNewPassword(String passwordCode, String password) throws InvalidPasswordCodeException, OperationFailedException {
 		try {
-			// Retrieves the academic given her password code. 
+			// Retrieves the academic given her password code.
 			logger.log(Level.INFO, "Setting a new password for academic with password code: {0}", new Object[] { passwordCode });
 			Academic academic = academicDAO.retrieveByPasswordCode(passwordCode);
-			
+
 			// Sets the new password, removes the password code.
 			academic.setPassword(TextUtils.produceBase64EncodedMd5Hash(password));
 			academic.setPasswordCode(null);
-			
+
 			// Saves the academic.
 			academicDAO.save(academic);
 		}
-		
+
 		// In case the password code fails to retrieve a single academic, report it as invalid.
 		catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 			logger.log(Level.WARNING, "Unable to retrieve an academic with password code: " + passwordCode, e);
 			throw new InvalidPasswordCodeException(e, passwordCode);
 		}
-		
+
 		// In case the password cannot be encoded.
 		catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			// Logs and rethrows the exception for the controller to display the error to the user.
@@ -100,12 +105,12 @@ public class ChangePasswordServiceBean implements ChangePasswordService {
 			// Retrieves the academic that owns the email and sets a new password code.
 			Academic academic = academicDAO.retrieveByEmail(email);
 			academic.setPasswordCode(UUID.randomUUID().toString());
-			
+
 			// Creates the data model with the information needed to send an e-mail with the reset code.
 			Map<String, Object> dataModel = new HashMap<>();
 			dataModel.put("config", coreInformation.getCurrentConfig());
 			dataModel.put("academic", academic);
-		
+
 			// Then, fire an e-mail event so the e-mail gets sent.
 			mailEvent.fire(new MailEvent(email, MailerTemplate.RESET_PASSWORD, dataModel));
 		}

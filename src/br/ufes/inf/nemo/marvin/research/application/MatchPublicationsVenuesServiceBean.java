@@ -234,4 +234,3 @@ public class MatchPublicationsVenuesServiceBean implements MatchPublicationsVenu
 		return ratio;
 	}
 }
-

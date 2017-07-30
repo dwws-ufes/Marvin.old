@@ -33,18 +33,16 @@ public class ManageSuggestionsController extends CrudController<Suggestion> {
 
 	private String course;
 	private Map<String, Course> courses;
-	
+
 	@Inject
 	private SessionController sessionController;
-	
-	public void onLoadForm()
-	{
+
+	public void onLoadForm() {
 		course = null;
 		courses = manageSuggestionsService.retrieveCourses(sessionController.getCurrentUser());
 	}
-	
-	
-	public void onCourseChange(){
+
+	public void onCourseChange() {
 		selectedEntity.setCourse(courses.get(course));
 	}
 
@@ -59,17 +57,20 @@ public class ManageSuggestionsController extends CrudController<Suggestion> {
 	protected void initFilters() {
 		addFilter(new LikeFilter("manageSuggestions.filter.byName", "name", getI18nMessage("msgsSae", "manageSuggestions.text.filter.byName")));
 	}
-	
+
 	public String getCourse() {
 		return course;
 	}
+
 	public void setCourse(String course) {
 		this.course = course;
 	}
+
 	public Map<String, Course> getCourses() {
 		return courses;
 	}
+
 	public void setCourses(Map<String, Course> courses) {
 		this.courses = courses;
-	}	
+	}
 }

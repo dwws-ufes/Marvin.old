@@ -43,7 +43,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 
 	/** The name of the file that contains the roles to be added upon system installation. */
 	private static final String INIT_DATA_ROLE_FILE_NAME = "Role.json";
-	
+
 	/** The name of the file that contains the academic roles to be added upon system installation. */
 	private static final String INIT_DATA_ACADEMICROLE_FILE_NAME = "AcademicRole.json";
 
@@ -65,14 +65,14 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** The DAO for Academic Role objects. */
 	@EJB
 	private AcademicRoleDAO academicRoleDAO;
-	
+
 	/** Global information about the application. */
 	@EJB
 	private CoreInformation coreInformation;
-	
-	/**Call Qualis Registration*/
+
+	/** Call Qualis Registration */
 	@Inject
-	private Event<InstallEvent> installEvent; 
+	private Event<InstallEvent> installEvent;
 
 	/**
 	 * @see br.ufes.inf.nemo.marvin.core.application.InstallSystemService#installSystem(br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration,
@@ -81,15 +81,16 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	@Override
 	public void installSystem(MarvinConfiguration config, Academic admin) throws OperationFailedException {
 		logger.log(Level.FINER, "Installing system...");
-	
+
 		try {
 			// Creates the roles in the database from a JSON file located in META-INF/installSystem.
 			File jsonFile = ResourceUtil.getResourceAsFile(INIT_DATA_PATH + INIT_DATA_ROLE_FILE_NAME);
 			try (Scanner scanner = new Scanner(jsonFile)) {
 				// Reads the content of the entire file, which contains a JSON array.
 				StringBuilder builder = new StringBuilder();
-				while (scanner.hasNextLine()) builder.append(scanner.nextLine());
-				
+				while (scanner.hasNextLine())
+					builder.append(scanner.nextLine());
+
 				// Instantiates the JSON array and reads the objects.
 				JSONArray array = new JSONArray(builder.toString());
 				for (int i = 0; i < array.length(); i++) {
@@ -104,8 +105,9 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			try (Scanner scanner = new Scanner(jsonFile2)) {
 				// Reads the content of the entire file, which contains a JSON array.
 				StringBuilder builder = new StringBuilder();
-				while (scanner.hasNextLine()) builder.append(scanner.nextLine());
-				
+				while (scanner.hasNextLine())
+					builder.append(scanner.nextLine());
+
 				// Instantiates the JSON array and reads the objects.
 				JSONArray array = new JSONArray(builder.toString());
 				for (int i = 0; i < array.length(); i++) {
@@ -150,8 +152,8 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			// Reloads the bean that holds the configuration and determines if the system is installed.
 			logger.log(Level.FINER, "Reloading core information...");
 			coreInformation.init();
-			
-			installEvent.fire(new InstallEvent()); 
+
+			installEvent.fire(new InstallEvent());
 		}
 		catch (NoSuchAlgorithmException e) {
 			// Logs and rethrows the exception for the controller to display the error to the user.
@@ -164,7 +166,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			throw new OperationFailedException(e);
 		}
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		System.out.println(TextUtils.produceBase64EncodedMd5Hash("ovni.conceitual"));
 	}

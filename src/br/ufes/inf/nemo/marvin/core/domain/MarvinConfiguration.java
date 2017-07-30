@@ -30,23 +30,23 @@ public class MarvinConfiguration extends PersistentObjectSupport {
 	@Basic
 	@Size(max = 10)
 	private String institutionAcronym;
-	
+
 	/** Address for the SMTP server that sends e-mail. */
 	@NotNull
 	private String smtpServerAddress;
-	
+
 	/** Port for the SMTP server that sends e-mail. */
 	@NotNull
 	private Integer smtpServerPort;
-	
+
 	/** Username to connect to the SMTP server that sends email. */
 	@NotNull
 	private String smtpUsername;
-	
+
 	/** Password to connect to the SMTP server that sends email. */
 	@NotNull
 	private String smtpPassword;
-	
+
 	/** The URL for this Marvin installation. */
 	@NotNull
 	private String baseURL;

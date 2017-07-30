@@ -140,7 +140,7 @@ public class ChangePasswordController extends JSFController {
 			validCode = false;
 		}
 	}
-	
+
 	/**
 	 * TODO: document this method.
 	 */
@@ -149,7 +149,7 @@ public class ChangePasswordController extends JSFController {
 
 		// Obtains the authenticated user.
 		academic = sessionController.getCurrentUser();
-		
+
 		// If all went well, begins the conversation.
 		begin();
 	}
@@ -186,8 +186,8 @@ public class ChangePasswordController extends JSFController {
 		logger.log(Level.FINEST, "Setting new password for academic {0} (password code {1})", new Object[] { academic, passwordCode });
 
 		// Checks if the passwords match.
-		if (! checkPasswords()) return null;
-		
+		if (!checkPasswords()) return null;
+
 		// Changes the password.
 		try {
 			changePasswordService.setNewPassword(passwordCode, password);
@@ -222,13 +222,13 @@ public class ChangePasswordController extends JSFController {
 		changePasswordService.resetPassword(email);
 		addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_INFO, "changePassword.message.resetRequested.summary", new Object[] {}, "changePassword.message.resetRequested.detail", new Object[] { email });
 	}
-	
+
 	public String changePassword() {
 		logger.log(Level.FINEST, "Changing password for academic {0} (password code {1})", new Object[] { academic, passwordCode });
 
 		// Checks if the passwords match.
-		if (! checkPasswords()) return null;
-		
+		if (!checkPasswords()) return null;
+
 		System.out.println("########### Change password of " + academic + " to: " + password);
 		return null;
 	}

@@ -11,14 +11,14 @@ import javax.validation.constraints.NotNull;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
 @Entity
-public class InterestSubject extends PersistentObjectSupport implements Comparable<InterestSubject>{
+public class InterestSubject extends PersistentObjectSupport implements Comparable<InterestSubject> {
 
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
 	@Basic
 	private String name;
-	
+
 	/** The timestamp of the moment this interest subject was created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
@@ -28,7 +28,7 @@ public class InterestSubject extends PersistentObjectSupport implements Comparab
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date lastUpdateDate;
-	
+
 	/** Getter for name. */
 	public String getName() {
 		return name;
@@ -58,7 +58,7 @@ public class InterestSubject extends PersistentObjectSupport implements Comparab
 	public void setLastUpdateDate(Date lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
 	}
-	
+
 	@Override
 	public int compareTo(InterestSubject o) {
 		// Compare the names
@@ -70,6 +70,7 @@ public class InterestSubject extends PersistentObjectSupport implements Comparab
 		// If it's the same name, check if it's the same entity.
 		return uuid.compareTo(o.uuid);
 	}
+
 	@Override
 	public String toString() {
 		return name;

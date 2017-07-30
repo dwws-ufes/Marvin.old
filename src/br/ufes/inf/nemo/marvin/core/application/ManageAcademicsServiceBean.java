@@ -52,30 +52,30 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	/** TODO: document this field. */
 	@EJB
 	private RoleDAO roleDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private AcademicRoleDAO academicRoleDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CourseCoordinationDAO courseCoordinationDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CoreInformation coreInformation;
-	
+
 	/** TODO: document this field. */
 	@Inject
 	private Event<MailEvent> mailEvent;
-	
+
 	/** TODO: document this field. */
 	@Resource
 	private SessionContext sessionContext;
 
 	/** TODO: document this field. */
 	private PersistentObjectConverterFromId<Role> roleConverter;
-	
+
 	/** TODO: document this field. */
 	private PersistentObjectConverterFromId<AcademicRole> academicRoleConverter;
 
@@ -103,7 +103,9 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 		return newEntity;
 	}
 
-	/** @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#validateDelete(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject) */
+	/**
+	 * @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#validateDelete(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject)
+	 */
 	@Override
 	public void validateDelete(Academic entity) throws CrudException {
 		// Possibly throwing a CRUD Exception to indicate validation error.
@@ -123,49 +125,49 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 		catch (MultiplePersistentObjectsFoundException | PersistentObjectNotFoundException e) {
 			logger.log(Level.SEVERE, "Problem retrieving role " + Role.SYSADMIN_ROLE_NAME + " while validating an academic deletion!", e);
 		}
-		
+
 		// Rule 2: cannot delete a coordinator that is linked to a course coordination (activated).
 		AcademicRole coordinator;
 		try {
 			coordinator = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
-			if(entity.getAcademicRoles().contains(coordinator))
-			{
+			if (entity.getAcademicRoles().contains(coordinator)) {
 				logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 2: acadmic has CourseCoordinator role", new Object[] { email });
 				crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageAcademics.error.deleteCurrentCoordinator", email);
 			}
-		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+		}
+		catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		// Rule 3: cannot delete a academic that is linked to a disabled course coordination.
-		if(courseCoordinationDAO.academicWasCoordinator(entity))
-		{
+		if (courseCoordinationDAO.academicWasCoordinator(entity)) {
 			logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 3: the academic was coordinator of some course coordination", new Object[] { email });
 			crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageAcademics.error.deleteOldCoordinator", email);
 		}
-		
 
 		// If one of the rules was violated, throw the exception.
 		if (crudException != null) throw crudException;
 	}
 
-	/** @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#create(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject) */
+	/**
+	 * @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#create(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject)
+	 */
 	@Override
 	public void create(Academic entity) {
 		// Performs the method as inherited (create the academic).
 		super.create(entity);
-		
+
 		try {
 			// Retrieves the current user, i.e., the admin.
 			Academic admin = academicDAO.retrieveByEmail(sessionContext.getCallerPrincipal().getName());
-			
+
 			// Creates the data model with the information needed to send an e-mail to the new academic.
 			Map<String, Object> dataModel = new HashMap<>();
 			dataModel.put("config", coreInformation.getCurrentConfig());
 			dataModel.put("admin", admin);
 			dataModel.put("academic", entity);
-		
+
 			// Then, fire an e-mail event so the e-mail gets sent.
 			mailEvent.fire(new MailEvent(entity.getEmail(), MailerTemplate.NEW_ACADEMIC_REGISTERED, dataModel));
 		}
@@ -186,7 +188,7 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	public List<Role> findRoleByName(String name) {
 		return roleDAO.findByName(name);
 	}
-	
+
 	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#getRoleConverter() */
 	@Override
 	public PersistentObjectConverterFromId<AcademicRole> getAcademicRoleConverter() {

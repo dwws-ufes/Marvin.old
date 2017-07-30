@@ -36,19 +36,19 @@ public class ManageCoursesServiceBean extends CrudServiceBean<Course> implements
 	/** TODO: document this field. */
 	@EJB
 	private AcademicDAO academicDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CourseDAO courseDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CourseCoordinationDAO courseCoordinationDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CoreInformation coreInformation;
-	
+
 	/** TODO: document this field. */
 	@Resource
 	private SessionContext sessionContext;
@@ -76,7 +76,9 @@ public class ManageCoursesServiceBean extends CrudServiceBean<Course> implements
 		return newEntity;
 	}
 
-	/** @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#validateDelete(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject) */
+	/**
+	 * @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#validateDelete(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject)
+	 */
 	@Override
 	public void validateDelete(Course entity) throws CrudException {
 		// Possibly throwing a CRUD Exception to indicate validation error.
@@ -85,12 +87,11 @@ public class ManageCoursesServiceBean extends CrudServiceBean<Course> implements
 
 		// Validates business rules.
 		// Rule 1: cannot delete a with course with coordination.
-		if(courseCoordinationDAO.courseHasCoordinations(entity))
-		{
+		if (courseCoordinationDAO.courseHasCoordinations(entity)) {
 			logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 1: the course has a course coordination", new Object[] { entity.getName() });
 			crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageCourses.error.deleteCourseWithCoordination", entity.getName());
 		}
-		
+
 		// Rule 2: cannot delete a with course attendance.
 
 		// If one of the rules was violated, throw the exception.

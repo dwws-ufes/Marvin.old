@@ -30,12 +30,14 @@ public class GenerateBibliographyServiceBean implements GenerateBibliographyServ
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(GenerateBibliographyServiceBean.class.getCanonicalName());
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private PublicationDAO publicationDAO;
 
-	/** @see br.ufes.inf.nemo.marvin.research.application.GenerateBibliographyService#generateBibliography(br.ufes.inf.nemo.marvin.research.domain.BibGenConfiguration) */
+	/**
+	 * @see br.ufes.inf.nemo.marvin.research.application.GenerateBibliographyService#generateBibliography(br.ufes.inf.nemo.marvin.research.domain.BibGenConfiguration)
+	 */
 	@Override
 	public StringBuilder generateBibliography(BibGenConfiguration config) {
 		StringBuilder builder = new StringBuilder();
@@ -45,14 +47,15 @@ public class GenerateBibliographyServiceBean implements GenerateBibliographyServ
 		for (BibGenResearcher researcherCfg : config.getResearchers()) {
 			Academic researcher = researcherCfg.getResearcher();
 			logger.log(Level.INFO, "Adding publications of \"{0}\" ({1}), start: {2}, end: {3}", new Object[] { researcher.getName(), researcher.getEmail(), researcherCfg.getStartYear(), researcherCfg.getEndYear() });
-			
+
 			// Retrieves the publications within the year range and add them to the set.
 			List<Publication> researcherPublications = publicationDAO.retrieveByAcademicAndYearRange(researcher, researcherCfg.getStartYear(), researcherCfg.getEndYear());
 			publications.addAll(researcherPublications);
 		}
-		
+
 		// Prints all publications in the sorted set to the string output.
-		for (Publication publication : publications) builder.append(publication.toBibTeX()).append("\n\n");
+		for (Publication publication : publications)
+			builder.append(publication.toBibTeX()).append("\n\n");
 
 		// Returns the string builder with the entire bibliography.
 		return builder;

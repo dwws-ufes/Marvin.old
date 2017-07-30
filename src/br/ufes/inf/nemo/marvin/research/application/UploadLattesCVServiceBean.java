@@ -44,19 +44,19 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 	/** The DAO for Academic objects. */
 	@EJB
 	private AcademicDAO academicDAO;
-	
+
 	/** The DAO for Publication objects. */
 	@EJB
 	private PublicationDAO publicationDAO;
-	
+
 	/** The DAO for Venue objects. */
 	@EJB
 	private VenueDAO venueDAO;
-	
-	/**Calls Venue-Publication Matching*/
+
+	/** Calls Venue-Publication Matching */
 	@Inject
-	private Event<MatchPublicationsEvent> matchPublicationsEvent; 
-	
+	private Event<MatchPublicationsEvent> matchPublicationsEvent;
+
 	/** TODO: document this field. */
 	private PersistentObjectConverterFromId<Venue> venueConverter;
 
@@ -66,7 +66,7 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 		if (venueConverter == null) venueConverter = new PersistentObjectConverterFromId<Venue>(venueDAO);
 		return venueConverter;
 	}
-	
+
 	/** @see br.ufes.inf.nemo.marvin.research.application.UploadLattesCVService#findVenueByName(java.lang.String) */
 	@Override
 	public List<Venue> findVenueByName(String query) {
@@ -88,7 +88,7 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 			// Checks if the curriculum's ID matches an ID registered in the system.
 			Academic owner = academicDAO.retrieveByLattesId(lattesId);
 			logger.log(Level.INFO, "Found academic with Lattes ID {0}: {1} ({2}).", new Object[] { lattesId, owner.getName(), owner.getEmail() });
-			
+
 			// Adds the researcher and the current amount of publications associated with her.
 			parser.setResearcher(owner);
 			parser.setPreviousQuantity(publicationDAO.retrieveCountByAcademic(owner));
@@ -103,7 +103,7 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 			logger.log(Level.SEVERE, "Multiple academics found with the same Lattes ID: " + lattesId, e);
 			throw new EJBException(e);
 		}
-		
+
 		// Returns the set of publications extracted from the CV.
 		return parser;
 	}
@@ -116,18 +116,20 @@ public class UploadLattesCVServiceBean implements UploadLattesCVService {
 	public void assignPublicationsToAcademic(Set<Publication> publications, Academic owner) {
 		// Delete the previous publications of the academic.
 		List<Publication> previousPublications = publicationDAO.retrieveByAcademic(owner);
-		for (Publication previous : previousPublications) publicationDAO.delete(previous);
-		
+		for (Publication previous : previousPublications)
+			publicationDAO.delete(previous);
+
 		// Assign the new publications to the academic and save.
 		for (Publication publication : publications) {
 			publication.setOwner(owner);
-			if (publication instanceof BookChapter) System.out.println("bookTitle = " + ((BookChapter)publication).getBookTitle());
+			if (publication instanceof BookChapter) System.out.println("bookTitle = " + ((BookChapter) publication).getBookTitle());
 			publicationDAO.save(publication);
 		}
-		
-		// FIXME: the matches need to be confirmed by calling saveMatches(). Therefore, the publications should be detached here.
+
+		// FIXME: the matches need to be confirmed by calling saveMatches(). Therefore, the publications should be detached
+		// here.
 		// Update JButler, adding detach() method to BaseDAO.
-		
+
 		// Fires an event that triggers the matching between venues and publications.
 		matchPublicationsEvent.fire(new MatchPublicationsEvent(owner));
 	}

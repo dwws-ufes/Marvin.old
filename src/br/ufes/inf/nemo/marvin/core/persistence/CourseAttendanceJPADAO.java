@@ -36,7 +36,7 @@ public class CourseAttendanceJPADAO extends BaseJPADAO<CourseAttendance> impleme
 	/** The application's persistent context provided by the application server. */
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(AcademicJPADAO.class.getCanonicalName());
 
@@ -45,9 +45,9 @@ public class CourseAttendanceJPADAO extends BaseJPADAO<CourseAttendance> impleme
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
-	
+
 	@Override
-	public List<CourseAttendance> retriveCourseAttendances (Academic academic){
+	public List<CourseAttendance> retriveCourseAttendances(Academic academic) {
 		logger.log(Level.FINE, "Retrieving the coordinations of a academic");
 		// Constructs the query over the Course Attendance class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -59,9 +59,9 @@ public class CourseAttendanceJPADAO extends BaseJPADAO<CourseAttendance> impleme
 		List<CourseAttendance> result = entityManager.createQuery(cq).getResultList();
 		return result;
 	}
-	
+
 	@Override
-	public List<Course> retriveCoursesInCourseAttendance (Academic academic){
+	public List<Course> retriveCoursesInCourseAttendance(Academic academic) {
 		logger.log(Level.FINE, "Retrieving the coordinations of a academic");
 		// Constructs the query over the Course Attendance class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();

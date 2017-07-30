@@ -31,7 +31,7 @@ public class EditProfileController extends JSFController {
 
 	/** TODO: document this field. */
 	private Academic academic;
-	
+
 	/**
 	 * TODO: document this method.
 	 */
@@ -41,7 +41,7 @@ public class EditProfileController extends JSFController {
 		// Obtains the authenticated user.
 		academic = sessionController.getCurrentUser();
 	}
-	
+
 	/** Getter for academic. */
 	public Academic getAcademic() {
 		return academic;

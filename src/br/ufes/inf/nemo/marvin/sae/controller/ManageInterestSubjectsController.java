@@ -1,21 +1,14 @@
 package br.ufes.inf.nemo.marvin.sae.controller;
 
-import java.util.Map;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
-import br.ufes.inf.nemo.marvin.core.controller.SessionController;
-import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.sae.application.ManageInterestSubjectsService;
-import br.ufes.inf.nemo.marvin.sae.application.ManageSuggestionsService;
 import br.ufes.inf.nemo.marvin.sae.domain.InterestSubject;
-import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
 
 /**
  * TODO: document this type.

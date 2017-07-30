@@ -1,6 +1,5 @@
 package br.ufes.inf.nemo.marvin.sae.persistence;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,10 +12,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
-import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
-import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
-import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance_;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicJPADAO;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory;
@@ -36,7 +31,7 @@ import br.ufes.inf.nemo.marvin.sae.domain.AlumniHistory_;
 public class AlumniHistoryJPADAO extends BaseJPADAO<AlumniHistory> implements AlumniHistoryDAO {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(AcademicJPADAO.class.getCanonicalName());
 
@@ -49,8 +44,8 @@ public class AlumniHistoryJPADAO extends BaseJPADAO<AlumniHistory> implements Al
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
-	
-	public boolean alumniWithHistory (Alumni alumni) {
+
+	public boolean alumniWithHistory(Alumni alumni) {
 		logger.log(Level.FINE, "Retrieving the alumnis with history");
 		// Constructs the query over the Course Attendance class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -60,7 +55,7 @@ public class AlumniHistoryJPADAO extends BaseJPADAO<AlumniHistory> implements Al
 		// Filters the query with the academic.
 		cq.where(cb.equal(root.get(AlumniHistory_.alumni), alumni));
 		List<AlumniHistory> result = entityManager.createQuery(cq).getResultList();
-		if(result.size()>0) return true;
+		if (result.size() > 0) return true;
 		return false;
 	}
 }

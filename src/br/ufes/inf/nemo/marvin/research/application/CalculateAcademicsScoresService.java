@@ -12,7 +12,6 @@ import br.ufes.inf.nemo.marvin.research.exceptions.ScoreSystemNotRegisteredExcep
 @Local
 public interface CalculateAcademicsScoresService extends Serializable {
 
-	List<AcademicScore> calculateAcademicsScore(List<Academic> academics, int startYear, int endYear)
-			throws ScoreSystemNotRegisteredException;  
+	List<AcademicScore> calculateAcademicsScore(List<Academic> academics, int startYear, int endYear) throws ScoreSystemNotRegisteredException;
 
 }

@@ -44,11 +44,11 @@ public class Academic extends Person {
 	@Basic
 	@Size(max = 32)
 	private String password;
-	
+
 	/** The number that identifies the academic in the Lattes platform, if she's a researcher. */
 	@Basic
 	private Long lattesId;
-	
+
 	/** The code that has to be provided in order to reset an academic's password. */
 	@Basic
 	@Size(max = 40)
@@ -61,7 +61,7 @@ public class Academic extends Person {
 	/** Roles for this user. */
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles;
-	
+
 	/** Academic Roles for this user. */
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<AcademicRole> academicRoles;
@@ -149,7 +149,7 @@ public class Academic extends Person {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 	/** Getter for academic roles. */
 	public Set<AcademicRole> getAcademicRoles() {
 		return academicRoles;
@@ -200,7 +200,7 @@ public class Academic extends Person {
 		if (roles == null) roles = new HashSet<>();
 		roles.add(role);
 	}
-	
+
 	/**
 	 * Assigns a academic role to an academic, i.e., adds the academic role to the set of academic roles.
 	 * 
@@ -211,14 +211,12 @@ public class Academic extends Person {
 		if (academicRoles == null) academicRoles = new HashSet<>();
 		academicRoles.add(academicRole);
 	}
-	
-	public void unassignRole(Role role)
-	{
-		if(roles.contains(role)) roles.remove(role);
+
+	public void unassignRole(Role role) {
+		if (roles.contains(role)) roles.remove(role);
 	}
-	
-	public void unassignAcademicRole(AcademicRole academicRole)
-	{
-		if(academicRoles.contains(academicRole)) academicRoles.remove(academicRole);
+
+	public void unassignAcademicRole(AcademicRole academicRole) {
+		if (academicRoles.contains(academicRole)) academicRoles.remove(academicRole);
 	}
 }

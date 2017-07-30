@@ -1,8 +1,7 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
 public enum MailerTemplate {
-	NEW_ACADEMIC_REGISTERED("NewAcademicRegistered"),
-	RESET_PASSWORD("ResetPassword");
+	NEW_ACADEMIC_REGISTERED("NewAcademicRegistered"), RESET_PASSWORD("ResetPassword");
 
 	/** TODO: document this field. */
 	private String fileName;

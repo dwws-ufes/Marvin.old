@@ -19,5 +19,5 @@ import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
  */
 @Local
 public interface AlumniDAO extends BaseDAO<Alumni> {
-	public Alumni retriveAlumni (CourseAttendance courseAttendance) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+	public Alumni retriveAlumni(CourseAttendance courseAttendance) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 }

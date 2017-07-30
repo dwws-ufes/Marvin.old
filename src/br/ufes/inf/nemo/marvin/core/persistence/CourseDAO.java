@@ -20,5 +20,5 @@ import br.ufes.inf.nemo.marvin.core.domain.Course;
 public interface CourseDAO extends BaseDAO<Course> {
 
 	public List<Course> retrieveAllSortedByName();
-	
+
 }

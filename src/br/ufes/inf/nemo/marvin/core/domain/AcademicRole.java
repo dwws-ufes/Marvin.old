@@ -16,10 +16,10 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
  * @version 1.0
  */
 @Entity
-public class AcademicRole extends PersistentObjectSupport{
+public class AcademicRole extends PersistentObjectSupport {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Name of the Course Coordinator academic role. */
 	public static final String COURSECOORDINATOR_ROLE_NAME = "CourseCord";
 
@@ -72,7 +72,7 @@ public class AcademicRole extends PersistentObjectSupport{
 	public String toString() {
 		return name;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(ResourceUtil.getResourceAsFile("META-INF/installSystem/AcademicRole.json"));
 

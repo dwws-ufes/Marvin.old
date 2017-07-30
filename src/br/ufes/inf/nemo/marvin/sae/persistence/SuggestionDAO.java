@@ -16,5 +16,5 @@ import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
  */
 @Local
 public interface SuggestionDAO extends BaseDAO<Suggestion> {
-	
+
 }

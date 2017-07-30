@@ -16,5 +16,5 @@ import br.ufes.inf.nemo.marvin.core.domain.EducationInstituition;
  */
 @Local
 public interface EducationInstituitionDAO extends BaseDAO<EducationInstituition> {
-	
+
 }

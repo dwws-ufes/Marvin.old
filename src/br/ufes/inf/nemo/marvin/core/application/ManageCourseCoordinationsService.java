@@ -18,16 +18,15 @@ import br.ufes.inf.nemo.marvin.core.domain.Role;
  * @version 1.0
  */
 @Local
-public interface ManageCourseCoordinationsService extends CrudService<CourseCoordination>
-{
-	
+public interface ManageCourseCoordinationsService extends CrudService<CourseCoordination> {
+
 	public List<Role> findRoleByName(String name);
-	
-	public List<Academic> retrieveAcademicbyRole(String roleName); 
+
+	public List<Academic> retrieveAcademicbyRole(String roleName);
 
 	public Map<String, Course> retrieveCourses(boolean hasCoordinator);
 
 	public Map<String, Academic> retrieveAcademics(boolean isCoordinator);
-	
+
 	public void disable(CourseCoordination entity);
 }

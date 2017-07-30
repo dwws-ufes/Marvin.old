@@ -38,11 +38,11 @@ public class LoginServiceBean implements LoginService {
 	/** The DAO for Academic objects. */
 	@EJB
 	private AcademicDAO academicDAO;
-	
+
 	/** TODO: document this field. */
 	@Inject
 	private Event<LoginEvent> loginEvent;
-	
+
 	/** TODO: document this field. */
 	@Resource
 	private SessionContext sessionContext;
@@ -73,7 +73,7 @@ public class LoginServiceBean implements LoginService {
 				logger.log(Level.FINER, "Setting last login date for academic with username \"{0}\" as \"{1}\"...", new Object[] { currentUser.getEmail(), now });
 				currentUser.setLastLoginDate(now);
 				academicDAO.save(currentUser);
-				
+
 				// Fires a login event.
 				loginEvent.fire(new LoginEvent(currentUser));
 			}

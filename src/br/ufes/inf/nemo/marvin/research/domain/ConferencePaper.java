@@ -18,7 +18,7 @@ public class ConferencePaper extends Publication {
 
 	/** TODO: document this field. */
 	private String bookTitle;
-	
+
 	/** TODO: document this field. */
 	private String eventName;
 

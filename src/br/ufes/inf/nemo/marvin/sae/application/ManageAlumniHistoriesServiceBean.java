@@ -1,6 +1,5 @@
 package br.ufes.inf.nemo.marvin.sae.application;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,15 +42,15 @@ public class ManageAlumniHistoriesServiceBean extends CrudServiceBean<AlumniHist
 	/** TODO: document this field. */
 	@EJB
 	private AlumniHistoryDAO alumniHistoryDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private AlumniDAO alumniDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CourseAttendanceDAO courseAttendanceDAO;
-	
+
 	/** TODO: document this field. */
 	@Resource
 	private SessionContext sessionContext;
@@ -86,11 +85,12 @@ public class ManageAlumniHistoriesServiceBean extends CrudServiceBean<AlumniHist
 		for (CourseAttendance courseAttendance : courseAttendances) {
 			try {
 				alumni = alumniDAO.retriveAlumni(courseAttendance);
-				if(!alumniHistoryDAO.alumniWithHistory(alumni)) alumnisMap.put(alumni.toString(), alumni);
-			} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+				if (!alumniHistoryDAO.alumniWithHistory(alumni)) alumnisMap.put(alumni.toString(), alumni);
+			}
+			catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 				e.printStackTrace();
 			}
-		}					
+		}
 		return alumnisMap;
 	}
 }

@@ -49,7 +49,7 @@ public class VenueJPADAO extends BaseJPADAO<Venue> implements VenueDAO {
 		logger.log(Level.INFO, "Retrieve venues of category \"{0}\" returned {1} results.", new Object[] { category.getName(), result.size() });
 		return result;
 	}
-	
+
 	/** @see br.ufes.inf.nemo.marvin.research.persistence.VenueDAO#findByNameOrAcronym(java.lang.String) */
 	@Override
 	public List<Venue> findByNameOrAcronym(String param) {

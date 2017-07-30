@@ -42,7 +42,7 @@ public class SessionController extends JSFController {
 	/** The login service. */
 	@EJB
 	private LoginService loginService;
-	
+
 	/** The authenticated user. */
 	private Academic currentUser;
 

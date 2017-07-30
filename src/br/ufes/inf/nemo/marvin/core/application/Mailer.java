@@ -132,7 +132,7 @@ public class Mailer implements Serializable {
 				template.process(dataModel, writer);
 				emailMsg = writer.getBuffer().toString();
 			}
-			
+
 			// Uses the first line as subject, if possible.
 			int idx = emailMsg.indexOf('\n');
 			String subject = "";

@@ -40,30 +40,28 @@ public class ManageAlumniHistoriesController extends CrudController<AlumniHistor
 	protected CrudService<AlumniHistory> getCrudService() {
 		return manageAlumniHistoriesService;
 	}
-	
+
 	private String alumni;
 	private Map<String, Alumni> alumnis;
-	
+
 	@Inject
 	private SessionController sessionController;
-	
-	public void onLoadForm()
-	{
+
+	public void onLoadForm() {
 		alumni = null;
 		alumnis = manageAlumniHistoriesService.retrieveAlumnis(sessionController.getCurrentUser());
 	}
-	
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
 		addFilter(new LikeFilter("manageAlumniHistories.filter.byName", "name", getI18nMessage("msgsSae", "manageAlumniHistories.text.filter.byName")));
 	}
-	
+
 	public void onAlumniChange() {
 		selectedEntity.setAlumni(alumnis.get(alumni));
-    }
-	
+	}
+
 	public PracticeArea[] getPracticeAreas() {
 		return PracticeArea.values();
 	}
@@ -80,7 +78,6 @@ public class ManageAlumniHistoriesController extends CrudController<AlumniHistor
 		return EducationType.values();
 	}
 
-
 	public String getAlumni() {
 		return alumni;
 	}
@@ -95,5 +92,5 @@ public class ManageAlumniHistoriesController extends CrudController<AlumniHistor
 
 	public void setAlumnis(Map<String, Alumni> alumnis) {
 		this.alumnis = alumnis;
-	}	
+	}
 }

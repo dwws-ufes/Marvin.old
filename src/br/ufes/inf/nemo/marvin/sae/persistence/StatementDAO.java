@@ -16,5 +16,5 @@ import br.ufes.inf.nemo.marvin.sae.domain.Statement;
  */
 @Local
 public interface StatementDAO extends BaseDAO<Statement> {
-	
+
 }

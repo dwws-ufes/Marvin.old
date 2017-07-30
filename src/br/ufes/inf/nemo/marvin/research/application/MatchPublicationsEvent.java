@@ -11,12 +11,12 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
 public class MatchPublicationsEvent {
 	/** Researcher whose publications should be matched. */
 	private Academic researcher;
-	
-	/** Constructor. */
-	public MatchPublicationsEvent() { }
 
 	/** Constructor. */
-	public MatchPublicationsEvent(Academic researcher) { 
+	public MatchPublicationsEvent() {}
+
+	/** Constructor. */
+	public MatchPublicationsEvent(Academic researcher) {
 		this.researcher = researcher;
 	}
 

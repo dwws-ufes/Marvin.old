@@ -20,14 +20,10 @@ public interface ImportQualisDataService extends Serializable {
 	 * @param category
 	 * @return
 	 * @throws CSVParseException
-	 * @throws QualisLevelNotRegisteredException 
+	 * @throws QualisLevelNotRegisteredException
 	 */
-	List<QualifiedVenue> importQualisData(InputStream inputStream, VenueCategory category)
-			throws CSVParseException, QualisLevelNotRegisteredException;
-	
+	List<QualifiedVenue> importQualisData(InputStream inputStream, VenueCategory category) throws CSVParseException, QualisLevelNotRegisteredException;
+
 	void assignQualificationsToVenues(List<QualifiedVenue> qualifiedVenues, int year);
 
-
-
-	
 }

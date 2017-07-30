@@ -10,7 +10,6 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
@@ -39,7 +38,7 @@ public class ManageAlumnisServiceBean extends CrudServiceBean<Alumni> implements
 	/** TODO: document this field. */
 	@EJB
 	private AlumniDAO alumniDAO;
-	
+
 	private CourseAttendanceDAO courseAttendanceDAO;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
@@ -61,6 +60,7 @@ public class ManageAlumnisServiceBean extends CrudServiceBean<Alumni> implements
 		}
 		return newEntity;
 	}
+
 	public List<Alumni> list(Academic currentUser) {
 		List<CourseAttendance> courseAttendances;
 		Alumni alumni;
@@ -70,7 +70,8 @@ public class ManageAlumnisServiceBean extends CrudServiceBean<Alumni> implements
 			try {
 				alumni = alumniDAO.retriveAlumni(courseAttendance);
 				alumnis.add(alumni);
-			} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+			}
+			catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 				e.printStackTrace();
 			}
 		}

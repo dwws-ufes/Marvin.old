@@ -112,6 +112,7 @@ public class UploadLattesCVController extends JSFController {
 
 	/**
 	 * TODO: document this method.
+	 * 
 	 * @return
 	 */
 	public PersistentObjectConverterFromId<Venue> getVenueConverter() {

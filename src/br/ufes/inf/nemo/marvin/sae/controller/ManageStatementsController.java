@@ -30,31 +30,27 @@ public class ManageStatementsController extends CrudController<Statement> {
 	/** TODO: document this field. */
 	@EJB
 	private ManageStatementsService manageStatementsService;
-	
+
 	private String course;
 	private Map<String, Course> courses;
-	
+
 	@Inject
 	private SessionController sessionController;
-	
-	public void onLoadForm()
-	{
+
+	public void onLoadForm() {
 		course = null;
 		courses = manageStatementsService.retrieveCourses(sessionController.getCurrentUser());
 	}
-	
-	
-	public void onCourseChange(){
+
+	public void onCourseChange() {
 		selectedEntity.setCourse(courses.get(course));
 	}
-	
-	public void approve ()
-	{
+
+	public void approve() {
 		manageStatementsService.approve(selectedEntity);
 	}
-	
-	public void reject ()
-	{
+
+	public void reject() {
 		manageStatementsService.reject(selectedEntity);
 	}
 
@@ -70,17 +66,19 @@ public class ManageStatementsController extends CrudController<Statement> {
 		addFilter(new LikeFilter("manageStatements.filter.byName", "name", getI18nMessage("msgsSae", "manageStatements.text.filter.byName")));
 	}
 
-
 	public String getCourse() {
 		return course;
 	}
+
 	public void setCourse(String course) {
 		this.course = course;
 	}
+
 	public Map<String, Course> getCourses() {
 		return courses;
 	}
+
 	public void setCourses(Map<String, Course> courses) {
 		this.courses = courses;
-	}	
+	}
 }

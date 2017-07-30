@@ -10,15 +10,12 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseAttendanceDAO;
-import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
-import br.ufes.inf.nemo.marvin.sae.persistence.AlumniDAO;
 import br.ufes.inf.nemo.marvin.sae.persistence.SuggestionDAO;
 
 /**
@@ -39,7 +36,7 @@ public class ManageSuggestionsServiceBean extends CrudServiceBean<Suggestion> im
 	/** TODO: document this field. */
 	@EJB
 	private SuggestionDAO suggestionDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private CourseAttendanceDAO courseAttendanceDAO;
@@ -64,12 +61,13 @@ public class ManageSuggestionsServiceBean extends CrudServiceBean<Suggestion> im
 
 		return newEntity;
 	}
-	
+
 	@Override
 	public Map<String, Course> retrieveCourses(Academic academic) {
 		Map<String, Course> coursesMap = new HashMap<String, Course>();
 		List<Course> courses = courseAttendanceDAO.retriveCoursesInCourseAttendance(academic);
-		for (Course course : courses) coursesMap.put(course.getName(), course);			
+		for (Course course : courses)
+			coursesMap.put(course.getName(), course);
 		return coursesMap;
 	}
 }

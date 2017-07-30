@@ -21,7 +21,7 @@ import br.ufes.inf.nemo.marvin.research.persistence.ScoreDAO;
 import br.ufes.inf.nemo.marvin.research.persistence.ScoreSystemDAO;
 
 @Stateless
-@RolesAllowed({"SysAdmin"})
+@RolesAllowed({ "SysAdmin" })
 public class CreateNewScoreSystemServiceBean implements CreateNewScoreSystemService {
 
 	/** Serialization id. */
@@ -29,16 +29,16 @@ public class CreateNewScoreSystemServiceBean implements CreateNewScoreSystemServ
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(CreateNewScoreSystemServiceBean.class.getCanonicalName());
-	
+
 	@EJB
 	private QualisDAO qualisDAO;
-	
+
 	@EJB
 	private ScoreDAO scoreDAO;
-	
+
 	@EJB
 	private ScoreSystemDAO scoreSystemDAO;
-	
+
 	@Override
 	public List<Score> constructScoresFromQualis() {
 		// TODO Auto-generated method stub
@@ -56,8 +56,8 @@ public class CreateNewScoreSystemServiceBean implements CreateNewScoreSystemServ
 		// TODO Auto-generated method stub
 		try {
 			ScoreSystem currentScoreSystem = scoreSystemDAO.retrieveCurrentScoreSystem();
-			
-			//There is at least one score system registered
+
+			// There is at least one score system registered
 			Date now = new Date(System.currentTimeMillis());
 			ScoreSystem newScoreSystem = new ScoreSystem(now);
 			if (currentScoreSystem != null) {
@@ -70,11 +70,12 @@ public class CreateNewScoreSystemServiceBean implements CreateNewScoreSystemServ
 				scoreDAO.save(s);
 			}
 		}
-		catch(MultiplePersistentObjectsFoundException e) {
+		catch (MultiplePersistentObjectsFoundException e) {
 			// This is a bug. Log and throw a runtime exception.
 			logger.log(Level.SEVERE, "Multiple score systems that are active at the moment.");
 			throw new EJBException(e);
-		} catch (PersistentObjectNotFoundException e) {
+		}
+		catch (PersistentObjectNotFoundException e) {
 			// Not an issue, let the new Score System be created normally
 			Date now = new Date(System.currentTimeMillis());
 			ScoreSystem newScoreSystem = new ScoreSystem(now);

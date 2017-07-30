@@ -9,11 +9,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.context.RequestContext;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
@@ -23,8 +19,6 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
 import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance.Situation;
-import br.ufes.inf.nemo.marvin.sae.controller.ManageAlumnisController;
-import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 
 /**
  * TODO: document this type.
@@ -40,42 +34,40 @@ public class ManageCourseAttendancesController extends CrudController<CourseAtte
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(ManageCourseAttendancesController.class.getCanonicalName());
-	
-	/** TODO: document this field. */	
+
+	/** TODO: document this field. */
 	@EJB
 	private ManageCourseAttendancesService manageCourseAttendancesService;
-	
+
 	private String academic;
 	private Map<String, Academic> academics;
 	private String course;
 	private Map<String, Course> courses;
 	private String situation;
-	
-	public void onLoadForm()
-	{
+
+	public void onLoadForm() {
 		course = null;
 		academic = null;
 		courses = manageCourseAttendancesService.retrieveCourses(false);
 		academics = manageCourseAttendancesService.retrieveAcademics(false);
 	}
-	
-	public void onLoadList()
-	{
+
+	public void onLoadList() {
 		situation = "Graduated";
 	}
-	
+
 	public void onAcademicChange() {
 		selectedEntity.setAcademic(academics.get(academic));
-    }
-	
-	public void onCourseChange(){
+	}
+
+	public void onCourseChange() {
 		selectedEntity.setCourse(courses.get(course));
 	}
-	
-	public void onSituationChange(){
+
+	public void onSituationChange() {
 		selectedEntity.setSituation(Situation.getByName(situation));
 	}
-	
+
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<CourseAttendance> getCrudService() {
@@ -112,7 +104,7 @@ public class ManageCourseAttendancesController extends CrudController<CourseAtte
 
 	public void setCourses(Map<String, Course> courses) {
 		this.courses = courses;
-	}		
+	}
 
 	public String getSituation() {
 		return situation;
@@ -127,16 +119,15 @@ public class ManageCourseAttendancesController extends CrudController<CourseAtte
 	protected void initFilters() {
 		addFilter(new SimpleFilter("manageCourseCoordinations.filter.byName", "name", getI18nMessage("msgsCore", "manageCourseAttendances.text.filter.byName")));
 	}
-	
+
 	@Override
 	public void delete() {
 		logger.log(Level.INFO, "Disable entity...");
 		List<Object> notDeleted = new ArrayList<Object>();
-		if(selectedEntity.getSituation().equals(Situation.ACTIVE)) selectedEntity.setSituation(Situation.getByName(situation));
+		if (selectedEntity.getSituation().equals(Situation.ACTIVE)) selectedEntity.setSituation(Situation.getByName(situation));
 		// Disables the entities that are in the trash can. Validates each exclusion, but don't stop in case of errors.
-		for (CourseAttendance entity : trashCan) if(entity.getEndDate() == null) manageCourseAttendancesService.disable(entity);
-		
-		
+		for (CourseAttendance entity : trashCan)
+			if (entity.getEndDate() == null) manageCourseAttendancesService.disable(entity);
 
 		// Writes the status message (only if at least one entity was deleted successfully). Empties it afterwards.
 		trashCan.removeAll(notDeleted);

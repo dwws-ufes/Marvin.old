@@ -235,15 +235,15 @@ class LattesParser implements PublicationInfo {
 
 			// Creates an entry with the mandatory data.
 			LattesEntry entry = new LattesEntry(type, year, title, doi, venues.toString(), authors.toString());
-			
+
 			// Check if any of the optional attributes are present.
 			if (attrPageStart != null && detail.hasAttr(attrPageStart)) entry.setPageStart(detail.attr(attrPageStart));
 			if (attrPageEnd != null && detail.hasAttr(attrPageEnd)) entry.setPageEnd(detail.attr(attrPageEnd));
 			if (attrPublisher != null && detail.hasAttr(attrPublisher)) entry.setPublisher(detail.attr(attrPublisher));
-			if (attrExtra01 != null && detail.hasAttr(attrExtra01)) entry.setExtra01(detail.attr(attrExtra01));			
-			if (attrExtra02 != null && detail.hasAttr(attrExtra02)) entry.setExtra02(detail.attr(attrExtra02));			
-			if (attrExtra03 != null && detail.hasAttr(attrExtra03)) entry.setExtra03(detail.attr(attrExtra03));			
-				
+			if (attrExtra01 != null && detail.hasAttr(attrExtra01)) entry.setExtra01(detail.attr(attrExtra01));
+			if (attrExtra02 != null && detail.hasAttr(attrExtra02)) entry.setExtra02(detail.attr(attrExtra02));
+			if (attrExtra03 != null && detail.hasAttr(attrExtra03)) entry.setExtra03(detail.attr(attrExtra03));
+
 			// Adds the entry to the set.
 			entries.add(entry);
 		}
@@ -330,6 +330,7 @@ class LattesParser implements PublicationInfo {
 	private void extractAuthors(Publication publication, String authors) {
 		// Separate authors using ";" and add them to the publication in order.
 		String[] array = authors.split(";");
-		for (String author : array) publication.addAuthor(author.trim());
+		for (String author : array)
+			publication.addAuthor(author.trim());
 	}
 }

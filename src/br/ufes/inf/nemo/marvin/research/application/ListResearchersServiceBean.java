@@ -27,11 +27,11 @@ public class ListResearchersServiceBean implements ListResearchersService {
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(ListResearchersServiceBean.class.getCanonicalName());
-	
+
 	/** The DAO for Academic objects. */
 	@EJB
 	private AcademicDAO academicDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private PublicationDAO publicationDAO;
@@ -40,14 +40,16 @@ public class ListResearchersServiceBean implements ListResearchersService {
 	@Override
 	public List<Academic> listResearchers() {
 		logger.log(Level.INFO, "Listing researchers...");
-		
+
 		// Retrieves the researchers, sorts the list and returns.
 		List<Academic> researchers = academicDAO.retrieveResearchers();
 		Collections.sort(researchers);
 		return researchers;
 	}
 
-	/** @see br.ufes.inf.nemo.marvin.research.application.ListResearchersService#countPublications(br.ufes.inf.nemo.marvin.core.domain.Academic) */
+	/**
+	 * @see br.ufes.inf.nemo.marvin.research.application.ListResearchersService#countPublications(br.ufes.inf.nemo.marvin.core.domain.Academic)
+	 */
 	@Override
 	public Long countPublications(Academic researcher) {
 		logger.log(Level.INFO, "Retrieving the number of publications of a researcher...");

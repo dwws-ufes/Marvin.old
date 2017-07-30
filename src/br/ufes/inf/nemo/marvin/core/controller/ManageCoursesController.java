@@ -22,17 +22,15 @@ import br.ufes.inf.nemo.marvin.core.domain.Course.AcademicLevel;
 public class ManageCoursesController extends CrudController<Course> {
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private ManageCoursesService manageCoursesService;
-	
 
-	public AcademicLevel[] getAcademicLevels()
-	{
+	public AcademicLevel[] getAcademicLevels() {
 		return AcademicLevel.values();
 	}
-	
+
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Course> getCrudService() {

@@ -27,7 +27,7 @@ import br.ufes.inf.nemo.marvin.research.persistence.QualisDAO;
 import br.ufes.inf.nemo.marvin.research.persistence.VenueDAO;
 
 @Stateless
-@RolesAllowed({"SysAdmin"})
+@RolesAllowed({ "SysAdmin" })
 public class ImportQualisDataServiceBean implements ImportQualisDataService {
 
 	/** Serialization id. */
@@ -38,35 +38,33 @@ public class ImportQualisDataServiceBean implements ImportQualisDataService {
 
 	@EJB
 	private VenueDAO venueDAO;
-	
+
 	@EJB
 	private QualisDAO qualisDAO;
-	
+
 	@EJB
 	private QualificationDAO qualificationDAO;
 
 	@Override
-	public List<QualifiedVenue> importQualisData(InputStream inputStream, VenueCategory category)
-			throws CSVParseException, QualisLevelNotRegisteredException {
-		
+	public List<QualifiedVenue> importQualisData(InputStream inputStream, VenueCategory category) throws CSVParseException, QualisLevelNotRegisteredException {
+
 		CSVParser csvParser = new CSVParser(inputStream, category);
 		List<QualifiedVenue> qualifiedVenues = verifyParsedData(csvParser.getVenuesMap(), category);
 		return qualifiedVenues;
 	}
 
-	private List<QualifiedVenue> verifyParsedData(Map<Venue, String> parsedData, VenueCategory category)
-			throws QualisLevelNotRegisteredException {
-		//Creates a new set that holds the name and reference to all registered venues
-		Map<String,Venue> venues = new HashMap<String,Venue>();
+	private List<QualifiedVenue> verifyParsedData(Map<Venue, String> parsedData, VenueCategory category) throws QualisLevelNotRegisteredException {
+		// Creates a new set that holds the name and reference to all registered venues
+		Map<String, Venue> venues = new HashMap<String, Venue>();
 		for (Venue v : venueDAO.retrieveByCategory(category)) {
 			venues.put(v.getName().toLowerCase(), v);
 		}
-		
-		//Creates a new set that holds the information of the Venue objects and their respective Qualis
+
+		// Creates a new set that holds the information of the Venue objects and their respective Qualis
 		List<QualifiedVenue> qualifiedVenues = new LinkedList<QualifiedVenue>();
 		for (Venue parsedVenue : parsedData.keySet()) {
 			// Retrieves the Qualis level
-			String level = parsedData.get(parsedVenue);			
+			String level = parsedData.get(parsedVenue);
 			try {
 				Qualis qualis = qualisDAO.retrieveByLevel(level);
 				String parsedVenueName = parsedVenue.getName().toLowerCase();
@@ -74,18 +72,19 @@ public class ImportQualisDataServiceBean implements ImportQualisDataService {
 					// Venue already exists in system
 					Venue persistentVenue = venues.get(parsedVenueName);
 					qualifiedVenues.add(new QualifiedVenue(persistentVenue, qualis));
-				} else {
+				}
+				else {
 					parsedVenue.setCategory(category);
 					qualifiedVenues.add(new QualifiedVenue(parsedVenue, qualis));
 				}
-			} catch (PersistentObjectNotFoundException e) {
+			}
+			catch (PersistentObjectNotFoundException e) {
 				// If there is no Qualis with the given level, throw an
 				// exception from the domain.
-				logger.log(Level.WARNING,
-						"No qualis found with level ",
-						level);
+				logger.log(Level.WARNING, "No qualis found with level ", level);
 				throw new QualisLevelNotRegisteredException(level);
-			} catch (MultiplePersistentObjectsFoundException e) {
+			}
+			catch (MultiplePersistentObjectsFoundException e) {
 				// This is a bug. Log and throw a runtime exception.
 				logger.log(Level.SEVERE, "Multiple qualis found with the same level: " + level, e);
 				throw new EJBException(e);
@@ -97,26 +96,24 @@ public class ImportQualisDataServiceBean implements ImportQualisDataService {
 
 	@Override
 	public void assignQualificationsToVenues(List<QualifiedVenue> qualifiedVenues, int year) {
-		
+
 		Map<Venue, Qualification> venueQualifications = new HashMap<Venue, Qualification>();
 		for (Qualification q : qualificationDAO.retrieveByYear(year)) {
 			venueQualifications.put(q.getVenue(), q);
 		}
-		
+
 		for (QualifiedVenue qv : qualifiedVenues) {
 			Venue venue = qv.getVenue();
 			Qualis qualis = qv.getQualis();
 			Qualification qualification = null;
 			if (venue.isPersistent() && venueQualifications.containsKey(venue)) {
 				qualification = venueQualifications.get(venue);
-				if (qualification != null)
-					qualification.setQualis(qualis);
-				else
-					qualification = new Qualification(year, qualis, venue);
+				if (qualification != null) qualification.setQualis(qualis);
+				else qualification = new Qualification(year, qualis, venue);
 			}
 			else {
-				//TODO: verify if a persistent venue should be saved, even if it wasn't altered here
-				venueDAO.save(venue);				
+				// TODO: verify if a persistent venue should be saved, even if it wasn't altered here
+				venueDAO.save(venue);
 				qualification = new Qualification(year, qualis, venue);
 			}
 			qualificationDAO.save(qualification);

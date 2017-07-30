@@ -18,20 +18,21 @@ import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
  * @version 1.0
  */
 @Entity
-public class Alumni extends PersistentObjectSupport implements Comparable<Alumni>{
-	
+public class Alumni extends PersistentObjectSupport implements Comparable<Alumni> {
+
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The course of alumni. */
 	@NotNull
 	@OneToOne
 	private CourseAttendance courseAttendance;
-	
-	/* TODO: Por enquanto esta classe nao sera utilizada
-	@OneToOne
-	private Education education;*/
-	
+
+	/*
+	 * TODO: Por enquanto esta classe nao sera utilizada
+	 * @OneToOne private Education education;
+	 */
+
 	/** The timestamp of the moment this academic was created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
@@ -40,12 +41,15 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 	public CourseAttendance getCourseAttendance() {
 		return courseAttendance;
 	}
+
 	public void setCourseAttendance(CourseAttendance courseAttendance) {
 		this.courseAttendance = courseAttendance;
 	}
+
 	public Date getCreationDate() {
 		return creationDate;
 	}
+
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
@@ -55,7 +59,7 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 		// Check if it's the same entity.
 		return uuid.compareTo(a.getCourseAttendance().getAcademic().getName());
 	}
-	
+
 	@Override
 	public String toString() {
 		return courseAttendance.getAcademic().getName() + " - " + courseAttendance.getCourse().getName() + " at " + courseAttendance.getStartYear();

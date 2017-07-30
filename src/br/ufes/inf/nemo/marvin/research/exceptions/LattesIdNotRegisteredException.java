@@ -12,7 +12,7 @@ public class LattesIdNotRegisteredException extends Exception {
 
 	/** TODO: document this field. */
 	private Long lattesId;
-	
+
 	/** TODO: document this field. */
 	private String researcherName;
 

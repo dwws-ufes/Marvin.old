@@ -37,31 +37,30 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	/** The person's gender: 'M' (male) or 'F' (female). */
 	@Basic
 	protected Character gender;
-	
+
 	/** The person's CPF. It is a unique number that define a person as Brazilian citizen. */
 	@Basic
-	@NotNull 
+	@NotNull
 	@Size(max = 17)
-	@Column(unique=true)
+	@Column(unique = true)
 	protected String cpf;
-	
+
 	/** The person's RG. It is a unique number used to identify a person. */
 	@Basic
 	@Size(max = 20)
-	@Column(unique=true)
+	@Column(unique = true)
 	protected String identityCard;
-	
+
 	/** The person's birth city. */
 	@Basic
 	@Size(max = 30)
 	protected String birthCity;
-	
+
 	/** The country where the person was born. */
 	@Basic
 	@Size(max = 30)
 	protected String nationality;
-	
-	
+
 	/** Getter for cpf. */
 	public String getCpf() {
 		return cpf;
@@ -71,7 +70,7 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
+
 	/** Getter for identityCard. */
 	public String getIdentityCard() {
 		return identityCard;
@@ -81,7 +80,7 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	public void setIdentityCard(String identityCard) {
 		this.identityCard = identityCard;
 	}
-	
+
 	/** Getter for birthCity. */
 	public String getBirthCity() {
 		return birthCity;
@@ -101,7 +100,7 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 	public void setNationality(String nationality) {
 		this.nationality = nationality;
 	}
-	
+
 	/** Getter for name. */
 	public String getName() {
 		return name;

@@ -19,6 +19,8 @@ import br.ufes.inf.nemo.marvin.core.domain.CourseCoordination;
 @Local
 public interface CourseCoordinationDAO extends BaseDAO<CourseCoordination> {
 	public boolean academicWasCoordinator(Academic academic);
+
 	public boolean courseHasCoordinations(Course course);
+
 	public boolean courseHasActiveCoordinations(Course course);
 }

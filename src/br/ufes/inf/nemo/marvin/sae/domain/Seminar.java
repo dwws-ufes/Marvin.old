@@ -12,34 +12,33 @@ import javax.validation.constraints.NotNull;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
 @Entity
-public class Seminar extends PersistentObjectSupport implements Comparable<Seminar>{
+public class Seminar extends PersistentObjectSupport implements Comparable<Seminar> {
 
 	private static final long serialVersionUID = 1L;
 
-	
 	/** The timestamp of the moment this interest subject was created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date date;
-	
+
 	@Basic
 	private String speakerName;
-	
+
 	@Basic
 	private String location;
-	
+
 	@NotNull
 	@Basic
 	private String title;
-	
+
 	@NotNull
 	@Basic
 	private boolean confirmed;
-	
+
 	@NotNull
 	@OneToOne
 	private InterestSubject interestSubject;
-	
+
 	/** The timestamp of the moment this interest subject was created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
@@ -117,7 +116,7 @@ public class Seminar extends PersistentObjectSupport implements Comparable<Semin
 	public void setLastUpdateDate(Date lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
 	}
-	
+
 	@Override
 	public int compareTo(Seminar o) {
 		// Compare the names
@@ -129,8 +128,9 @@ public class Seminar extends PersistentObjectSupport implements Comparable<Semin
 		// If it's the same name, check if it's the same entity.
 		return uuid.compareTo(o.uuid);
 	}
+
 	@Override
 	public String toString() {
-		return title + " - " + date.getDate()+"/"+date.getMonth()+"/"+(date.getYear() + 1900);
+		return title + " - " + date.getDate() + "/" + date.getMonth() + "/" + (date.getYear() + 1900);
 	}
 }
