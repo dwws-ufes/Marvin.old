@@ -12,7 +12,9 @@ import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.marvin.core.controller.SessionController;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
+import br.ufes.inf.nemo.marvin.sae.application.ManageInterestSubjectsService;
 import br.ufes.inf.nemo.marvin.sae.application.ManageSuggestionsService;
+import br.ufes.inf.nemo.marvin.sae.domain.InterestSubject;
 import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
 
 /**
@@ -23,53 +25,23 @@ import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
  */
 @Named
 @SessionScoped
-public class ManageSuggestionsController extends CrudController<Suggestion> {
+public class ManageInterestSubjectsController extends CrudController<InterestSubject> {
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
 
 	/** TODO: document this field. */
 	@EJB
-	private ManageSuggestionsService manageSuggestionsService;
-
-	private String course;
-	private Map<String, Course> courses;
-	
-	@Inject
-	private SessionController sessionController;
-	
-	public void onLoadForm()
-	{
-		course = null;
-		courses = manageSuggestionsService.retrieveCourses(sessionController.getCurrentUser());
-	}
-	
-	
-	public void onCourseChange(){
-		selectedEntity.setCourse(courses.get(course));
-	}
+	private ManageInterestSubjectsService manageInterestSubjectsService;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
-	protected CrudService<Suggestion> getCrudService() {
-		return manageSuggestionsService;
+	protected CrudService<InterestSubject> getCrudService() {
+		return manageInterestSubjectsService;
 	}
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
-		addFilter(new LikeFilter("manageSuggestions.filter.byName", "name", getI18nMessage("msgsSae", "manageSuggestions.text.filter.byName")));
+		addFilter(new LikeFilter("manageInterestSubjects.filter.byName", "name", getI18nMessage("msgsSae", "manageInterestSubjects.text.filter.byName")));
 	}
-	
-	public String getCourse() {
-		return course;
-	}
-	public void setCourse(String course) {
-		this.course = course;
-	}
-	public Map<String, Course> getCourses() {
-		return courses;
-	}
-	public void setCourses(Map<String, Course> courses) {
-		this.courses = courses;
-	}	
 }

@@ -5,7 +5,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
-import br.ufes.inf.nemo.marvin.sae.domain.EducationInstituition;
+import br.ufes.inf.nemo.marvin.sae.domain.InterestSubject;
+import br.ufes.inf.nemo.marvin.sae.domain.Seminar;
+import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
 
 /**
  * Stateless session bean implementing a DAO for objects of the Suggestion domain class using JPA2.
@@ -18,7 +20,7 @@ import br.ufes.inf.nemo.marvin.sae.domain.EducationInstituition;
  * @version 1.0
  */
 @Stateless
-public class EducationInstituitionJPADAO extends BaseJPADAO<EducationInstituition> implements EducationInstituitionDAO {
+public class SeminarJPADAO extends BaseJPADAO<Seminar> implements SeminarDAO {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 

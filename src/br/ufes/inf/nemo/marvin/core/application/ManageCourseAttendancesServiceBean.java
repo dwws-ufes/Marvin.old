@@ -12,6 +12,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
@@ -28,6 +29,10 @@ import br.ufes.inf.nemo.marvin.core.persistence.AcademicRoleDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseAttendanceDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
+import br.ufes.inf.nemo.marvin.sae.application.ManageAlumniHistoriesService;
+import br.ufes.inf.nemo.marvin.sae.application.ManageAlumniHistoriesServiceBean;
+import br.ufes.inf.nemo.marvin.sae.application.ManageAlumnisService;
+import br.ufes.inf.nemo.marvin.sae.controller.ManageAlumnisController;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 import br.ufes.inf.nemo.marvin.sae.persistence.AlumniDAO;
 
@@ -56,6 +61,10 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 	
 	/** TODO: document this field. */
 	@EJB
+	private AlumniDAO alumniDAO;
+	
+	/** TODO: document this field. */
+	@EJB
 	private RoleDAO roleDAO;
 	
 	/** TODO: document this field. */
@@ -68,15 +77,14 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 	
 	/** TODO: document this field. */
 	@EJB
-	private AlumniDAO alumniDAO;
-	
-	/** TODO: document this field. */
-	@EJB
 	private CoreInformation coreInformation;
 	
 	/** TODO: document this field. */
 	@Resource
 	private SessionContext sessionContext;
+	
+	@Inject
+	private ManageAlumnisService manageAlumnisService;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
@@ -92,10 +100,8 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 		entity.setStartDate(new Date(System.currentTimeMillis()));
 		try {
 			//Removing Student Role and assign Alumni Role
-			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.STUDENT_ROLE_NAME);
+			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.ENROLLED_STUDENT_ROLE_NAME);
 			entity.getAcademic().assignAcademicRole(ar);
-			ar = academicRoleDAO.retrieveByName(AcademicRole.ALUMNI_ROLE_NAME);
-			entity.getAcademic().unassignAcademicRole(ar);
 			entity.setSituation(Situation.ACTIVE);
 			academicDAO.save(entity.getAcademic());
 		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
@@ -137,13 +143,13 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 	}
 	
 	@Override
-	public Map<String, Academic> retrieveAcademics(boolean isStudent) {
+	public Map<String, Academic> retrieveAcademics(boolean isCurrentStudent) {
 		Map<String, Academic> students = new HashMap<String, Academic>();
-		List<Academic> academics = retrieveAcademicbyRole("Student");
-		if(!isStudent){
+		List<Academic> academics = retrieveAcademicbyRole(Role.STUDENT_ROLE_NAME);
+		if(!isCurrentStudent){
 			AcademicRole ar;
 			try {
-				ar = academicRoleDAO.retrieveByName(AcademicRole.STUDENT_ROLE_NAME);
+				ar = academicRoleDAO.retrieveByName(AcademicRole.ENROLLED_STUDENT_ROLE_NAME);
 				for (Academic academic : academics)	if(!academic.getAcademicRoles().contains(ar)) students.put(academic.getName(), academic);
 			} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 				e.printStackTrace();
@@ -159,31 +165,21 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 		entity.setEndDate(new Date(System.currentTimeMillis()));
 		try {
 			//Removing Student Role from academic and assiging Alumni Role
-			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.STUDENT_ROLE_NAME);
+			AcademicRole ar = academicRoleDAO.retrieveByName(AcademicRole.ENROLLED_STUDENT_ROLE_NAME);
 			entity.getAcademic().unassignAcademicRole(ar);
 			ar = academicRoleDAO.retrieveByName(AcademicRole.ALUMNI_ROLE_NAME);
 			entity.getAcademic().assignAcademicRole(ar);
-			academicDAO.save(entity.getAcademic());
-			
-			//Creating Alumni instance
-			Alumni alumni = new Alumni();
-			alumni.setAcademic(entity.getAcademic());
-			alumni.setCourse(entity.getCourse());
-			alumniDAO.save(alumni);			
+			academicDAO.save(entity.getAcademic());			
 			
 		} catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		super.update(entity);
-	}
-
-
-	@Override
-	public Map<String, Situation> retrieveSituations() {
-		Map<String, Situation> situations = new HashMap<String, Situation>();
-		situations.put("Graduated", Situation.GRADUATED);
-		situations.put("Terminated", Situation.TERMINATED);
-		return situations;
+		//Create the Alumni
+		Alumni alumni = new Alumni();
+		alumni.setCourseAttendance(entity);
+		alumni.setCreationDate(entity.getEndDate());
+		manageAlumnisService.create(alumni);
 	}
 }

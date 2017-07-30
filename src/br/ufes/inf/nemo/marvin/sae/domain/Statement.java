@@ -31,11 +31,6 @@ public class Statement extends PersistentObjectSupport implements Comparable<Sta
 	@Lob @Basic
 	private String content;
 	
-	/** If the user wants to identify himself */
-	@NotNull
-	@Basic
-	private boolean anonymous;
-	
 	/** The Statement Status */
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -62,14 +57,6 @@ public class Statement extends PersistentObjectSupport implements Comparable<Sta
 	public void setContent(String content) {
 		this.content = content;
 	}
-	/** Getter for Anonymous. */
-	public boolean isAnonymous() {
-		return anonymous;
-	}
-	/** Setter for Anonymous. */
-	public void setAnonymous(boolean anonymous) {
-		this.anonymous = anonymous;
-	}
 	/** Getter for Statement Status. */
 	public StatementStatus getStatementStatus() {
 		return statementStatus;
@@ -91,6 +78,11 @@ public class Statement extends PersistentObjectSupport implements Comparable<Sta
 		return sendDate.compareTo(s.getSendDate());
 	}
 	
+	@Override
+	public String toString() {
+		return course.getName() + " - " + sendDate.toGMTString();
+	}
+	
 	public enum StatementStatus
 	{
 		PENDING("Pending"),
@@ -106,7 +98,7 @@ public class Statement extends PersistentObjectSupport implements Comparable<Sta
 		@Override
 		public String toString() {
 			return name;
-		}
+		}	
 		
 		public static StatementStatus getByName(String name)
 		{	

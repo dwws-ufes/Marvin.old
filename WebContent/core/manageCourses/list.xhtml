@@ -81,7 +81,7 @@
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
-					<p:commandButton action="#{manageCoursesController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-user-plus" />
+					<p:commandButton action="#{manageCoursesController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-plus-circle" />
 					<p:commandButton action="#{manageCoursesController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageCoursesController.selectedEntity == null}" />
 					<p:commandButton action="#{manageCoursesController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageCoursesController.selectedEntity == null}" />
 					<p:commandButton action="#{manageCoursesController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageCoursesController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />

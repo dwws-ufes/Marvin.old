@@ -1,12 +1,14 @@
 package br.ufes.inf.nemo.marvin.sae.application;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
-import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
+import br.ufes.inf.nemo.marvin.core.domain.Course;
+import br.ufes.inf.nemo.marvin.sae.domain.InterestSubject;
+import br.ufes.inf.nemo.marvin.sae.domain.Statement;
 
 /**
  * TODO: document this type.
@@ -15,6 +17,6 @@ import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
  * @version 1.0
  */
 @Local
-public interface ManageAlumnisService extends CrudService<Alumni> {
-	public List<Alumni> list(Academic currentUser);
+public interface ManageInterestSubjectsService extends CrudService<InterestSubject> {
+
 }

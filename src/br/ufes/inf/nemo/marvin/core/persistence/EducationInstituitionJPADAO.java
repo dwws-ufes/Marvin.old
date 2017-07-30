@@ -1,14 +1,14 @@
-package br.ufes.inf.nemo.marvin.sae.persistence;
+package br.ufes.inf.nemo.marvin.core.persistence;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
-import br.ufes.inf.nemo.marvin.sae.domain.Education;
+import br.ufes.inf.nemo.marvin.core.domain.EducationInstituition;
 
 /**
- * Stateless session bean implementing a DAO for objects of the Education domain class using JPA2.
+ * Stateless session bean implementing a DAO for objects of the Suggestion domain class using JPA2.
  * 
  * Using a mini CRUD framework for EJB3, basic DAO operation implementations are inherited from the superclass, whereas
  * operations that are specific to the managed domain class (if any is defined in the implementing DAO interface) have
@@ -18,7 +18,7 @@ import br.ufes.inf.nemo.marvin.sae.domain.Education;
  * @version 1.0
  */
 @Stateless
-public class EducationJPADAO extends BaseJPADAO<Education> implements EducationDAO {
+public class EducationInstituitionJPADAO extends BaseJPADAO<EducationInstituition> implements EducationInstituitionDAO {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 

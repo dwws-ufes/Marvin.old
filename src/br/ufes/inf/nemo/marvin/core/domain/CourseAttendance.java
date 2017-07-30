@@ -134,4 +134,16 @@ public class CourseAttendance extends PersistentObjectSupport implements Compara
 	public String toString() {
 		return course.getName() +" / "+academic.getName();
 	}
+	
+	public String getStartYear()
+	{
+		int y = startDate.getYear()+1900;
+		return String.valueOf(y);
+	}
+	
+	public String getEndYear()
+	{
+		int y = endDate.getYear()+1900;
+		return String.valueOf(y);
+	}
 }

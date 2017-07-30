@@ -8,32 +8,32 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 template="/WEB-INF/decorators/#{coreInfo.decorator}/decorator.xhtml">
 
-	<ui:define name="title"><h:outputText value="#{msgsCore['manageAcademics.title']}" /></ui:define>
+	<ui:define name="title"><h:outputText value="#{msgsSae['manageAlumniHistories.title']}" /></ui:define>
     
-    <ui:define name="description"><h:outputText value="#{msgsCore['manageAcademics.title.description']}" /></ui:define>
+    <ui:define name="description"><h:outputText value="#{msgsSae['manageAlumniHistories.title.description']}" /></ui:define>
 
 	<ui:define name="body">
 		<!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
-		<h:panelGroup id="filterBar" rendered="#{(not empty manageAcademicsController.filters)}">
+		<h:panelGroup id="filterBar" rendered="#{(not empty manageAlumniHistoriesController.filters)}">
 			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-nobox.xhtml">
 				<ui:param name="formName" value="filterForm" />
 
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield-filter.xhtml">
-					<p:selectOneMenu id="filter" required="true" value="#{manageAcademicsController.filterKey}">
-						<f:selectItems value="#{manageAcademicsController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
-						<f:ajax event="change" execute="@form" listener="#{manageAcademicsController.changeFilter}" render="@form :listingForm" />
+					<p:selectOneMenu id="filter" required="true" value="#{manageAlumniHistoriesController.filterKey}">
+						<f:selectItems value="#{manageAlumniHistoriesController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+						<f:ajax event="change" execute="@form" listener="#{manageAlumniHistoriesController.changeFilter}" render="@form :listingForm" />
 					</p:selectOneMenu>
-					<p:inputText id="filterText" required="false" value="#{manageAcademicsController.filterParam}" rendered="#{manageAcademicsController.filter.options == null}" />
-					<p:selectOneMenu id="filterSelect" required="false" value="#{manageAcademicsController.filterParam}" rendered="#{manageAcademicsController.filter.options != null}">
-						<f:selectItems value="#{manageAcademicsController.filter.reversedOptionsLabels}" />
+					<p:inputText id="filterText" required="false" value="#{manageAlumniHistoriesController.filterParam}" rendered="#{manageAlumniHistoriesController.filter.options == null}" />
+					<p:selectOneMenu id="filterSelect" required="false" value="#{manageAlumniHistoriesController.filterParam}" rendered="#{manageAlumniHistoriesController.filter.options != null}">
+						<f:selectItems value="#{manageAlumniHistoriesController.filter.reversedOptionsLabels}" />
 					</p:selectOneMenu>
-					<p:commandButton action="#{manageAcademicsController.filter}" value="#{msgs['jbutler.crud.button.filter']}" process="@form" update=":listingForm @form" icon="fa fa-fw fa-search" />
-					<p:commandButton action="#{manageAcademicsController.cancelFilter}" value="#{msgs['jbutler.crud.button.cancelFilter']}" process="@form" update=":listingForm @form" icon="fa fa-fw fa-close" rendered="#{manageAcademicsController.filtering}" />
-					<p:commandButton action="#{manageAcademicsController.clearFilter}" value="#{msgs['jbutler.crud.button.clearFilter']}" process="@form" update=":listingForm @form" icon="fa fa-fw fa-eraser" rendered="#{not manageAcademicsController.filtering}" />
+					<p:commandButton action="#{manageAlumniHistoriesController.filter}" value="#{msgs['jbutler.crud.button.filter']}" process="@form" update=":listingForm @form" icon="fa fa-fw fa-search" />
+					<p:commandButton action="#{manageAlumniHistoriesController.cancelFilter}" value="#{msgs['jbutler.crud.button.cancelFilter']}" process="@form" update=":listingForm @form" icon="fa fa-fw fa-close" rendered="#{manageAlumniHistoriesController.filtering}" />
+					<p:commandButton action="#{manageAlumniHistoriesController.clearFilter}" value="#{msgs['jbutler.crud.button.clearFilter']}" process="@form" update=":listingForm @form" icon="fa fa-fw fa-eraser" rendered="#{not manageAlumniHistoriesController.filtering}" />
 				</ui:decorate>
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.filterFocus']}" handler="if (findObjectById('filterForm:filterText') != null) findObjectById('filterForm:filterText').focus(); else findObjectById('filterForm:filterSelect').focus();" />
-				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.clearFilter']}" action="#{manageAcademicsController.cancelFilter}" process="@form" update=":listingForm @form" rendered="#{manageAcademicsController.filtering}" />
-				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.clearFilter']}" action="#{manageAcademicsController.clearFilter}" process="@form" update=":listingForm @form" rendered="#{not manageAcademicsController.filtering}" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.clearFilter']}" action="#{manageAlumniHistoriesController.cancelFilter}" process="@form" update=":listingForm @form" rendered="#{manageAlumniHistoriesController.filtering}" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.clearFilter']}" action="#{manageAlumniHistoriesController.clearFilter}" process="@form" update=":listingForm @form" rendered="#{not manageAlumniHistoriesController.filtering}" />
 			</ui:decorate>
 		</h:panelGroup>
 		
@@ -43,25 +43,41 @@
 
 			<p:dataTable
 				widgetVar="listingTable"
-				value="#{manageAcademicsController.lazyEntities}" 
+				value="#{manageAlumniHistoriesController.lazyEntities}" 
 				var="entity" 
-				rows="#{manageAcademicsController.maxDataTableRowsPerPage}" 
-				rowsPerPageTemplate="#{manageAcademicsController.halfMaxDataTableRowsPerPage},#{manageAcademicsController.maxDataTableRowsPerPage},#{manageAcademicsController.doubleMaxDataTableRowsPerPage}"
+				rows="#{manageAlumniHistoriesController.maxDataTableRowsPerPage}" 
+				rowsPerPageTemplate="#{manageAlumniHistoriesController.halfMaxDataTableRowsPerPage},#{manageAlumniHistoriesController.maxDataTableRowsPerPage},#{manageAlumniHistoriesController.doubleMaxDataTableRowsPerPage}"
 				lazy="true" 
 				paginator="true" 
-				selection="#{manageAcademicsController.selectedEntity}" 
+				selection="#{manageAlumniHistoriesController.selectedEntity}" 
 				selectionMode="single" 
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 				paginatorPosition="bottom" 
 				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
-				emptyMessage="#{manageAcademicsController.filtering ? msgsCore['manageAcademics.text.noEntitiesFiltered'] : msgsCore['manageAcademics.text.noEntities']}">
+				emptyMessage="#{manageAlumniHistoriesController.filtering ? msgsSae['manageAlumniHistories.text.noEntitiesFiltered'] : msgsSae['manageAlumniHistories.text.noEntities']}">
 
-				<p:column headerText="#{msgsCore['manageAcademics.field.name']}">
-					<h:outputText value="#{entity.name}" />
+				<p:column headerText="#{msgsSae['manageAlumniHistories.field.alumniName']}">
+					<h:outputText value="#{entity.alumni.toString()}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsSae['manageAlumniHistories.field.sendDate']}">
+					<h:outputText value="#{entity.sendDate}" />
 				</p:column>
 
-				<p:column headerText="#{msgsCore['manageAcademics.field.email']}">
-					<h:outputText value="#{entity.email}" />
+				<p:column headerText="#{msgsSae['manageAlumniHistories.field.practiceArea']}">
+					<h:outputText value="#{entity.practiceArea.toString()}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsSae['manageAlumniHistories.field.degreeArea']}">
+					<h:outputText value="#{entity.degreeArea.toString()}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsSae['manageAlumniHistories.field.salaryRange']}">
+					<h:outputText value="#{entity.salaryRange.toString()}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsSae['manageAlumniHistories.field.educationType']}">
+					<h:outputText value="#{entity.educationType.toString()}" />
 				</p:column>
 
 				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
@@ -75,32 +91,32 @@
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
-					<p:commandButton action="#{manageAcademicsController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-user-plus" />
-					<p:commandButton action="#{manageAcademicsController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageAcademicsController.selectedEntity == null}" />
-					<p:commandButton action="#{manageAcademicsController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageAcademicsController.selectedEntity == null}" />
-					<p:commandButton action="#{manageAcademicsController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageAcademicsController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
+					<p:commandButton action="#{manageAlumniHistoriesController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-plus-circle" />
+					<p:commandButton action="#{manageAlumniHistoriesController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageAlumniHistoriesController.selectedEntity == null}" />
+					<p:commandButton action="#{manageAlumniHistoriesController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageAlumniHistoriesController.selectedEntity == null}" />
+					<p:commandButton action="#{manageAlumniHistoriesController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageAlumniHistoriesController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
 				</ui:decorate>
-				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.create']}" action="#{manageAcademicsController.create}" />
-				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.retrieve']}" action="#{manageAcademicsController.retrieve}" rendered="#{manageAcademicsController.selectedEntity != null}" />
-				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.update']}" action="#{manageAcademicsController.update}" rendered="#{manageAcademicsController.selectedEntity != null}" />
-				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.delete']}" action="#{manageAcademicsController.trash}" rendered="#{manageAcademicsController.selectedEntity != null}" process="@this" update=":listingForm:trashGroup" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.create']}" action="#{manageAlumniHistoriesController.create}" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.retrieve']}" action="#{manageAlumniHistoriesController.retrieve}" rendered="#{manageAlumniHistoriesController.selectedEntity != null}" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.update']}" action="#{manageAlumniHistoriesController.update}" rendered="#{manageAlumniHistoriesController.selectedEntity != null}" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.delete']}" action="#{manageAlumniHistoriesController.trash}" rendered="#{manageAlumniHistoriesController.selectedEntity != null}" process="@this" update=":listingForm:trashGroup" />
 			</h:panelGroup>
 
 			<!-- The trash panel: shows entities that have been selected for deletion. -->
 			<h:panelGroup id="trashGroup">
-				<h:panelGroup rendered="#{not empty manageAcademicsController.trashCan}">
+				<h:panelGroup rendered="#{not empty manageAlumniHistoriesController.trashCan}">
 					<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-danger.xhtml">
 						<ui:param name="formName" value="trashForm" />
 						<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
-						<p:dataList value="#{manageAcademicsController.trashCan}" var="entity" type="ordered">
-			            	#{entity.name} 
+						<p:dataList value="#{manageAlumniHistoriesController.trashCan}" var="entity" type="ordered">
+			            	#{entity.toString()} 
 			            </p:dataList>
 						<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
-							<p:commandButton action="#{manageAcademicsController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
-							<p:commandButton action="#{manageAcademicsController.delete}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" process="@this" update=":globalMessages :listingForm" />
+							<p:commandButton action="#{manageAlumniHistoriesController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
+							<p:commandButton action="#{manageAlumniHistoriesController.delete}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" process="@this" update=":globalMessages :listingForm" />
 						</ui:decorate>
-						<p:hotkey bind="#{msgs['jbutler.crud.hotkey.cancelDeletion']}" action="#{manageAcademicsController.cancelDeletion}" process="@this" update=":listingForm" />
-						<p:hotkey bind="#{msgs['jbutler.crud.hotkey.confirmDeletion']}" action="#{manageAcademicsController.delete}" process="@this" update=":globalMessages :listingForm"/>
+						<p:hotkey bind="#{msgs['jbutler.crud.hotkey.cancelDeletion']}" action="#{manageAlumniHistoriesController.cancelDeletion}" process="@this" update=":listingForm" />
+						<p:hotkey bind="#{msgs['jbutler.crud.hotkey.confirmDeletion']}" action="#{manageAlumniHistoriesController.delete}" process="@this" update=":globalMessages :listingForm"/>
 					</ui:decorate>
 				</h:panelGroup>
 			</h:panelGroup>

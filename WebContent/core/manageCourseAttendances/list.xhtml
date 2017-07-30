@@ -11,7 +11,7 @@
 	<ui:define name="title"><h:outputText value="#{msgsCore['manageCourseAttendances.title']}" /></ui:define>
     
     <ui:define name="description"><h:outputText value="#{msgsCore['manageCourseAttendances.title.description']}" /></ui:define>
-    
+
     <f:metadata>  
     	<f:event type="preRenderView" listener="#{manageCourseAttendancesController.onLoadList}"/>  
 	</f:metadata>
@@ -101,8 +101,8 @@
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
-					<p:commandButton action="#{manageCourseAttendancesController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-user-plus" />
-					<p:commandButton action="#{manageCourseAttendancesController.trash}" value="#{msgs['jbutler.crud.button.disable']}" icon="fa fa-fw fa-trash-o" disabled="#{manageCourseAttendancesController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
+					<p:commandButton action="#{manageCourseAttendancesController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-plus-circle" />
+					<p:commandButton action="#{manageCourseAttendancesController.trash}" value="#{msgs['jbutler.crud.button.disable']}" icon="fa fa-fw fa-times-circle" disabled="#{manageCourseAttendancesController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
 				</ui:decorate>
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.create']}" action="#{manageCourseAttendancesController.create}" />
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.disable']}" action="#{manageCourseAttendancesController.trash}" rendered="#{manageCourseAttendancesController.selectedEntity != null}" process="@this" update=":listingForm:trashGroup" />
@@ -128,7 +128,7 @@
 				            </p:dataList>
 							<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 								<p:commandButton action="#{manageCourseAttendancesController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeactivation']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
-								<p:commandButton action="#{manageCourseAttendancesController.delete}" value="#{msgs['jbutler.crud.button.confirmDeactivation']}" icon="fa fa-fw fa-trash-o" process="@this" update=":globalMessages :listingForm" />
+								<p:commandButton action="#{manageCourseAttendancesController.delete}" value="#{msgs['jbutler.crud.button.confirmDeactivation']}" icon="fa fa-fw fa-times-circle" process="@this" update=":globalMessages :listingForm" />
 							</ui:decorate>
 							<p:hotkey bind="#{msgs['jbutler.crud.hotkey.cancelDeactivation']}" action="#{manageCourseAttendancesController.cancelDeletion}" process="@this" update=":listingForm" />
 							<p:hotkey bind="#{msgs['jbutler.crud.hotkey.confirmDeactivation']}" action="#{manageCourseAttendancesController.delete}" process="@this" update=":globalMessages :listingForm"/>

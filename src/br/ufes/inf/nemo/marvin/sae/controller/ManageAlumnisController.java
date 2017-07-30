@@ -1,14 +1,22 @@
 package br.ufes.inf.nemo.marvin.sae.controller;
 
-import java.util.logging.Logger;
+import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
+import br.ufes.inf.nemo.jbutler.ejb.controller.PrimefacesLazyEntityDataModel;
+import br.ufes.inf.nemo.marvin.core.controller.SessionController;
 import br.ufes.inf.nemo.marvin.sae.application.ManageAlumnisService;
 import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
 
@@ -24,12 +32,12 @@ public class ManageAlumnisController extends CrudController<Alumni> {
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
 
-	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageAlumnisController.class.getCanonicalName());
-
 	/** TODO: document this field. */
 	@EJB
 	private ManageAlumnisService manageAlumnisService;
+	
+	@Inject
+	private SessionController sessionController;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
@@ -40,6 +48,6 @@ public class ManageAlumnisController extends CrudController<Alumni> {
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
-		addFilter(new LikeFilter("manageAlumnis.filter.byName", "name", getI18nMessage("msgsCore", "manageAlumnis.text.filter.byName")));
+		addFilter(new LikeFilter("manageAlumnis.filter.byName", "name", getI18nMessage("msgsSae", "manageAlumnis.text.filter.byName")));
 	}
 }

@@ -42,6 +42,7 @@
 			<ui:param name="formName" value="listingForm" />
 
 			<p:dataTable
+				id="dataTableStatements"
 				widgetVar="listingTable"
 				value="#{manageStatementsController.lazyEntities}" 
 				var="entity" 
@@ -56,12 +57,16 @@
 				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
 				emptyMessage="#{manageStatementsController.filtering ? msgsSae['manageStatements.text.noEntitiesFiltered'] : msgsSae['manageStatements.text.noEntities']}">
 
-				<p:column headerText="#{msgsSae['manageStatements.field.name']}">
-					<h:outputText value="#{entity.name}" />
+				<p:column headerText="#{msgsSae['manageStatements.field.sendDate']}">
+					<h:outputText value="#{entity.sendDate}" />
 				</p:column>
 
-				<p:column headerText="#{msgsSae['manageStatements.field.email']}">
-					<h:outputText value="#{entity.email}" />
+				<p:column headerText="#{msgsSae['manageStatements.field.courseName']}">
+					<h:outputText value="#{entity.course}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsSae['manageStatements.field.statementStatus']}">
+					<h:outputText value="#{entity.statementStatus}" />
 				</p:column>
 
 				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
@@ -75,15 +80,19 @@
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
-					<p:commandButton action="#{manageStatementsController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-user-plus" />
+					<p:commandButton action="#{manageStatementsController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-plus-circle" />
 					<p:commandButton action="#{manageStatementsController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageStatementsController.selectedEntity == null}" />
 					<p:commandButton action="#{manageStatementsController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageStatementsController.selectedEntity == null}" />
 					<p:commandButton action="#{manageStatementsController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageStatementsController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
+					<p:commandButton action="#{manageStatementsController.approve}" update="dataTableStatements" value="#{msgs['jbutler.crud.button.approve']}" icon="fa fa-fw fa-thumbs-up" disabled="#{manageStatementsController.selectedEntity == null}" />
+					<p:commandButton action="#{manageStatementsController.reject}" update="dataTableStatements" value="#{msgs['jbutler.crud.button.reject']}" icon="fa fa-fw fa-thumbs-down" disabled="#{manageStatementsController.selectedEntity == null}" />
 				</ui:decorate>
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.create']}" action="#{manageStatementsController.create}" />
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.retrieve']}" action="#{manageStatementsController.retrieve}" rendered="#{manageStatementsController.selectedEntity != null}" />
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.update']}" action="#{manageStatementsController.update}" rendered="#{manageStatementsController.selectedEntity != null}" />
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.delete']}" action="#{manageStatementsController.trash}" rendered="#{manageStatementsController.selectedEntity != null}" process="@this" update=":listingForm:trashGroup" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.approve']}" action="#{manageStatementsController.approve}" rendered="#{manageStatementsController.selectedEntity != null}" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.reject']}" action="#{manageStatementsController.reject}" rendered="#{manageStatementsController.selectedEntity != null}" />
 			</h:panelGroup>
 
 			<!-- The trash panel: shows entities that have been selected for deletion. -->
@@ -93,7 +102,7 @@
 						<ui:param name="formName" value="trashForm" />
 						<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
 						<p:dataList value="#{manageStatementsController.trashCan}" var="entity" type="ordered">
-			            	#{entity.name} 
+			            	#{entity.toString()} 
 			            </p:dataList>
 						<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 							<p:commandButton action="#{manageStatementsController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />

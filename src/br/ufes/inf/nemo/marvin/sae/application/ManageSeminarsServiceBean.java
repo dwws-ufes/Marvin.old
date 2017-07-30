@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
@@ -17,9 +18,14 @@ import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseAttendanceDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
-import br.ufes.inf.nemo.marvin.sae.domain.Suggestion;
+import br.ufes.inf.nemo.marvin.sae.domain.InterestSubject;
+import br.ufes.inf.nemo.marvin.sae.domain.Seminar;
+import br.ufes.inf.nemo.marvin.sae.domain.Statement;
+import br.ufes.inf.nemo.marvin.sae.domain.Statement.StatementStatus;
 import br.ufes.inf.nemo.marvin.sae.persistence.AlumniDAO;
-import br.ufes.inf.nemo.marvin.sae.persistence.SuggestionDAO;
+import br.ufes.inf.nemo.marvin.sae.persistence.InterestSubjectDAO;
+import br.ufes.inf.nemo.marvin.sae.persistence.SeminarDAO;
+import br.ufes.inf.nemo.marvin.sae.persistence.StatementDAO;
 
 /**
  * TODO: document this type.
@@ -29,25 +35,21 @@ import br.ufes.inf.nemo.marvin.sae.persistence.SuggestionDAO;
  */
 @Stateless
 @RolesAllowed("SysAdmin")
-public class ManageSuggestionsServiceBean extends CrudServiceBean<Suggestion> implements ManageSuggestionsService {
+public class ManageSeminarsServiceBean extends CrudServiceBean<Seminar> implements ManageSeminarsService {
 	/** TODO: document this field. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageSuggestionsServiceBean.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(ManageSeminarsServiceBean.class.getCanonicalName());
 
 	/** TODO: document this field. */
 	@EJB
-	private SuggestionDAO suggestionDAO;
-	
-	/** TODO: document this field. */
-	@EJB
-	private CourseAttendanceDAO courseAttendanceDAO;
+	private SeminarDAO seminarDAO;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
-	public BaseDAO<Suggestion> getDAO() {
-		return suggestionDAO;
+	public BaseDAO<Seminar> getDAO() {
+		return seminarDAO;
 	}
 
 	/**
@@ -55,21 +57,15 @@ public class ManageSuggestionsServiceBean extends CrudServiceBean<Suggestion> im
 	 *      br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject)
 	 */
 	@Override
-	protected Suggestion validate(Suggestion newEntity, Suggestion oldEntity) {
+	protected Seminar validate(Seminar newEntity, Seminar oldEntity) {
 		// New academics must have their creation date and password code set.
 		Date now = new Date(System.currentTimeMillis());
 		if (oldEntity == null) {
-			newEntity.setSendDate(now);
+			newEntity.setCreationDate(now);
 		}
 
-		return newEntity;
-	}
-	
-	@Override
-	public Map<String, Course> retrieveCourses(Academic academic) {
-		Map<String, Course> coursesMap = new HashMap<String, Course>();
-		List<Course> courses = courseAttendanceDAO.retriveCoursesInCourseAttendance(academic);
-		for (Course course : courses) coursesMap.put(course.getName(), course);			
-		return coursesMap;
+		// All academics have their last update date set when persisted.
+		newEntity.setLastUpdateDate(now);
+		return newEntity;		
 	}
 }

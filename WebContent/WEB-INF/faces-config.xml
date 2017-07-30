@@ -18,6 +18,10 @@
 			<var>msgsCore</var>
 		</resource-bundle>
 		<resource-bundle>
+			<base-name>br.ufes.inf.nemo.marvin.sae.view.messages</base-name>
+			<var>msgsSae</var>
+		</resource-bundle>
+		<resource-bundle>
 			<base-name>br.ufes.inf.nemo.marvin.research.view.messages</base-name>
 			<var>msgsResearch</var>
 		</resource-bundle>

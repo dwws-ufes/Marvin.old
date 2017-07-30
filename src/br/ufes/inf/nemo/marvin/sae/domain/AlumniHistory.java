@@ -6,18 +6,23 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
-import br.ufes.inf.nemo.marvin.sae.domain.Education.EducationType;
 
 @Entity
 public class AlumniHistory extends PersistentObjectSupport implements Comparable<AlumniHistory>{
 	
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The history sent date. */
+	@NotNull
+	@OneToOne
+	private Alumni alumni;
 	
 	/** The history sent date. */
 	@NotNull
@@ -32,7 +37,7 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 	/** The practice area. */
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private PracticeArea praticeArea;
+	private PracticeArea practiceArea;
 	
 	/** The degree area. */
 	@NotNull
@@ -66,12 +71,12 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 		this.livesES = livesES;
 	}
 	/** Getter for Practice Area. */
-	public PracticeArea getPraticeArea() {
-		return praticeArea;
+	public PracticeArea getPracticeArea() {
+		return practiceArea;
 	}
 	/** Setter for Practice Area. */
-	public void setPraticeArea(PracticeArea praticeArea) {
-		this.praticeArea = praticeArea;
+	public void setPracticeArea(PracticeArea practiceArea) {
+		this.practiceArea = practiceArea;
 	}
 	/** Getter for Degree Area. */
 	public DegreeArea getDegreeArea() {
@@ -96,6 +101,12 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 	/** Setter for Education Type. */
 	public void setEducationType(EducationType educationType) {
 		this.educationType = educationType;
+	}	
+	public Alumni getAlumni() {
+		return alumni;
+	}
+	public void setAlumni(Alumni alumni) {
+		this.alumni = alumni;
 	}
 	@Override
 	public int compareTo(AlumniHistory ah) {
@@ -161,11 +172,11 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 	public enum SalaryRange
 	{
 		UNTIL_3_SM("Until 3 minimum salaries"),
-		FROM_3_TO_5_SM("From 3 to 5 minumum salaries"),
-		FROM_5_TO_10_SM("From 5 to 10 minumum salaries"),
-		FROM_10_TO_15_SM("From 10 to 15 minumum salaries"),
-		FROM_15_TO_20_SM("From 15 to 20 minumum salaries"),
-		MORE_THAN_20_SM("More that 20 minumum salaries");
+		FROM_3_TO_5_SM("From 3 to 5 minimum salaries"),
+		FROM_5_TO_10_SM("From 5 to 10 minimum salaries"),
+		FROM_10_TO_15_SM("From 10 to 15 minimum salaries"),
+		FROM_15_TO_20_SM("From 15 to 20 minimum salaries"),
+		MORE_THAN_20_SM("More that 20 minimum salaries");
 		
 		String name;
 
@@ -189,5 +200,41 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 				default: {return SalaryRange.MORE_THAN_20_SM;}
 			}
 		}
+	}
+	
+	public enum EducationType
+	{
+		HIGHER_EDUCATION("Higher Education"),
+		SPECIALIZED_EDUCATION("Specialized Education"),
+		MASTER_DEGREE("Master Degree"),
+		PHD("PhD"),
+		POST_DOCTORATE("Post-Doctorate");
+
+		String name;
+
+		EducationType(String name) {
+			this.name = name;
+		}
+		
+		@Override
+		public String toString() {
+			return name;
+		}
+		
+		public static EducationType getByName(String name)
+		{	
+			switch(name){
+				case "Higher Education": {return EducationType.HIGHER_EDUCATION;}
+				case "Specialized Education": {return EducationType.SPECIALIZED_EDUCATION;}
+				case "Master Degree": {return EducationType.MASTER_DEGREE;}
+				case "PhD": {return EducationType.PHD;}
+				default: {return EducationType.POST_DOCTORATE;}
+			}
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return "History of "+alumni.toString();
 	}
 }

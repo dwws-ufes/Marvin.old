@@ -34,11 +34,6 @@ public class Suggestion extends PersistentObjectSupport implements Comparable<Su
 	@Lob @Basic
 	private String content;
 	
-	/** The answer of statement. */
-	@NotNull
-	@Lob @Basic
-	private String answer;
-	
 	/** Getter for Send Date. */
 	public Date getSendDate() {
 		return sendDate;
@@ -63,17 +58,14 @@ public class Suggestion extends PersistentObjectSupport implements Comparable<Su
 	public void setContent(String content) {
 		this.content = content;
 	}
-	/** Getter for Answer. */
-	public String getAnswer() {
-		return answer;
-	}
-	/** Setter for Answer. */
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
 	@Override
 	public int compareTo(Suggestion s) {
 		return sendDate.compareTo(s.getSendDate());
 	}
 
+	@Override
+	public String toString() {
+		return course.getName() + " - " + sendDate.toGMTString();
+	}
+	
 }

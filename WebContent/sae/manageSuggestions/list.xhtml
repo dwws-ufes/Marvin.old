@@ -56,13 +56,13 @@
 				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
 				emptyMessage="#{manageSuggestionsController.filtering ? msgsSae['manageSuggestions.text.noEntitiesFiltered'] : msgsSae['manageSuggestions.text.noEntities']}">
 
-				<p:column headerText="#{msgsSae['manageSuggestions.field.name']}">
-					<h:outputText value="#{entity.name}" />
+				<p:column headerText="#{msgsSae['manageSuggestions.field.sendDate']}">
+					<h:outputText value="#{entity.sendDate}" />
 				</p:column>
 
-				<p:column headerText="#{msgsSae['manageSuggestions.field.email']}">
-					<h:outputText value="#{entity.email}" />
-				</p:column>
+				<p:column headerText="#{msgsSae['manageSuggestions.field.courseName']}">
+					<h:outputText value="#{entity.course}" />
+				</p:column>			
 
 				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
 				<p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
@@ -75,7 +75,7 @@
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
-					<p:commandButton action="#{manageSuggestionsController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-user-plus" />
+					<p:commandButton action="#{manageSuggestionsController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-plus-circle" />
 					<p:commandButton action="#{manageSuggestionsController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageSuggestionsController.selectedEntity == null}" />
 					<p:commandButton action="#{manageSuggestionsController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageSuggestionsController.selectedEntity == null}" />
 					<p:commandButton action="#{manageSuggestionsController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageSuggestionsController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
@@ -93,7 +93,7 @@
 						<ui:param name="formName" value="trashForm" />
 						<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
 						<p:dataList value="#{manageSuggestionsController.trashCan}" var="entity" type="ordered">
-			            	#{entity.name} 
+			            	#{entity.toString()}
 			            </p:dataList>
 						<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 							<p:commandButton action="#{manageSuggestionsController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />

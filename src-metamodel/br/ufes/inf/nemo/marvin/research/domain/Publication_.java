@@ -7,7 +7,11 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
+<<<<<<< HEAD
 @Generated(value="Dali", date="2017-07-17T13:51:40.699-0300")
+=======
+@Generated(value="Dali", date="2017-07-20T10:25:02.600-0300")
+>>>>>>> branch 'master' of git@github.com:dwws-ufes/Marvin.git
 @StaticMetamodel(Publication.class)
 public class Publication_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<Publication, String> title;

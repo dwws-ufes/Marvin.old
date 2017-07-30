@@ -24,7 +24,7 @@ public class AcademicRole extends PersistentObjectSupport{
 	public static final String COURSECOORDINATOR_ROLE_NAME = "CourseCord";
 
 	/** Name of the Student academic role. */
-	public static final String STUDENT_ROLE_NAME = "Student";
+	public static final String ENROLLED_STUDENT_ROLE_NAME = "EnrStudent";
 
 	/** Name of the Alumni academic role. */
 	public static final String ALUMNI_ROLE_NAME = "Alumni";
@@ -76,7 +76,7 @@ public class AcademicRole extends PersistentObjectSupport{
 	public static void main(String[] args) {
 		System.out.println(ResourceUtil.getResourceAsFile("META-INF/installSystem/AcademicRole.json"));
 
-		AcademicRole[] academicRoles = new AcademicRole[] { new AcademicRole("CourseCord", "core.academicrole.coursecoordinator"), new AcademicRole("Student", "core.academicrole.student"), new AcademicRole("Alumni", "core.academicrole.alumni") };
+		AcademicRole[] academicRoles = new AcademicRole[] { new AcademicRole("CourseCord", "core.academicrole.coursecoordinator"), new AcademicRole("EnrStudent", "core.academicrole.enrolledstudent"), new AcademicRole("Alumni", "core.academicrole.alumni") };
 		for (AcademicRole academicRole : academicRoles) {
 			JSONObject obj = new JSONObject();
 			obj.put("name", academicRole.getName());
