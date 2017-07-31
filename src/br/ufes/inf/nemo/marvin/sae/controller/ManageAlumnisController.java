@@ -28,9 +28,6 @@ public class ManageAlumnisController extends CrudController<Alumni> {
 	@EJB
 	private ManageAlumnisService manageAlumnisService;
 
-	@Inject
-	private SessionController sessionController;
-
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Alumni> getCrudService() {

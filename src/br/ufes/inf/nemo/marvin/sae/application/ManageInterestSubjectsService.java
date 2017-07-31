@@ -1,5 +1,8 @@
 package br.ufes.inf.nemo.marvin.sae.application;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
@@ -13,5 +16,5 @@ import br.ufes.inf.nemo.marvin.sae.domain.InterestSubject;
  */
 @Local
 public interface ManageInterestSubjectsService extends CrudService<InterestSubject> {
-
+	public Map<String, InterestSubject> retriveMap();
 }

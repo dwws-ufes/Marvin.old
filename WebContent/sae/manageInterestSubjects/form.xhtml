@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/WEB-INF/decorators/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsSae['manageInterestSubjects.title.create']}" rendered="#{(! manageInterestSubjectsController.readOnly) and (manageInterestSubjectsController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsSae['manageInterestSubjects.title.update']}" rendered="#{(! manageInterestSubjectsController.readOnly) and (manageInterestSubjectsController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsSae['manageInterestSubjects.title.retrieve']}" rendered="#{manageInterestSubjectsController.readOnly}" />
+	</ui:define>
+    
+    <ui:define name="description">
+		<h:outputText value="#{msgsSae['manageInterestSubjects.title.create.description']}" rendered="#{(! manageInterestSubjectsController.readOnly) and (manageInterestSubjectsController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsSae['manageInterestSubjects.title.update.description']}" rendered="#{(! manageInterestSubjectsController.readOnly) and (manageInterestSubjectsController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsSae['manageInterestSubjects.title.retrieve.description']}" rendered="#{manageInterestSubjectsController.readOnly}" />
+    </ui:define>
+
+	<ui:define name="body">
+		<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="form" />
+			<ui:param name="formLabel" value="#{msgsSae['manageInterestSubjects.form.title']}" />
+			<p:hotkey bind="#{msgs['jbutler.crud.hotkey.focusFirstField']}" handler="findObjectById('form:name').focus();" />
+
+			<!-- Field: name. -->
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="name" />
+				<ui:param name="label" value="#{msgsSae['manageInterestSubjects.field.name']}" />
+				<p:inputText id="name" value="#{manageInterestSubjectsController.selectedEntity.name}" required="true" disabled="#{manageInterestSubjectsController.readOnly}" />
+			</ui:decorate>
+
+			<!-- Field: creationDate. -->
+			<h:panelGroup rendered="#{manageInterestSubjectsController.readOnly}">
+				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="creationDate" />
+					<ui:param name="label" value="#{msgsSae['manageInterestSubjects.field.creationDate']}" />
+					<p:inputText id="creationDate" value="#{manageInterestSubjectsController.selectedEntity.creationDate}" disabled="true">
+						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
+					</p:inputText>
+				</ui:decorate>
+			</h:panelGroup>
+
+			<!-- Field: lastUpdateDate. -->
+			<h:panelGroup rendered="#{manageInterestSubjectsController.readOnly}">
+				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="lastUpdateDate" />
+					<ui:param name="label" value="#{msgsSae['manageInterestSubjects.field.lastUpdateDate']}" />
+					<p:inputText id="lastUpdateDate" value="#{manageInterestSubjectsController.selectedEntity.lastUpdateDate}" disabled="true">
+						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
+					</p:inputText>
+				</ui:decorate>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{! manageInterestSubjectsController.readOnly}">
+				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+					<p:commandButton id="cancelButton" action="#{manageInterestSubjectsController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
+					<p:commandButton id="saveButton" action="#{manageInterestSubjectsController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :globalMessages" icon="fa fa-fw fa-save" />
+					<p:defaultCommand target="saveButton" />
+					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageInterestSubjectsController.list}" immediate="true" />
+				</ui:decorate>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{manageInterestSubjectsController.readOnly}">
+				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
+					<p:commandButton id="backButton" action="#{manageInterestSubjectsController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-arrow-circle-left" />
+					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageInstitutionsController.list}" immediate="true" />
+				</ui:decorate>
+			</h:panelGroup>
+		</ui:decorate>
+    </ui:define>
+</ui:composition>

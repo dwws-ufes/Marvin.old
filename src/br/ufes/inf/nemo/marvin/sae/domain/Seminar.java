@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,7 +25,7 @@ public class Seminar extends PersistentObjectSupport implements Comparable<Semin
 	@Basic
 	private String speakerName;
 
-	@Basic
+	@Lob
 	private String location;
 
 	@NotNull
@@ -132,5 +133,11 @@ public class Seminar extends PersistentObjectSupport implements Comparable<Semin
 	@Override
 	public String toString() {
 		return title + " - " + date.getDate() + "/" + date.getMonth() + "/" + (date.getYear() + 1900);
+	}
+	
+	public String confirmedToString()
+	{
+		if(confirmed) return "YES";
+		return "NO";
 	}
 }

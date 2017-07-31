@@ -39,8 +39,6 @@ public class ManageAlumnisServiceBean extends CrudServiceBean<Alumni> implements
 	@EJB
 	private AlumniDAO alumniDAO;
 
-	private CourseAttendanceDAO courseAttendanceDAO;
-
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
 	public BaseDAO<Alumni> getDAO() {
@@ -59,28 +57,5 @@ public class ManageAlumnisServiceBean extends CrudServiceBean<Alumni> implements
 			newEntity.setCreationDate(now);
 		}
 		return newEntity;
-	}
-
-	public List<Alumni> list(Academic currentUser) {
-		List<CourseAttendance> courseAttendances;
-		Alumni alumni;
-		List<Alumni> alumnis = new ArrayList<Alumni>();
-		courseAttendances = courseAttendanceDAO.retriveCourseAttendances(currentUser);
-		for (CourseAttendance courseAttendance : courseAttendances) {
-			try {
-				alumni = alumniDAO.retriveAlumni(courseAttendance);
-				alumnis.add(alumni);
-			}
-			catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
-				e.printStackTrace();
-			}
-		}
-		alumnis.sort(new Comparator<Alumni>() {
-			@Override
-			public int compare(Alumni o1, Alumni o2) {
-				return o1.getCourseAttendance().getAcademic().getName().compareTo(o2.getCourseAttendance().getAcademic().getName());
-			}
-		});
-		return alumnis;
 	}
 }
