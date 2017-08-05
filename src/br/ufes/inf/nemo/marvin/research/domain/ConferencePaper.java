@@ -21,16 +21,20 @@ public class ConferencePaper extends Publication {
 
 	/** TODO: document this field. */
 	private String eventName;
+	
+	/** TODO: document this field. */
+	private Boolean fullPaper; 
 
 	/** Constructor. */
 	protected ConferencePaper() {}
 
 	/** Constructor. */
-	public ConferencePaper(String title, int year, String pages, String doi, String publisher, String bookTitle, String eventName) {
+	public ConferencePaper(String title, int year, String pages, String doi, String publisher, String bookTitle, String eventName, Boolean fullPaper) {
 		super(title, year, pages, doi, publisher);
 		if (bookTitle.length() > 254) bookTitle = bookTitle.substring(0, 254);
 		this.bookTitle = bookTitle;
 		this.eventName = eventName;
+		this.fullPaper = fullPaper;
 	}
 
 	/** Getter for bookTitle. */
@@ -57,6 +61,21 @@ public class ConferencePaper extends Publication {
 	@Override
 	public String getVenueString() {
 		return bookTitle;
+	}
+
+	/** Getter for fullPaper. */
+	public Boolean getFullPaper() {
+		return fullPaper;
+	}
+
+	/** Getter for fullPaper. */
+	public Boolean isFullPaper() {
+		return fullPaper;
+	}
+
+	/** Setter for fullPaper. */
+	public void setFullPaper(Boolean fullPaper) {
+		this.fullPaper = fullPaper;
 	}
 
 	/** @see br.ufes.inf.nemo.marvin.research.domain.Publication#toBibTeX() */

@@ -16,6 +16,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObj
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.research.domain.AcademicScore;
+import br.ufes.inf.nemo.marvin.research.domain.ConferencePaper;
 import br.ufes.inf.nemo.marvin.research.domain.Publication;
 import br.ufes.inf.nemo.marvin.research.domain.PublicationScore;
 import br.ufes.inf.nemo.marvin.research.domain.Qualification;
@@ -89,6 +90,14 @@ public class CalculateAcademicsScoresServiceBean implements CalculateAcademicsSc
 						// Stores the current publication score
 						int currentScore = 0;
 						boolean venueIsConference = pubVenue.getCategory().equals(VenueCategory.CONFERENCE);
+						
+						// FIXME: Improve the domain classes regarding publications.
+						// Journal papers can also be full or not (at least according to Lattes). Journal and conference papers have
+						// a lot of similarities. Maybe a common superclass would help in some application code. Moreover, names of
+						// classes and attributes follow BibTeX names. They could be closer to the real world instead.
+						
+						// Only counts if full paper.
+						if (venueIsConference && ! ((ConferencePaper)p).isFullPaper()) continue;
 
 						Qualis qualis = quaPubVenue.getQualis();
 						Score score = scoreQualisMap.get(qualis);

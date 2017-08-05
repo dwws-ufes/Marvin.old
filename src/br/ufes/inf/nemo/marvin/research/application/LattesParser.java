@@ -27,12 +27,21 @@ import br.ufes.inf.nemo.marvin.research.domain.JournalPaper;
 import br.ufes.inf.nemo.marvin.research.domain.Publication;
 import br.ufes.inf.nemo.marvin.research.exceptions.LattesParseException;
 
+/**
+ * TODO: document this type.
+ *
+ * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @version 1.0
+ */
 class LattesParser implements PublicationInfo {
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(LattesParser.class.getCanonicalName());
 
 	/** Name of the configuration file with all the settings for this script. */
 	private static final String CONFIG_FILE_NAME = "lattes-parser.properties";
+	
+	/** Contents of publication's nature that indicates it's a full paper. */
+	private static final String PUBLICATION_NATURE_FULL = "COMPLETO";
 
 	/** Properties object that holds all the configuration. */
 	private static Properties CONFIG;
@@ -315,7 +324,8 @@ class LattesParser implements PublicationInfo {
 	private void extractInProceedings(SortedSet<LattesEntry> entries) {
 		conferencePapers = new TreeSet<>();
 		for (LattesEntry entry : entries) {
-			ConferencePaper paper = new ConferencePaper(entry.getTitle(), entry.getYear(), entry.getPages(), entry.getDoi(), entry.getPublisher(), entry.getExtra01(), entry.getVenue());
+			boolean fullPaper = entry.getType().contains(PUBLICATION_NATURE_FULL);
+			ConferencePaper paper = new ConferencePaper(entry.getTitle(), entry.getYear(), entry.getPages(), entry.getDoi(), entry.getPublisher(), entry.getExtra01(), entry.getVenue(), fullPaper);
 			extractAuthors(paper, entry.getAuthors());
 			conferencePapers.add(paper);
 		}
