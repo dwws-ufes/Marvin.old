@@ -16,5 +16,5 @@ import br.ufes.inf.nemo.marvin.sae.domain.Alumni;
  */
 @Local
 public interface ManageAlumnisService extends CrudService<Alumni> {
-	public List<Alumni> list(Academic currentUser);
+
 }
