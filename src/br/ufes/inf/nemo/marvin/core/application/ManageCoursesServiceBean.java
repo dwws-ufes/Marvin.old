@@ -15,6 +15,7 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.marvin.core.domain.Course;
 import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.CourseAttendanceDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseCoordinationDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.CourseDAO;
 
@@ -44,6 +45,10 @@ public class ManageCoursesServiceBean extends CrudServiceBean<Course> implements
 	/** TODO: document this field. */
 	@EJB
 	private CourseCoordinationDAO courseCoordinationDAO;
+	
+	/** TODO: document this field. */
+	@EJB
+	private CourseAttendanceDAO courseAttendanceDAO;
 
 	/** TODO: document this field. */
 	@EJB
@@ -86,13 +91,18 @@ public class ManageCoursesServiceBean extends CrudServiceBean<Course> implements
 		String crudExceptionMessage = "The course \"" + entity.getName() + " cannot be updated due to validation errors.";
 
 		// Validates business rules.
-		// Rule 1: cannot delete a with course with coordination.
+		// Rule 1: cannot delete a course with course coordinations.
 		if (courseCoordinationDAO.courseHasCoordinations(entity)) {
-			logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 1: the course has a course coordination", new Object[] { entity.getName() });
+			logger.log(Level.INFO, "Deletion of course \"{0}\" violates validation rule 1: cannot delete a course with coordination", new Object[] { entity.getName() });
 			crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageCourses.error.deleteCourseWithCoordination", entity.getName());
 		}
 
-		// Rule 2: cannot delete a with course attendance.
+		// Rule 2: cannot delete a course with course attendances.
+		if(courseAttendanceDAO.courseInCourseAttendance(entity))
+		{
+			logger.log(Level.INFO, "Deletion of course \"{0}\" violates validation rule 2: cannot delete a course with course attendances", new Object[] { entity.getName() });
+			crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageCourses.error.deleteCourseWithAttendance", entity.getName());
+		}
 
 		// If one of the rules was violated, throw the exception.
 		if (crudException != null) throw crudException;

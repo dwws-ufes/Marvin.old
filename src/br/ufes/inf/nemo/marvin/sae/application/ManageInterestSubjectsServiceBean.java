@@ -58,6 +58,7 @@ public class ManageInterestSubjectsServiceBean extends CrudServiceBean<InterestS
 		return newEntity;
 	}
 	
+	/** Returns a map containing all interest subjects. Load the combobox in the front-end. */
 	@Override
 	public Map<String, InterestSubject> retriveMap()
 	{

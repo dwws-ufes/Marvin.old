@@ -48,7 +48,7 @@ public class AcademicRoleJPADAO extends BaseJPADAO<AcademicRole> implements Acad
 	/** @see br.ufes.inf.nemo.marvin.core.persistence.RoleDAO#retrieveByName(java.lang.String) */
 	@Override
 	public AcademicRole retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
-		logger.log(Level.FINE, "Retrieving the role whose name is \"{0}\"...", name);
+		logger.log(Level.FINE, "Retrieving the academic role whose name is \"{0}\"...", name);
 
 		// Constructs the query over the Academic class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -58,14 +58,14 @@ public class AcademicRoleJPADAO extends BaseJPADAO<AcademicRole> implements Acad
 		// Filters the query with the name.
 		cq.where(cb.equal(root.get(AcademicRole_.name), name));
 		AcademicRole result = executeSingleResultQuery(cq, name);
-		logger.log(Level.INFO, "Retrieve role with the name \"{0}\" returned \"{1}\"", new Object[] { name, result });
+		logger.log(Level.INFO, "Retrieve academic role with the name \"{0}\" returned \"{1}\"", new Object[] { name, result });
 		return result;
 	}
 
-	/** @see br.ufes.inf.nemo.marvin.core.persistence.RoleDAO#findByName(java.lang.String) */
+	/** @see br.ufes.inf.nemo.marvin.core.persistence.AcademicRoleDAO#findByName(java.lang.String) */
 	@Override
 	public List<AcademicRole> findByName(String name) {
-		logger.log(Level.FINE, "Finding roles whose name contain \"{0}\"...", name);
+		logger.log(Level.FINE, "Finding academic roles whose name contain \"{0}\"...", name);
 
 		// Constructs the query over the Academic class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -76,7 +76,7 @@ public class AcademicRoleJPADAO extends BaseJPADAO<AcademicRole> implements Acad
 		name = "%" + name + "%";
 		cq.where(cb.like(root.get(AcademicRole_.name), name));
 		List<AcademicRole> result = entityManager.createQuery(cq).getResultList();
-		logger.log(Level.INFO, "Found {0} roles whose name contains \"{1}\".", new Object[] { result.size(), name });
+		logger.log(Level.INFO, "Found {0} academic roles whose name contains \"{1}\".", new Object[] { result.size(), name });
 		return result;
 	}
 }

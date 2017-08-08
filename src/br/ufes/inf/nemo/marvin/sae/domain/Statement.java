@@ -21,7 +21,7 @@ public class Statement extends PersistentObjectSupport implements Comparable<Sta
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/** The statement send date. */
+	/** The statement's send date. */
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date sendDate;
@@ -32,7 +32,7 @@ public class Statement extends PersistentObjectSupport implements Comparable<Sta
 	@Basic
 	private String content;
 
-	/** The Statement Status */
+	/** The Statement's Status */
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private StatementStatus statementStatus;
@@ -87,11 +87,13 @@ public class Statement extends PersistentObjectSupport implements Comparable<Sta
 		return sendDate.compareTo(s.getSendDate());
 	}
 
+	/** Returns a string containing: Course's name - Statement's send date. */
 	@Override
 	public String toString() {
 		return course.getName() + " - " + sendDate.toGMTString();
 	}
 
+	/** Enum for Statement Status. */
 	public enum StatementStatus {
 		PENDING("Pending"), APPROVED("Approved"), DISAPPROVED("Disapproved");
 
@@ -106,6 +108,7 @@ public class Statement extends PersistentObjectSupport implements Comparable<Sta
 			return name;
 		}
 
+		/** Returns an enum item, searching by name. */
 		public static StatementStatus getByName(String name) {
 			switch (name) {
 			case "Pending": {

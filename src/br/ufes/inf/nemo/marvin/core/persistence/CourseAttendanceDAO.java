@@ -22,5 +22,7 @@ import br.ufes.inf.nemo.marvin.core.domain.CourseAttendance;
 public interface CourseAttendanceDAO extends BaseDAO<CourseAttendance> {
 	public List<CourseAttendance> retriveCourseAttendances(Academic academic);
 
-	public List<Course> retriveCoursesInCourseAttendance(Academic academic);
+	public List<Course> retriveCoursesByAcademic(Academic academic);
+	
+	public boolean courseInCourseAttendance (Course course);
 }

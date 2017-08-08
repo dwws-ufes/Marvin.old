@@ -15,85 +15,103 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 @Entity
 public class Seminar extends PersistentObjectSupport implements Comparable<Seminar> {
 
+	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/** The timestamp of the moment this interest subject was created. */
+	/** The Seminar's date. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date date;
 
+	/** The name of the seminar's speaker*/
 	@Basic
 	private String speakerName;
 
+	/** The seminar's location */
 	@Lob
 	private String location;
 
+	/** The seminar's title */
 	@NotNull
 	@Basic
 	private String title;
 
+	/** If the seminar is confirmed */
 	@NotNull
 	@Basic
 	private boolean confirmed;
 
+	/** The seminar's subject */
 	@NotNull
 	@OneToOne
 	private InterestSubject interestSubject;
 
-	/** The timestamp of the moment this interest subject was created. */
+	/** The timestamp of the moment this seminar was created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date creationDate;
 
-	/** The last time the data about the interest subject was updated. */
+	/** The last time the data about the seminar was updated. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date lastUpdateDate;
 
+	/** Getter for date. */
 	public Date getDate() {
 		return date;
 	}
 
+	/** Setter for date. */
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
+	/** Getter for speakerName. */
 	public String getSpeakerName() {
 		return speakerName;
 	}
 
+	/** Setter for speakerName. */
 	public void setSpeakerName(String speakerName) {
 		this.speakerName = speakerName;
 	}
 
+	/** Getter for location. */
 	public String getLocation() {
 		return location;
 	}
 
+	/** Setter for location. */
 	public void setLocation(String location) {
 		this.location = location;
 	}
 
+	/** Getter for title. */
 	public String getTitle() {
 		return title;
 	}
 
+	/** Setter for title. */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	/** Getter for confirmed. */
 	public boolean isConfirmed() {
 		return confirmed;
 	}
 
+	/** Setter for confirmed. */
 	public void setConfirmed(boolean confirmed) {
 		this.confirmed = confirmed;
 	}
 
+	/** Getter for interestSubject. */
 	public InterestSubject getInterestSubject() {
 		return interestSubject;
 	}
 
+	/** Setter for interestSubject. */
 	public void setInterestSubject(InterestSubject interestSubject) {
 		this.interestSubject = interestSubject;
 	}
@@ -130,11 +148,13 @@ public class Seminar extends PersistentObjectSupport implements Comparable<Semin
 		return uuid.compareTo(o.uuid);
 	}
 
+	/** Returns a string containing: Seminar's title - Formated seminar's date. */
 	@Override
 	public String toString() {
 		return title + " - " + date.getDate() + "/" + date.getMonth() + "/" + (date.getYear() + 1900);
 	}
 	
+	/** Returns "YES" if the seminar is confirmed and "NO" if not*/
 	public String confirmedToString()
 	{
 		if(confirmed) return "YES";

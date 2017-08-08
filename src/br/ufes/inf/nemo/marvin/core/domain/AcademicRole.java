@@ -23,7 +23,7 @@ public class AcademicRole extends PersistentObjectSupport {
 	/** Name of the Course Coordinator academic role. */
 	public static final String COURSECOORDINATOR_ROLE_NAME = "CourseCord";
 
-	/** Name of the Student academic role. */
+	/** Name of the Enrolled Student academic role. */
 	public static final String ENROLLED_STUDENT_ROLE_NAME = "EnrStudent";
 
 	/** Name of the Alumni academic role. */

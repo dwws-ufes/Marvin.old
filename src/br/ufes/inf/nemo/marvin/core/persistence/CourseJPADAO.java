@@ -40,6 +40,7 @@ public class CourseJPADAO extends BaseJPADAO<Course> implements CourseDAO {
 		return entityManager;
 	}
 
+	/** Retrieve all course sorted by name.*/
 	@Override
 	public List<Course> retrieveAllSortedByName() {
 		logger.log(Level.FINE, "Retrieving the courses sorted by name");

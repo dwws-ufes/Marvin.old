@@ -117,6 +117,7 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 		return roleDAO.findByName(name);
 	}
 
+	/** Retrieve the all Academic with a specific role */
 	@Override
 	public List<Academic> retrieveAcademicbyRole(String roleName) {
 		try {
@@ -135,6 +136,7 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 		}
 	}
 
+	/** Returns a map containing all courses that have a coordinator. Load the combobox in the front-end. */
 	@Override
 	public Map<String, Course> retrieveCourses(boolean hasCoordinator) {
 		Map<String, Course> coursesMap = new HashMap<String, Course>();
@@ -144,6 +146,7 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 		return coursesMap;
 	}
 
+	/** Returns a map containing all academics with some course attendance active. Load the combobox in the front-end. */
 	@Override
 	public Map<String, Academic> retrieveAcademics(boolean isCurrentStudent) {
 		Map<String, Academic> students = new HashMap<String, Academic>();
@@ -164,6 +167,7 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 		return students;
 	}
 
+	/** Disable a Course Attendace (adding the end date to course attendance), remove the enrolled student academic role of the academic and create a alumni of this student */
 	@Override
 	public void disable(CourseAttendance entity) {
 		entity.setEndDate(new Date(System.currentTimeMillis()));

@@ -62,10 +62,11 @@ public class ManageSuggestionsServiceBean extends CrudServiceBean<Suggestion> im
 		return newEntity;
 	}
 
+	/** Returns a map containing the course of a academic. Load the combobox in the front-end. */
 	@Override
 	public Map<String, Course> retrieveCourses(Academic academic) {
 		Map<String, Course> coursesMap = new HashMap<String, Course>();
-		List<Course> courses = courseAttendanceDAO.retriveCoursesInCourseAttendance(academic);
+		List<Course> courses = courseAttendanceDAO.retriveCoursesByAcademic(academic);
 		for (Course course : courses)
 			coursesMap.put(course.getName(), course);
 		return coursesMap;

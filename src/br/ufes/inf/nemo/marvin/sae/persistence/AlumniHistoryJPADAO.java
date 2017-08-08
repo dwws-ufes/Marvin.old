@@ -45,6 +45,7 @@ public class AlumniHistoryJPADAO extends BaseJPADAO<AlumniHistory> implements Al
 		return entityManager;
 	}
 
+	/** Check if the alumni has a history */
 	public boolean alumniWithHistory(Alumni alumni) {
 		logger.log(Level.FINE, "Retrieving the alumnis with history");
 		// Constructs the query over the Course Attendance class.

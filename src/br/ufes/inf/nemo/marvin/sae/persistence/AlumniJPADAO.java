@@ -45,6 +45,7 @@ public class AlumniJPADAO extends BaseJPADAO<Alumni> implements AlumniDAO {
 		return entityManager;
 	}
 
+	/** Retrive the Alumni by his Course Attendance*/
 	@Override
 	public Alumni retriveAlumni(CourseAttendance courseAttendance) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		logger.log(Level.FINE, "Retrieving the coordinations of a academic");

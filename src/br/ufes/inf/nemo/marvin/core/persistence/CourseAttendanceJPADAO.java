@@ -46,9 +46,10 @@ public class CourseAttendanceJPADAO extends BaseJPADAO<CourseAttendance> impleme
 		return entityManager;
 	}
 
+	/** Retrieve the courseAttendances of a academic. */
 	@Override
 	public List<CourseAttendance> retriveCourseAttendances(Academic academic) {
-		logger.log(Level.FINE, "Retrieving the coordinations of a academic");
+		logger.log(Level.FINE, "Retrieving the courseAttendances of a academic");
 		// Constructs the query over the Course Attendance class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<CourseAttendance> cq = cb.createQuery(CourseAttendance.class);
@@ -60,9 +61,10 @@ public class CourseAttendanceJPADAO extends BaseJPADAO<CourseAttendance> impleme
 		return result;
 	}
 
+	/** Retrieve the courses in a course attendance, searching by an academic. */
 	@Override
-	public List<Course> retriveCoursesInCourseAttendance(Academic academic) {
-		logger.log(Level.FINE, "Retrieving the coordinations of a academic");
+	public List<Course> retriveCoursesByAcademic(Academic academic) {
+		logger.log(Level.FINE, "Retrieving the courses in a course attendance, searching by an academic named \"{0}\"", new Object[] { academic.getName() });
 		// Constructs the query over the Course Attendance class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<CourseAttendance> cq = cb.createQuery(CourseAttendance.class);
@@ -77,5 +79,21 @@ public class CourseAttendanceJPADAO extends BaseJPADAO<CourseAttendance> impleme
 			courses.add(courseAttendance.getCourse());
 		}
 		return courses;
+	}
+
+	/** Check if the course has some course attendance associated */
+	@Override
+	public boolean courseInCourseAttendance(Course course) {
+		logger.log(Level.FINE, "Checking if the course has some course attendance associated");
+		// Constructs the query over the Course Attendance class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<CourseAttendance> cq = cb.createQuery(CourseAttendance.class);
+		Root<CourseAttendance> root = cq.from(CourseAttendance.class);
+		// Filters the query with the course.
+		cq.where(cb.equal(root.get(CourseAttendance_.course), course));
+		List<CourseAttendance> result = entityManager.createQuery(cq).getResultList();
+
+		if(result.isEmpty()) return false;	
+		return true;
 	}
 }

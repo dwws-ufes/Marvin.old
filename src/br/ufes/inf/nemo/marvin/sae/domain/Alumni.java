@@ -28,28 +28,27 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 	@OneToOne
 	private CourseAttendance courseAttendance;
 
-	/*
-	 * TODO: Por enquanto esta classe nao sera utilizada
-	 * @OneToOne private Education education;
-	 */
-
-	/** The timestamp of the moment this academic was created. */
+	/** The timestamp of the moment this alumni was created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date creationDate;
 
+	/** Getter for Course Attendance. */
 	public CourseAttendance getCourseAttendance() {
 		return courseAttendance;
 	}
 
+	/** Setter for Course Attendance. */
 	public void setCourseAttendance(CourseAttendance courseAttendance) {
 		this.courseAttendance = courseAttendance;
 	}
 
+	/** Getter for Creation Date. */
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
+	/** Setter for Creation Date. */
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
@@ -60,6 +59,7 @@ public class Alumni extends PersistentObjectSupport implements Comparable<Alumni
 		return uuid.compareTo(a.getCourseAttendance().getAcademic().getName());
 	}
 
+	/** Returns a string encompassing the academic name, the course name and the course's start date. */
 	@Override
 	public String toString() {
 		return courseAttendance.getAcademic().getName() + " - " + courseAttendance.getCourse().getName() + " at " + courseAttendance.getStartYear();

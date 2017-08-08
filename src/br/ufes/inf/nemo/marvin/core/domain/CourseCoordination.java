@@ -60,18 +60,22 @@ public class CourseCoordination extends PersistentObjectSupport implements Compa
 		this.endDate = endDate;
 	}
 
+	/** Getter for course. */
 	public Course getCourse() {
 		return course;
 	}
 
+	/** Setter for course. */
 	public void setCourse(Course course) {
 		this.course = course;
 	}
 
+	/** Getter for academic. */
 	public Academic getAcademic() {
 		return academic;
 	}
 
+	/** Setter for academic. */
 	public void setAcademic(Academic academic) {
 		this.academic = academic;
 	}
@@ -82,6 +86,7 @@ public class CourseCoordination extends PersistentObjectSupport implements Compa
 		return uuid.compareTo(o.uuid);
 	}
 
+	/** Returns a string containing: Course's name / Academic's name. */
 	@Override
 	public String toString() {
 		return course.getName() + " / " + academic.getName();

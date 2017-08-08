@@ -25,16 +25,18 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/** The course' name. */
+	/** The course's name. */
 	@Basic
 	@NotNull
 	@Size(max = 100)
 	private String name;
 
+	/** The course's code. */
 	@Basic
 	@NotNull
 	private Long code;
 
+	/** The academic level of a course. */
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private AcademicLevel academicLevel;
@@ -44,7 +46,7 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 	@NotNull
 	private Date creationDate;
 
-	/** The last time the data about the user was updated. */
+	/** The last time the data about the course was updated. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date lastUpdateDate;
@@ -124,7 +126,7 @@ public class Course extends PersistentObjectSupport implements Comparable<Course
 		return name;
 	}
 
-	/** Course academic level */
+	/** Enum for Course Academic Level */
 	public enum AcademicLevel {
 		UNDERGRADUATE("Undergraduate"), GRADUATE("Graduate");
 

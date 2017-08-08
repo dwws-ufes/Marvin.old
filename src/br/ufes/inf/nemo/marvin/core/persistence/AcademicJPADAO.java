@@ -127,6 +127,7 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 		return result;
 	}
 
+	/** Retrieve all Academics with a specific role*/
 	@Override
 	public List<Academic> retrieveByRole(Role role) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		logger.log(Level.FINE, "Retrieving the academic whose role is \"{0}\"...", role);

@@ -76,6 +76,7 @@ public class ManageAlumniHistoriesServiceBean extends CrudServiceBean<AlumniHist
 		return newEntity;
 	}
 
+	/** Returns a map containing all alumnis of a academic. Load the combobox in the front-end. */
 	@Override
 	public Map<String, Alumni> retrieveAlumnis(Academic academic) {
 		Map<String, Alumni> alumnisMap = new HashMap<String, Alumni>();

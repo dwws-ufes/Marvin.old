@@ -114,10 +114,12 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 		this.educationType = educationType;
 	}
 
+	/** Getter for Alumni. */
 	public Alumni getAlumni() {
 		return alumni;
 	}
 
+	/** Setter for Alumni. */
 	public void setAlumni(Alumni alumni) {
 		this.alumni = alumni;
 	}
@@ -127,6 +129,7 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 		return sendDate.compareTo(ah.getSendDate());
 	}
 
+	/** Enum for Pratice Area. */
 	public enum PracticeArea {
 		ENTREPRENEUR("Entrepreneur"), PUBLIC_EMPLOYEE("Public Employee"), PRIVATE_EMPLOYEE("Private Employee"), PROFESSOR("Professor"), RESEARCHER("Researcher");
 
@@ -140,28 +143,9 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 		public String toString() {
 			return name;
 		}
-
-		public static PracticeArea getByName(String name) {
-			switch (name) {
-			case "Entrepreneur": {
-				return PracticeArea.ENTREPRENEUR;
-			}
-			case "Public Employee": {
-				return PracticeArea.PUBLIC_EMPLOYEE;
-			}
-			case "Private Employee": {
-				return PracticeArea.PRIVATE_EMPLOYEE;
-			}
-			case "Professor": {
-				return PracticeArea.PROFESSOR;
-			}
-			default: {
-				return PracticeArea.RESEARCHER;
-			}
-			}
-		}
 	}
 
+	/** Enum for Degree Area. */
 	public enum DegreeArea {
 		DEGREE_AREA("Works in degree area"), RELATED_AREA("Works in a releted area"), NON_RELATED_AREA("Works in a non-related area");
 
@@ -175,22 +159,9 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 		public String toString() {
 			return name;
 		}
-
-		public static DegreeArea getByName(String name) {
-			switch (name) {
-			case "Works in degree area": {
-				return DegreeArea.DEGREE_AREA;
-			}
-			case "Works in a releted area": {
-				return DegreeArea.RELATED_AREA;
-			}
-			default: {
-				return DegreeArea.NON_RELATED_AREA;
-			}
-			}
-		}
 	}
 
+	/** Enum for Salary Range. */
 	public enum SalaryRange {
 		UNTIL_3_SM("Until 3 minimum salaries"), FROM_3_TO_5_SM("From 3 to 5 minimum salaries"), FROM_5_TO_10_SM("From 5 to 10 minimum salaries"), FROM_10_TO_15_SM("From 10 to 15 minimum salaries"), FROM_15_TO_20_SM("From 15 to 20 minimum salaries"), MORE_THAN_20_SM("More that 20 minimum salaries");
 
@@ -204,31 +175,9 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 		public String toString() {
 			return name;
 		}
-
-		public static SalaryRange getByName(String name) {
-			switch (name) {
-			case "Until 3 minimum salaries": {
-				return SalaryRange.UNTIL_3_SM;
-			}
-			case "From 3 to 5 minumum salaries": {
-				return SalaryRange.FROM_3_TO_5_SM;
-			}
-			case "From 5 to 10 minumum salaries": {
-				return SalaryRange.FROM_5_TO_10_SM;
-			}
-			case "From 10 to 15 minumum salaries": {
-				return SalaryRange.FROM_10_TO_15_SM;
-			}
-			case "From 15 to 20 minumum salaries": {
-				return SalaryRange.FROM_15_TO_20_SM;
-			}
-			default: {
-				return SalaryRange.MORE_THAN_20_SM;
-			}
-			}
-		}
 	}
 
+	/** Enum for Education Type. */
 	public enum EducationType {
 		HIGHER_EDUCATION("Higher Education"), SPECIALIZED_EDUCATION("Specialized Education"), MASTER_DEGREE("Master Degree"), PHD("PhD"), POST_DOCTORATE("Post-Doctorate");
 
@@ -241,26 +190,6 @@ public class AlumniHistory extends PersistentObjectSupport implements Comparable
 		@Override
 		public String toString() {
 			return name;
-		}
-
-		public static EducationType getByName(String name) {
-			switch (name) {
-			case "Higher Education": {
-				return EducationType.HIGHER_EDUCATION;
-			}
-			case "Specialized Education": {
-				return EducationType.SPECIALIZED_EDUCATION;
-			}
-			case "Master Degree": {
-				return EducationType.MASTER_DEGREE;
-			}
-			case "PhD": {
-				return EducationType.PHD;
-			}
-			default: {
-				return EducationType.POST_DOCTORATE;
-			}
-			}
 		}
 	}
 

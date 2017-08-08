@@ -36,18 +36,22 @@ public class EducationInstituition extends PersistentObjectSupport implements Co
 	@Size(max = 30)
 	private String country;
 
+	/** Getter for name */
 	public String getName() {
 		return name;
 	}
 
+	/** Setter for name */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/** Getter for Institution Acronym */
 	public String getInstitutionAcronym() {
 		return institutionAcronym;
 	}
 
+	/** Setter for Institution Acronym */
 	public void setInstitutionAcronym(String institutionAcronym) {
 		this.institutionAcronym = institutionAcronym;
 	}

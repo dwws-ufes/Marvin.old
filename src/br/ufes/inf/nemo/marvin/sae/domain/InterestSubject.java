@@ -13,8 +13,10 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 @Entity
 public class InterestSubject extends PersistentObjectSupport implements Comparable<InterestSubject> {
 
+	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
+	/** The Interest Subject's name*/
 	@NotNull
 	@Basic
 	private String name;

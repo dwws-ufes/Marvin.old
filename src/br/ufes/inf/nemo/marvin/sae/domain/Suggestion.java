@@ -19,7 +19,7 @@ public class Suggestion extends PersistentObjectSupport implements Comparable<Su
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/** The course start date. */
+	/** The suggestion's start date. */
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date sendDate;
@@ -70,6 +70,7 @@ public class Suggestion extends PersistentObjectSupport implements Comparable<Su
 		return sendDate.compareTo(s.getSendDate());
 	}
 
+	/** Return a string containing: Course's name - Suggestion's send date. */
 	@Override
 	public String toString() {
 		return course.getName() + " - " + sendDate.toGMTString();

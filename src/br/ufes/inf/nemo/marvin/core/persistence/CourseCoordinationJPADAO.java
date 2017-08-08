@@ -47,9 +47,10 @@ public class CourseCoordinationJPADAO extends BaseJPADAO<CourseCoordination> imp
 		return entityManager;
 	}
 
+	/** Check if the academic was coordinator of some course */
 	@Override
 	public boolean academicWasCoordinator(Academic academic) {
-		logger.log(Level.FINE, "Retrieving the coordinations of a academic");
+		logger.log(Level.FINE, "Checking if the academic was coordinator of some course");
 
 		// Constructs the query over the Course Coordination class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -64,9 +65,10 @@ public class CourseCoordinationJPADAO extends BaseJPADAO<CourseCoordination> imp
 		return false;
 	}
 
+	/** Check if the course already been coordinated  */
 	@Override
 	public boolean courseHasCoordinations(Course course) {
-		logger.log(Level.FINE, "Retrieving the coordinations of a course");
+		logger.log(Level.FINE, "Checking if the course already been coordinated");
 
 		// Constructs the query over the Course Coordination class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -81,8 +83,10 @@ public class CourseCoordinationJPADAO extends BaseJPADAO<CourseCoordination> imp
 		return false;
 	}
 
+	/** Check if the course has active coordinations */
 	@Override
 	public boolean courseHasActiveCoordinations(Course course) {
+		logger.log(Level.FINE, "Checking if the course has active coordinations");
 		// Constructs the query over the Course Coordination class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<CourseCoordination> cq = cb.createQuery(CourseCoordination.class);

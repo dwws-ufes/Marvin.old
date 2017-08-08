@@ -63,78 +63,24 @@ public class ManageStatementsServiceBean extends CrudServiceBean<Statement> impl
 		return newEntity;
 	}
 
-	/**
-	 * @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#validateDelete(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject)
-	 */
-	@Override
-	public void validateDelete(Statement entity) throws CrudException {
-		// Possibly throwing a CRUD Exception to indicate validation error.
-		// CrudException crudException = null;
-		// String email = entity.getEmail();
-		// String crudExceptionMessage = "The academic \"" + entity.getName() + "(" + email + ")\" cannot be updated due to
-		// validation errors.";
-		//
-		// // Validates business rules.
-		// // Rule 1: cannot delete an admin.
-		// try {
-		// Role adminRole = roleDAO.retrieveByName(Role.SYSADMIN_ROLE_NAME);
-		// if (entity.getRoles().contains(adminRole)) {
-		// logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 1: acadmic has SysAdmin role", new
-		// Object[] { email });
-		// crudException = addGlobalValidationError(crudException, crudExceptionMessage,
-		// "manageAcademics.error.deleteAdmin", email);
-		// }
-		// }
-		// catch (MultiplePersistentObjectsFoundException | PersistentObjectNotFoundException e) {
-		// logger.log(Level.SEVERE, "Problem retrieving role " + Role.SYSADMIN_ROLE_NAME + " while validating an academic
-		// deletion!", e);
-		// }
-		//
-		// // If one of the rules was violated, throw the exception.
-		// if (crudException != null) throw crudException;
-	}
-
-	/**
-	 * @see br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean#create(br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObject)
-	 */
-	@Override
-	public void create(Statement entity) {
-		// Performs the method as inherited (create the academic).
-		super.create(entity);
-
-		// try {
-		// // Retrieves the current user, i.e., the admin.
-		// Academic admin = academicDAO.retrieveByEmail(sessionContext.getCallerPrincipal().getName());
-		//
-		// // Creates the data model with the information needed to send an e-mail to the new academic.
-		// Map<String, Object> dataModel = new HashMap<>();
-		// dataModel.put("config", coreInformation.getCurrentConfig());
-		// dataModel.put("admin", admin);
-		// dataModel.put("academic", entity);
-		//
-		// // Then, fire an e-mail event so the e-mail gets sent.
-		// mailEvent.fire(new MailEvent(entity.getEmail(), MailerTemplate.NEW_ACADEMIC_REGISTERED, dataModel));
-		// }
-		// catch (Exception e) {
-		// logger.log(Level.SEVERE, "Could NOT send e-mail using template: " + MailerTemplate.NEW_ACADEMIC_REGISTERED, e);
-		// }
-	}
-
+	/** Returns a map containing the course of a academic. Load the combobox in the front-end. */
 	@Override
 	public Map<String, Course> retrieveCourses(Academic academic) {
 		Map<String, Course> coursesMap = new HashMap<String, Course>();
-		List<Course> courses = courseAttendanceDAO.retriveCoursesInCourseAttendance(academic);
+		List<Course> courses = courseAttendanceDAO.retriveCoursesByAcademic(academic);
 		for (Course course : courses)
 			coursesMap.put(course.getName(), course);
 		return coursesMap;
 	}
 
+	/** Change the status of a statement to approved */
 	@Override
 	public void approve(Statement statement) {
 		statement.setStatementStatus(StatementStatus.APPROVED);
 		statementDAO.save(statement);
 	}
 
+	/** Change the status of a statement to disapproved */
 	@Override
 	public void reject(Statement statement) {
 		statement.setStatementStatus(StatementStatus.DISAPPROVED);

@@ -24,16 +24,16 @@ public class CourseAttendance extends PersistentObjectSupport implements Compara
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/** The course start date. */
+	/** The course attendance's start date. */
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date startDate;
 
-	/** The course end date. */
+	/** The course attendance's end date. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 
-	/** The academic situation in the course. */
+	/** The course attendance's situation in the course. */
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Situation situation;
@@ -113,17 +113,18 @@ public class CourseAttendance extends PersistentObjectSupport implements Compara
 			return name;
 		}
 
+		/** Returns an enum item, searching by name */
 		public static Situation getByName(String name) {
 			switch (name) {
-			case "Graduated": {
-				return Situation.GRADUATED;
-			}
-			case "Terminated": {
-				return Situation.TERMINATED;
-			}
-			default: {
-				return Situation.ACTIVE;
-			}
+				case "Graduated": {
+					return Situation.GRADUATED;
+				}
+				case "Terminated": {
+					return Situation.TERMINATED;
+				}
+				default: {
+					return Situation.ACTIVE;
+				}
 			}
 		}
 	}
@@ -134,16 +135,19 @@ public class CourseAttendance extends PersistentObjectSupport implements Compara
 		return uuid.compareTo(o.uuid);
 	}
 
+	/** Returns a string containing: Course's name / Academic's name. */
 	@Override
 	public String toString() {
 		return course.getName() + " / " + academic.getName();
 	}
 
+	/** Returns only the start year of the course attendance */
 	public String getStartYear() {
 		int y = startDate.getYear() + 1900;
 		return String.valueOf(y);
 	}
 
+	/** Returns only the end year of the course attendance */
 	public String getEndYear() {
 		int y = endDate.getYear() + 1900;
 		return String.valueOf(y);

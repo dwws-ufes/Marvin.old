@@ -103,6 +103,7 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 		return roleDAO.findByName(name);
 	}
 
+	/** Retrieve the all Academic with a specific role */
 	@Override
 	public List<Academic> retrieveAcademicbyRole(String roleName) {
 		try {
@@ -121,6 +122,7 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 		}
 	}
 
+	/** Returns a map containing all courses that have a coordinator. Load the combobox in the front-end. */
 	@Override
 	public Map<String, Course> retrieveCourses(boolean hasCoordinator) {
 		Map<String, Course> coursesWithoutCoordination = new HashMap<String, Course>();
@@ -134,6 +136,7 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 		return coursesWithoutCoordination;
 	}
 
+	/** Retrieve the all Academic with or without the coordinator academic role */
 	@Override
 	public Map<String, Academic> retrieveAcademics(boolean isCoordinator) {
 		Map<String, Academic> courseCoordinators = new HashMap<String, Academic>();
@@ -155,6 +158,7 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 		return courseCoordinators;
 	}
 
+	/** Disable a Course Coordination (adding the end date to course coordination) and remove the coordinator academic role of the course coordinator */
 	@Override
 	public void disable(CourseCoordination entity) {
 		entity.setEndDate(new Date(System.currentTimeMillis()));
